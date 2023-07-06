@@ -1,0 +1,24 @@
+mat-card {
+    height: 100%;
+}
+
+#new-lead {
+    margin-bottom: 2rem;
+}
+
+.title,
+.new-lead {
+    color: #fff;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none;
+    color: #ddd;
+}
+
+.delete {
+    cursor: pointer;
+}
