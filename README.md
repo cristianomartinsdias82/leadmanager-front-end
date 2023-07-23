@@ -37,7 +37,7 @@ Como executar o projeto localmente?
   (O comando irá gerar os arquivos necessários para execução e automaticamente abrirá o navegador web padrão com a Url da aplicação).
 
 Novas demandas no radar:
-- (Bug) Ao selecionar um Lead para atualização, a pesquisa de endereço por CEP está sendo diparada, sobrescrevendo os dados de endereço previamente informados no cadastro do mesmo
+- (Bug) Ao selecionar um Lead para atualização, a pesquisa de endereço por CEP está sendo disparada, sobrescrevendo os dados de endereço previamente informados no cadastro do mesmo
 - (User Story) Adicionar a possibilidade de adicionar leads em lote
   - Disponibilizar um campo de upload que aceite arquivos com a extensão CSV
   - Durante o upload, disponibilizar um indicador de progresso que informe o percentual da 
