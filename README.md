@@ -7,7 +7,7 @@ Uma para listagem de leads que, a partir dela, os usuários são capazes de:
 - Visualizar uma lista contendo os dados principais de leads existentes
 - Acionar o botão para adicionar novos leads
 - Selecionar um lead a fim de removê-lo ou
-- Selecionar um lead e acionar o botão para atualizar os respectivos dados 
+- Selecionar um lead e acionar o botão para atualizar os respectivos dados<br/>
 E outra para as operações de adicionar um novo lead ou atualizar um lead previamente selecionado
 
 O Lead Manager é um projeto implementado utilizando as seguintes linguagens, tecnologias e ferramentas:
