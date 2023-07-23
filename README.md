@@ -20,7 +20,7 @@ O Lead Manager é um projeto implementado utilizando as seguintes linguagens, te
 - CSS
 - Flexbox com Angular FlexLayout
 
-Pré-requisitos para execução do Front-End da aplicação
+Pré-requisitos para execução do Front-End da aplicação<br/>
 É necessário possuir os seguintes componentes instalados na máquina:
 - NodeJS 18 (pode obtido através da url: https://nodejs.org/en)
 - Angular CLI
