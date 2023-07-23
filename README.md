@@ -63,6 +63,12 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
     Formatação automática/dinâmica dos campos Cnpj e Cep<br/>
     Lógica de configuração no campo Cep para buscar o endereço relacionado<br/>
   Lógica que exibe Dialog de confirmação de abandono de página caso o formulário de lead possua informações não confirmada com Guards (app/common/ui/navigation/on-leave.ts + leave-confirmation.guard.ts | app/leads/maintain/views/maintain-lead.ts)<br/>
+- Interceptador Http para manipular solicitações Http e tratar situações de erro específicas (app/common/infrastructure/error-handling.interceptor.ts)<br/>
+  Uso da Api HttpClient<br/>
+  Forte uso de operadores RxJs<br/>
+  Uso do serviço de indicação de progresso da solicitação<br/>
+  Tratamento de exceções específicas (erros técnicos e erros de domínio)<br/>
+  
   (Continuar a listagem. Afinal, tem muita coisa que vale deixa aqui como índice/referência!)
-
-O projeto está em processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura e pastas, separações de responsbilidades) quanto de algoritmos, usos de elementos Angular para situações específicas dentre outras coisas! Portanto, opiniões sempre são muito bem-vindas! :)
+  
+O projeto está em processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura de pastas, separações de responsabilidades) quanto de algoritmos, usos de elementos Angular mais adequados para situações específicas dentre outras coisas! Portanto, opiniões sempre são muito bem-vindas! :)
