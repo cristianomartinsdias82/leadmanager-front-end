@@ -48,21 +48,21 @@ Novas demandas no radar:
 - (Technical debt) Adicionar a aplicação ao Docker-Compose simplificar a configuração da máquina e permitir automatizar a execução da aplicação em uma única linha de comando
 
 Em termos de implementação, o que tem de reaproveitável no código-fonte deste projeto e/ou que de repente pode servir como ponto de partida ou para outros projetos?
-- Práticas de Clean Code
+- Práticas de Clean Code<br/>
 - Estruturação de pastas de maneira um pouco similar a projetos de back-end implementados com Clean Architecture, agrupando implementações por features (List leads, Maintain Lead)
 - No formulário de gerenciamento de Leads (app/leads/maintain/views/maintain-lead.*)
   Formulário digirido a modelo
-  Lógica de construção do formulário com FormBuilder
-  Uso de validadores síncronos (app/common/validation/custom-validators.ts)
-    Validação de Cnpj através de Regex e através do algoritmo baseado no Módulo 1
-    Validação de Cep baseado em Regex
-  Uso de validadores assíncronos (app/common/validation/custom-validators.ts)
-    Disparo de solicitação ao servidor para validação do Cnpj
-    Disparo de solicitação ao servidor para validação da Razão social
-  Uso de diretivas de elementos html (app/common/ui/input-masks/cep-mask.directive.ts + cnpj-mask.directive.ts)
-    Formatação automática/dinâmica dos campos Cnpj e Cep
-    Lógica de configuração no campo Cep para buscar endereço relacionado
-  Lógica que exibe Dialog de confirmação de abandono de página caso o formulário de lead possua informações não confirmada com Guards (app/common/ui/navigation/on-leave.ts + leave-confirmation.guard.ts | app/leads/maintain/views/maintain-lead.ts)
+  Lógica de construção do formulário com FormBuilder<br/>
+  Uso de validadores síncronos (app/common/validation/custom-validators.ts)<br/>
+    Validação de Cnpj através de Regex e através do algoritmo baseado no Módulo 1<br/>
+    Validação de Cep baseado em Regex<br/>
+  Uso de validadores assíncronos (app/common/validation/custom-validators.ts)<br/>
+    Disparo de solicitação ao servidor para validação do Cnpj<br/>
+    Disparo de solicitação ao servidor para validação da Razão social<br/>
+  Uso de diretivas de elementos html (app/common/ui/input-masks/cep-mask.directive.ts + cnpj-mask.directive.ts)<br/>
+    Formatação automática/dinâmica dos campos Cnpj e Cep<br/>
+    Lógica de configuração no campo Cep para buscar o endereço relacionado<br/>
+  Lógica que exibe Dialog de confirmação de abandono de página caso o formulário de lead possua informações não confirmada com Guards (app/common/ui/navigation/on-leave.ts + leave-confirmation.guard.ts | app/leads/maintain/views/maintain-lead.ts)<br/>
   (Continuar a listagem. Afinal, tem muita coisa que vale deixa aqui como índice/referência!)
 
 O projeto está em processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura e pastas, separações de responsbilidades) quanto de algoritmos, usos de elementos Angular para situações específicas dentre outras coisas! Portanto, opiniões sempre são muito bem-vindas! :)
