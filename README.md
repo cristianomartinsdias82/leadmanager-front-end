@@ -22,7 +22,7 @@ O Lead Manager é um projeto implementado utilizando as seguintes linguagens, te
 
 Pré-requisitos para execução do Front-End da aplicação<br/>
 É necessário possuir os seguintes componentes instalados na máquina:
-- NodeJS 18 (pode obtido através da url: https://nodejs.org/en)
+- NodeJS 18 (que pode ser obtido através da url: https://nodejs.org/en)
 - Angular CLI
   Após instalado o NodeJs, digitar a seguinte linha de comando no Terminal, Command Prompt ou Powershell:<br/>
     npm install -g @angular/cli [ENTER]<br/>
