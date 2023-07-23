@@ -10,7 +10,8 @@ Uma para listagem de leads que, a partir dela, os usuários são capazes de:
 - Selecionar um lead e acionar o botão para atualizar os respectivos dados<br/>
 E outra para as operações de adicionar um novo lead ou atualizar um lead previamente selecionado
 
-O Lead Manager é um projeto implementado utilizando as seguintes linguagens, tecnologias e ferramentas:
+O Lead Manager é um projeto que utiliza as seguintes linguagens, tecnologias, funcionalidades e ferramentas:
+- Práticas de Código limpo / Clean code
 - Plataforma Angular versão 16
 - Angular Material e Angular CDK
 - Node versão 18
@@ -49,7 +50,6 @@ Novas demandas no radar:
 - (Technical debt) Adicionar a aplicação ao Docker-Compose para simplificar a configuração da máquina e permitir automatizar a execução da mesma em uma única linha de comando
 
 Em termos de implementação, o que tem de reaproveitável no código-fonte deste projeto e/ou que de repente pode servir como ponto de partida ou para outros projetos?
-- Práticas de Clean Code<br/>
 - Estruturação de pastas de maneira um pouco similar a projetos de back-end implementados com Clean Architecture, agrupando implementações por features (List leads, Maintain Lead)
 - No formulário de gerenciamento de Leads (app/leads/maintain/views/maintain-lead.*)
   Formulário digirido a modelo
