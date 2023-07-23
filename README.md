@@ -69,6 +69,6 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
   Uso do serviço de indicação de progresso da solicitação<br/>
   Tratamento de exceções específicas (erros técnicos e erros de domínio)<br/>
   
-  (Continuar a listagem. Afinal, tem muita coisa que vale deixa aqui como índice/referência!)
+  (Continuar a listagem. Afinal, tem muita coisa que vale anotar aqui como índice/referência!)
   
 O projeto está em processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura de pastas, separações de responsabilidades) quanto de algoritmos, usos de elementos Angular mais adequados para situações específicas dentre outras coisas! Portanto, opiniões sempre são muito bem-vindas! :)
