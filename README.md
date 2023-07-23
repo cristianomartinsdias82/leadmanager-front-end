@@ -24,9 +24,9 @@ Pré-requisitos para execução do Front-End da aplicação
 É necessário possuir os seguintes componentes instalados na máquina:
 - NodeJS 18 (pode obtido através da url: https://nodejs.org/en)
 - Angular CLI
-  Após instalado o NodeJs, digitar a seguinte linha de comando no Terminal, Command Prompt ou Powershell:
-    npm install -g @angular/cli [ENTER]
-    NOTA: Se o sistema operacional for Linux ou MacOs, poderá ser necessário prefixar a linha de comando com sudo e, em seguida, ter que informar a senha de administrador para prosseguir com a instalação
+  Após instalado o NodeJs, digitar a seguinte linha de comando no Terminal, Command Prompt ou Powershell:<br/>
+    npm install -g @angular/cli [ENTER]<br/>
+    NOTA: Caso o sistema operacional seja o Linux ou MacOs, poderá ser necessário prefixar a linha de comando com sudo e, em seguida, ter que informar a senha de administrador para prosseguir com a instalação.
 
 Como executar o projeto localmente?
 - Garanta que a máquina esteja devidamente configurada, conforme a seção "Pré-requisitos para execução do Front-End da aplicação"
