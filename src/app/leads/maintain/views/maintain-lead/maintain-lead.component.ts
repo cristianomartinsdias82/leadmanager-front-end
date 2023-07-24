@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -11,8 +10,8 @@ import {
   Validators,
   AbstractControl,
 } from "@angular/forms";
-import { ActivatedRoute, ParamMap, Router } from "@angular/router";
-import { Observable, Subscription, debounceTime, filter, mergeMap } from "rxjs";
+import { Router } from "@angular/router";
+import { Observable, debounceTime, filter, mergeMap } from "rxjs";
 import { Endereco } from "src/app/address-search/models/endereco";
 import { AddressSearchService } from "src/app/address-search/services/address-search.service";
 import { ApplicationResponse } from "src/app/common/application-response";
@@ -29,25 +28,12 @@ import { LeadsService } from "src/app/leads/common/services/leads.service";
   templateUrl: "./maintain-lead.component.html",
   styleUrls: ["./maintain-lead.component.scss"],
 })
-export class MaintainLeadComponent implements OnInit, OnLeave, OnDestroy {
+export class MaintainLeadComponent implements OnInit, OnLeave {
   @ViewChild("Numero") numeroFieldRef!: ElementRef;
 
-  newItem = true;
-  formTitle = this.newItem ? "Novo lead" : "Lead";
   maintainLeadForm!: FormGroup;
-  leadId?: string;
-  idParamSubs!: Subscription;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private leadsService: LeadsService,
-    private addressSearchService: AddressSearchService,
-    private promptService: PromptService,
-    private notificationService: NotificationService    
-  ) {
-    
+  get formTitle() {
+    return !!!this.leadId ? "Novo lead" : "Lead";
   }
 
   get cnpjField() {
@@ -77,14 +63,46 @@ export class MaintainLeadComponent implements OnInit, OnLeave, OnDestroy {
   get estadoField() {
     return this.getField("estado")!;
   }
+  get formIsValid() {
+    return !this.cnpjField.errors &&
+           !this.razaoSocialField.errors &&
+           !this.cepField.errors &&
+           !this.enderecoField.errors &&
+           !this.numeroField.errors &&
+           !this.bairroField.errors &&
+           !this.cidadeField.errors &&
+           !this.estadoField.errors &&
+           !this.complementoField.errors;
+  }
+  
+  private get leadId() : string | null
+  {
+    return location.pathname.split('/')[3] || null;
+  }
+
+  private get leadForm(): AbstractControl<any, any> | null {
+    return this.maintainLeadForm.get('leadData');
+  }
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private leadsService: LeadsService,
+    private addressSearchService: AddressSearchService,
+    private promptService: PromptService,
+    private notificationService: NotificationService    
+  ) {
+    
+  }
 
   ngOnInit() {
+
     this.maintainLeadForm = this.formBuilder.group({
       leadData: this.formBuilder.group({
         cnpj: [
           "",
           Validators.compose([Validators.required, CustomValidators.cnpj]),
-          [CustomValidators.checkExistingLeadValidator(this.leadsService)]
+          [CustomValidators.checkExistingLeadValidator(this.leadsService, this.leadId)]
         ],
         razaoSocial: [
           "",
@@ -93,7 +111,7 @@ export class MaintainLeadComponent implements OnInit, OnLeave, OnDestroy {
             Validators.minLength(5),
             Validators.maxLength(100),
           ]),
-          [CustomValidators.checkExistingLeadValidator(this.leadsService)]
+          [CustomValidators.checkExistingLeadValidator(this.leadsService, this.leadId)]
         ],
         cep: [
           "",
@@ -136,15 +154,9 @@ export class MaintainLeadComponent implements OnInit, OnLeave, OnDestroy {
       }),
     });
 
-    this.idParamSubs = this.route.paramMap.subscribe((params: ParamMap) => {
-      const id = params.get("id");
-      if (id) {
-        this.newItem = false;
-        this.leadId = id;
-
-        this.loadLeadData();
-      }
-    });
+    if (this.leadId) {
+      this.loadLeadData();
+    }
 
     this.cepField.valueChanges
       .pipe(
@@ -190,8 +202,8 @@ export class MaintainLeadComponent implements OnInit, OnLeave, OnDestroy {
           let lead = result.data!;
           delete lead.id;
 
-          this.maintainLeadForm.get("leadData")!.setValue(lead);
-          this.maintainLeadForm.get("leadData")!.markAsTouched();
+          this.leadForm!.setValue(lead);
+          this.leadForm!.markAsTouched();
         });
     }, 0);
   }
@@ -232,16 +244,12 @@ export class MaintainLeadComponent implements OnInit, OnLeave, OnDestroy {
     return false;
   }
 
-  ngOnDestroy() {
-    this.idParamSubs.unsubscribe();
-  }
-
   private getField(fieldName: string): AbstractControl<any, any> | null {
-    return this.maintainLeadForm.get("leadData")!.get(fieldName)!;
+    return this.leadForm!.get(fieldName)!;
   }
 }
 
-//For when time permits
+//If time permits
 // class LeadFormControlsConfiguration {
 //   static Endereco = 'endereco';
 //   static RazaoSocial = 'razaosocial';

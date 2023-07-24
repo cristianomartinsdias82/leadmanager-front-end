@@ -89,7 +89,7 @@ https://stackoverflow.com/questions/46745171/angular-material-show-mat-error-on-
                     </div>
                 </div>
                 <div fxLayout="row">
-                    <button [disabled]="maintainLeadForm.invalid" mat-raised-button color="primary">
+                    <button [disabled]="!formIsValid" mat-raised-button color="primary">
                         Salvar
                     </button>
                     <button type="button" (click)="onCancelClick()" mat-raised-button color="warn">

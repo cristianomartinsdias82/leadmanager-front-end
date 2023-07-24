@@ -20,7 +20,7 @@ export abstract class DataService<T> {
     return this.httpClient.get<ApplicationResponse<T>>(`${environment.apiUrl}/${this.endpoint}/${id}`);
   }
 
-  save(data: T, id?: string): Observable<ApplicationResponse<any>> {
+  save(data: T, id: string | null): Observable<ApplicationResponse<any>> {
 
     if (id) {
       return this.httpClient

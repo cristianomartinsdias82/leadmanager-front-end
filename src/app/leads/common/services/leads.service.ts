@@ -24,7 +24,7 @@ export class LeadsService extends DataService<Lead> {
       LeadsService.LeadEndpoint);
    }
 
-   search(cnpjRazaoSocial: string): Observable<ApplicationResponse<boolean>> {
+   search(cnpjRazaoSocial: string, leadId: string | null): Observable<ApplicationResponse<boolean>> {
     
     //For request simulation purposes
     // return  of({ success : true, data: false, operationCode: "1001" })
@@ -34,7 +34,7 @@ export class LeadsService extends DataService<Lead> {
     //         );
     
     return this.httpClient
-               .get<ApplicationResponse<boolean>>(`${environment.apiUrl}/${LeadsService.LeadEndpoint}/search?cnpjRazaoSocial=${encodeURIComponent(cnpjRazaoSocial)}`)
+               .get<ApplicationResponse<boolean>>(`${environment.apiUrl}/${LeadsService.LeadEndpoint}/search?searchTerm=${encodeURIComponent(cnpjRazaoSocial)}&leadId=${leadId}`)
                .pipe(
                   catchError((err) => this.handleError(err, 'Erro ao tentar obter os dados!'))
                );

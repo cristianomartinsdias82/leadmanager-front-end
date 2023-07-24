@@ -92,16 +92,16 @@ export class CustomValidators {
         return { existingLead : true };
     }
 
-    public static checkExistingLeadValidator(leadsService: LeadsService): AsyncValidatorFn {
+    public static checkExistingLeadValidator(leadsService: LeadsService, leadId: string | null): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> => {
             
             return control.valueChanges
                     .pipe(
-                    debounceTime(750),
-                    filter(input => input.length >= 5),
-                    mergeMap(input => leadsService.search(input)),
-                    map((result: ApplicationResponse<boolean>) => result.data ? CustomValidators.ExistingLeadValidationError() : null),
-                    tap(result => { control.setErrors(result); })
+                        debounceTime(750),
+                        filter(input => input.length >= 5),
+                        mergeMap(input => leadsService.search(input, leadId)),
+                        map((result: ApplicationResponse<boolean>) => result.data ? CustomValidators.ExistingLeadValidationError() : null),
+                        tap(result => { control.setErrors(result); })
                     );
 
         };
