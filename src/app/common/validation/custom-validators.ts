@@ -1,5 +1,5 @@
 import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors } from "@angular/forms";
-import { Observable, debounceTime, filter, map, mergeMap, tap } from "rxjs";
+import { Observable, debounceTime, filter, map, mergeMap, of, tap } from "rxjs";
 import { LeadsService } from "src/app/leads/common/services/leads.service";
 import { ApplicationResponse } from "../application-response";
 
@@ -103,6 +103,30 @@ export class CustomValidators {
                         map((result: ApplicationResponse<boolean>) => result.data ? CustomValidators.ExistingLeadValidationError() : null),
                         tap(result => { control.setErrors(result); })
                     );
+
+        };
+    }
+
+    public static checkInformedFileValidator(fileMaxSize: number, acceptedContentTypes: string[]): AsyncValidatorFn {
+        return (control: AbstractControl): Observable<ValidationErrors | null> => {
+          
+              if (!control.value) {
+                return of({ required : true });
+              }
+          
+              if (control.value._files && control.value._files.length > 0) {
+                const file = control.value._files[0] as File;
+
+                if (acceptedContentTypes.indexOf(file.type) < 0) {
+                  return of({ accept : true });
+                }
+          
+                if (file.size > fileMaxSize) {
+                  return of({ size : true });
+                }
+              }
+          
+              return of(null);
 
         };
     }

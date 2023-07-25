@@ -1,0 +1,34 @@
+<!--
+https://merlosy.github.io/ngx-material-file-input/
+https://stackoverflow.com/questions/52622061/how-to-use-input-type-file-in-angular-material
+https://material.angular.io/components/input/overview#changing-when-error-messages-are-shown << ErrorStateMatcher
+-->
+<mat-card>
+    <mat-card-content>
+        <h1>Lead</h1>
+        <form [formGroup]="bulkInsertLeadForm" (ngSubmit)="onSubmit()">
+                <div fxLayout="row">
+                    <mat-form-field>
+                        <label>Informe o arquivo de lote (Formato permitido: CSV | Tamanho máximo: {{ maxSize | byteFormat }})</label>
+                        <ngx-mat-file-input #arquivoLote formControlName="arquivoLote" id="arquivoLote"></ngx-mat-file-input>
+                        <mat-icon matSuffix *ngIf="arquivoLote.empty">folder</mat-icon>
+                        <button mat-icon-button matSuffix *ngIf="!arquivoLote.empty" (click)="arquivoLote.clear($event)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                        <mat-error *ngIf="arquivoLoteField.touched && arquivoLoteField.hasError('required')">O arquivo de lote é obrigatório.</mat-error>
+                        <mat-error *ngIf="arquivoLoteField.hasError('accept')">O formato de arquivo é inválido.</mat-error>
+                        <mat-error *ngIf="arquivoLoteField.hasError('size')">O tamanho do arquivo excede {{ maxSize | byteFormat }}.</mat-error>
+                    </mat-form-field>
+                    
+                </div>
+                <div fxLayout="row">
+                    <button [disabled]="bulkInsertLeadForm.invalid" mat-raised-button color="primary">
+                        Salvar
+                    </button>
+                    <button type="button" (click)="onCancelClick()" mat-raised-button color="warn">
+                        Cancelar
+                    </button>
+                </div>
+        </form>
+    </mat-card-content>
+</mat-card>

@@ -24,6 +24,16 @@ export class LeadsService extends DataService<Lead> {
       LeadsService.LeadEndpoint);
    }
 
+   bulkInsert(data: any): Observable<ApplicationResponse<boolean>> {
+    
+    //For request simulation purposes
+    return  of({ success : true, data: false, operationCode: "1001" })
+            .pipe(
+              delay(2000),
+              map(res => res)
+            );
+   }
+
    search(cnpjRazaoSocial: string, leadId: string | null): Observable<ApplicationResponse<boolean>> {
     
     //For request simulation purposes

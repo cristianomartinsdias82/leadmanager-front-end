@@ -1,102 +1,112 @@
 <!--
-https://stackoverflow.com/questions/46745171/angular-material-show-mat-error-on-button-click
+https://material.angular.io/components/tabs/examples
 -->
-<mat-card>
-    <mat-card-content>
-        <h1>{{formTitle}}</h1>
-        <form [formGroup]="maintainLeadForm" (ngSubmit)="onSubmit()">
-            <div formGroupName="leadData" fxLayout="column">
-                <div fxLayout="row" fxLayoutGap="1rem">
-                    <div fxFlex="13%">
-                        <mat-form-field>
-                            <label>CNPJ</label>
-                            <input maxlength="18" minlength="18" cnpjMask matInput formControlName="cnpj" />
-                            <mat-error *ngIf="cnpjField.hasError('required')">Cnpj é obrigatório.</mat-error>
-                            <mat-error *ngIf="cnpjField.hasError('invalidCnpj')">Cnpj inválido.</mat-error>
-                            <mat-error *ngIf="cnpjField.hasError('existingLead')">Lead existente.</mat-error>
-                        </mat-form-field>
+<mat-tab-group animationDuration="0ms" [selectedIndex]="0" mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="Formulário">
+        <ldm-lead-form></ldm-lead-form>
+        <!--
+        <mat-card>
+            <mat-card-content>
+                <h1>{{formTitle}}</h1>
+                <form [formGroup]="maintainLeadForm" (ngSubmit)="onSubmit()">
+                    <div formGroupName="leadData" fxLayout="column">
+                        <div fxLayout="row" fxLayoutGap="1rem">
+                            <div fxFlex="13%">
+                                <mat-form-field>
+                                    <label>CNPJ</label>
+                                    <input maxlength="18" minlength="18" cnpjMask matInput formControlName="cnpj" />
+                                    <mat-error *ngIf="cnpjField.hasError('required')">Cnpj é obrigatório.</mat-error>
+                                    <mat-error *ngIf="cnpjField.hasError('invalidCnpj')">Cnpj inválido.</mat-error>
+                                    <mat-error *ngIf="cnpjField.hasError('existingLead')">Lead existente.</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="87%">
+                                <mat-form-field>
+                                    <label>Razão social</label>
+                                    <input maxlength="100" minlength="5" id="razaoSocial" matInput formControlName="razaoSocial" />
+                                    <mat-error *ngIf="razaoSocialField.hasError('required')">Razão social é obrigatório.</mat-error>
+                                    <mat-error *ngIf="razaoSocialField.hasError('minlength') || razaoSocialField.hasError('maxlength')">Razão social deve conter entre 5 e 100 caracteres.</mat-error>
+                                    <mat-error *ngIf="razaoSocialField.hasError('existingLead')">Lead existente.</mat-error>
+                                </mat-form-field>
+                            </div>            
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="1rem">
+                            <div fxFlex="13%">
+                                <mat-form-field>
+                                    <label>Cep</label>
+                                    <input maxlength="9" minlength="9" cepMask matInput formControlName="cep" />
+                                    <mat-error *ngIf="cepField.hasError('required')">Cep é obrigatório.</mat-error>
+                                    <mat-error *ngIf="cepField.hasError('invalidCep')">Cep inválido.</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="1rem">
+                            <div fxFlex="87%">
+                                <mat-form-field>
+                                    <label>Endereço</label>
+                                    <input maxlength="100" minlength="5" id="endereco" matInput name="endereco" formControlName="endereco" />
+                                    <mat-error *ngIf="enderecoField.hasError('required')">Endereço é obrigatório.</mat-error>
+                                    <mat-error *ngIf="enderecoField.hasError('minlength') || enderecoField.hasError('maxlength')">Endereço deve conter entre 5 e 100 caracteres.</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="13%">
+                                <mat-form-field>
+                                    <label>Número</label>
+                                    <input #Numero maxlength="20" id="numero" matInput formControlName="numero" />
+                                    <mat-error *ngIf="numeroField.hasError('maxlength')">Número deve conter até 20 caracteres.</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="1rem">
+                            <div fxFlex="45%">
+                                <mat-form-field>
+                                    <label>Complemento</label>
+                                    <input id="complemento" maxlength="50" matInput formControlName="complemento" />
+                                    <mat-error *ngIf="complementoField.hasError('maxlength')">Complemento deve conter até 50 caracteres.</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="55%">
+                                <mat-form-field>
+                                    <label>Bairro</label>
+                                    <input id="bairro" maxlength="50" minlength="3" matInput formControlName="bairro" />
+                                    <mat-error *ngIf="bairroField.hasError('required')">Bairro é obrigatório.</mat-error>
+                                    <mat-error *ngIf="bairroField.hasError('minlength') || bairroField.hasError('maxlength')">Bairro deve conter entre 3 e 50 caracteres.</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="1rem">
+                            <div fxFlex="45%">
+                                <mat-form-field>
+                                    <label>Cidade</label>
+                                    <input id="cidade" maxlength="50" minlength="3" matInput formControlName="cidade" />
+                                    <mat-error *ngIf="cidadeField.hasError('required')">Cidade é obrigatório.</mat-error>
+                                    <mat-error *ngIf="cidadeField.hasError('minlength') || cidadeField.hasError('maxlength')">Cidade deve conter entre 3 e 50 caracteres.</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="55%">
+                                <mat-form-field>
+                                    <label>Estado</label>
+                                    <input id="estado" maxlength="30" minlength="2" matInput formControlName="estado" />
+                                    <mat-error *ngIf="estadoField.hasError('required')">Estado é obrigatório.</mat-error>
+                                    <mat-error *ngIf="estadoField.hasError('minlength') || estadoField.hasError('maxlength')">Estado deve conter entre 2 e 30 caracteres.</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div fxLayout="row">
+                            <button [disabled]="!formIsValid" mat-raised-button color="primary">
+                                Salvar
+                            </button>
+                            <button type="button" (click)="onCancelClick()" mat-raised-button color="warn">
+                                Cancelar
+                            </button>
+                        </div>
                     </div>
-                    <div fxFlex="87%">
-                        <mat-form-field>
-                            <label>Razão social</label>
-                            <input maxlength="100" minlength="5" id="razaoSocial" matInput formControlName="razaoSocial" />
-                            <mat-error *ngIf="razaoSocialField.hasError('required')">Razão social é obrigatório.</mat-error>
-                            <mat-error *ngIf="razaoSocialField.hasError('minlength') || razaoSocialField.hasError('maxlength')">Razão social deve conter entre 5 e 100 caracteres.</mat-error>
-                            <mat-error *ngIf="razaoSocialField.hasError('existingLead')">Lead existente.</mat-error>
-                        </mat-form-field>
-                    </div>            
-                </div>
-                <div fxLayout="row" fxLayoutGap="1rem">
-                    <div fxFlex="13%">
-                        <mat-form-field>
-                            <label>Cep</label>
-                            <input maxlength="9" minlength="9" cepMask matInput formControlName="cep" />
-                            <mat-error *ngIf="cepField.hasError('required')">Cep é obrigatório.</mat-error>
-                            <mat-error *ngIf="cepField.hasError('invalidCep')">Cep inválido.</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayoutGap="1rem">
-                    <div fxFlex="87%">
-                        <mat-form-field>
-                            <label>Endereço</label>
-                            <input maxlength="100" minlength="5" id="endereco" matInput name="endereco" formControlName="endereco" />
-                            <mat-error *ngIf="enderecoField.hasError('required')">Endereço é obrigatório.</mat-error>
-                            <mat-error *ngIf="enderecoField.hasError('minlength') || enderecoField.hasError('maxlength')">Endereço deve conter entre 5 e 100 caracteres.</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div fxFlex="13%">
-                        <mat-form-field>
-                            <label>Número</label>
-                            <input #Numero maxlength="20" id="numero" matInput formControlName="numero" />
-                            <mat-error *ngIf="numeroField.hasError('maxlength')">Número deve conter até 20 caracteres.</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayoutGap="1rem">
-                    <div fxFlex="45%">
-                        <mat-form-field>
-                            <label>Complemento</label>
-                            <input id="complemento" maxlength="50" matInput formControlName="complemento" />
-                            <mat-error *ngIf="complementoField.hasError('maxlength')">Complemento deve conter até 50 caracteres.</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div fxFlex="55%">
-                        <mat-form-field>
-                            <label>Bairro</label>
-                            <input id="bairro" maxlength="50" minlength="3" matInput formControlName="bairro" />
-                            <mat-error *ngIf="bairroField.hasError('required')">Bairro é obrigatório.</mat-error>
-                            <mat-error *ngIf="bairroField.hasError('minlength') || bairroField.hasError('maxlength')">Bairro deve conter entre 3 e 50 caracteres.</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div fxLayout="row" fxLayoutGap="1rem">
-                    <div fxFlex="45%">
-                        <mat-form-field>
-                            <label>Cidade</label>
-                            <input id="cidade" maxlength="50" minlength="3" matInput formControlName="cidade" />
-                            <mat-error *ngIf="cidadeField.hasError('required')">Cidade é obrigatório.</mat-error>
-                            <mat-error *ngIf="cidadeField.hasError('minlength') || cidadeField.hasError('maxlength')">Cidade deve conter entre 3 e 50 caracteres.</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div fxFlex="55%">
-                        <mat-form-field>
-                            <label>Estado</label>
-                            <input id="estado" maxlength="30" minlength="2" matInput formControlName="estado" />
-                            <mat-error *ngIf="estadoField.hasError('required')">Estado é obrigatório.</mat-error>
-                            <mat-error *ngIf="estadoField.hasError('minlength') || estadoField.hasError('maxlength')">Estado deve conter entre 2 e 30 caracteres.</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div fxLayout="row">
-                    <button [disabled]="!formIsValid" mat-raised-button color="primary">
-                        Salvar
-                    </button>
-                    <button type="button" (click)="onCancelClick()" mat-raised-button color="warn">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        </form>
-    </mat-card-content>
-</mat-card>
+                </form>
+            </mat-card-content>
+        </mat-card>
+        -->
+    </mat-tab>
+    <mat-tab [disabled]="false" label="Inserção em lote">
+        <ldm-lead-bulk-insert-form (cancel)="onCancelOperation($event)"></ldm-lead-bulk-insert-form>
+    </mat-tab>
+</mat-tab-group>

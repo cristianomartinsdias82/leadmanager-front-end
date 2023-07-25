@@ -18,6 +18,9 @@ import { ActivityIndicatorComponent } from './common/ui/widgets/activity-indicat
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { LeadFormComponent } from './leads/maintain/views/maintain-lead/components/lead-form/lead-form.component';
+import { LeadBulkInsertFormComponent } from './leads/maintain/views/maintain-lead/components/lead-bulk-insert-form/lead-bulk-insert-form.component';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 registerLocaleData(localePt);
 
@@ -29,7 +32,9 @@ registerLocaleData(localePt);
     PromptComponent,
     CnpjMaskDirective,
     CepMaskDirective,
-    ActivityIndicatorComponent
+    ActivityIndicatorComponent,
+    LeadFormComponent,
+    LeadBulkInsertFormComponent
   ],
   imports: [
     BrowserModule,
