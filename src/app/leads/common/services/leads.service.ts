@@ -24,8 +24,12 @@ export class LeadsService extends DataService<Lead> {
       LeadsService.LeadEndpoint);
    }
 
-   bulkInsert(data: any): Observable<ApplicationResponse<boolean>> {
+   uploadLeadsFile(leadsBatch: File): Observable<ApplicationResponse<boolean>> {
     
+    console.log(leadsBatch);
+    //TODO: Implement upload invocation and configure httpClient to report upload progress (read topic 'Upload progress' at ChatGPT)
+
+
     //For request simulation purposes
     return  of({ success : true, data: false, operationCode: "1001" })
             .pipe(

@@ -1,7 +1,9 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   OnInit,
+  Output,
   ViewChild,
 } from "@angular/core";
 import {
@@ -10,13 +12,11 @@ import {
   Validators,
   AbstractControl,
 } from "@angular/forms";
-import { Router } from "@angular/router";
-import { Observable, debounceTime, filter, mergeMap } from "rxjs";
+import { debounceTime, filter, mergeMap } from "rxjs";
 import { Endereco } from "src/app/address-search/models/endereco";
 import { AddressSearchService } from "src/app/address-search/services/address-search.service";
 import { ApplicationResponse } from "src/app/common/application-response";
 import { MessageType } from "src/app/common/ui/widgets/prompt-dialog/message-type";
-import { OnLeave } from "src/app/common/ui/navigation/on-leave";
 import { NotificationService } from "src/app/common/ui/widgets/notification-dialog/notification.service";
 import { PromptService } from "src/app/common/ui/widgets/prompt-dialog/prompt.service";
 import { CustomValidators } from "src/app/common/validation/custom-validators";
@@ -26,11 +26,13 @@ import { LeadsService } from "src/app/leads/common/services/leads.service";
 @Component({
   selector: "ldm-lead-form",
   templateUrl: "./lead-form.component.html",
-  styleUrls: ["./lead-form.component.scss"],
+  styleUrls: ["./lead-form.component.scss"]
 })
-export class LeadFormComponent  implements OnInit, OnLeave {
+export class LeadFormComponent  implements OnInit {
+
   @ViewChild("Numero") numeroFieldRef!: ElementRef;
-  readonly maxSize = 104857600;
+  @Output() cancel = new EventEmitter<boolean>();
+  @Output() success = new EventEmitter<void>();
 
   maintainLeadForm!: FormGroup;
   get formTitle() {
@@ -87,7 +89,6 @@ export class LeadFormComponent  implements OnInit, OnLeave {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
     private leadsService: LeadsService,
     private addressSearchService: AddressSearchService,
     private promptService: PromptService,
@@ -221,7 +222,7 @@ export class LeadFormComponent  implements OnInit, OnLeave {
         this.maintainLeadForm.markAsPristine();
         this.leadsService
           .save(this.maintainLeadForm.value.leadData as Lead, this.leadId)
-          .subscribe((_) => this.router.navigate(["/leads"]));
+          .subscribe(_ => this.success.emit());
       },
       () => {},
       "Confirmação"
@@ -230,25 +231,7 @@ export class LeadFormComponent  implements OnInit, OnLeave {
   }
 
   onCancelClick() {
-    this.router.navigate(["/"]);
-  }
-
-  onLeave(): boolean | Observable<boolean> {
-    if (this.maintainLeadForm.pristine) {
-      return true;
-    }
-
-    this.promptService.openDialog(
-      "Você tem dados que ainda não foram salvos. Deseja realmente sair desta página? Todos os dados serão perdidos!",
-      () => {
-        this.maintainLeadForm.markAsPristine();
-        this.router.navigate(["leads"]);
-      },
-      () => {},
-      "Sair desta página"
-    );
-
-    return false;
+    this.cancel.emit(this.maintainLeadForm.pristine);
   }
 
   private getField(fieldName: string): AbstractControl<any, any> | null {
