@@ -20,6 +20,8 @@ O Lead Manager é um projeto que utiliza as seguintes linguagens, tecnologias, f
 - HTML5
 - CSS
 - Flexbox com Angular FlexLayout
+- Pacotes NPM complementares
+  - ngx-material-file-input (utilizado no formulário de upload de leads em lote)
 
 Pré-requisitos para execução do Front-End da aplicação<br/>
 É necessário possuir os seguintes componentes instalados na máquina:
@@ -33,16 +35,13 @@ Como executar o projeto localmente?
 - Garanta que a máquina esteja devidamente configurada, conforme a seção "Pré-requisitos para execução do Front-End da aplicação"
 - Acesse o Terminal, Command Prompt ou Powershell
 - Navegue até a pasta raíz do projeto (mesma pasta que contém o arquivo package.json, por exemplo)
-- Execute o seguinte comando:
-  ng serve -o
-  (O comando irá gerar os arquivos necessários para execução e automaticamente abrirá o navegador web padrão com a Url da aplicação).
+- Execute os seguintes comandos:
+  npm install<br/>
+  ng serve -o<br/>
+  (O comando irá gerar os arquivos necessários para execução e automaticamente abrirá o navegador web padrão com a Url da aplicação).<br/>
 
 Novas demandas no radar:
 - (Bug) Ao selecionar um Lead para atualização, a pesquisa de endereço por CEP está sendo disparada, sobrescrevendo os dados de endereço previamente informados no cadastro do mesmo
-- (User Story) Adicionar a possibilidade de adicionar leads em lote
-  - Disponibilizar um campo de upload que aceite arquivos com a extensão CSV
-  - Durante o upload, disponibilizar um indicador de progresso que informe o percentual da 
-    operação, fazendo uso inclusive de funcionalidades visuais que o Angular Material oferece 
 - (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso 
   - Possibilidade 1: a aplicação deverá ser capaz de encaminhar a solicitação de autenticação para um servidor de identidade a fim de obter o Token de autenticação
   - Possibilidade 2: a aplicação deverá invocar o endpoint de autenticação da API de leads a fim de obter o Token de autenticação
@@ -64,12 +63,12 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
     Formatação automática/dinâmica dos campos Cnpj e Cep<br/>
     Lógica de configuração no campo Cep para buscar o endereço relacionado<br/>
   Lógica que exibe Dialog de confirmação de abandono de página caso o formulário de lead possua informações não confirmada com Guards (app/common/ui/navigation/on-leave.ts + leave-confirmation.guard.ts | app/leads/maintain/views/maintain-lead.ts)<br/>
-- Interceptador Http para manipular solicitações Http e tratar situações de erro específicas (app/common/infrastructure/error-handling.interceptor.ts)<br/>
+- Interceptador Http para manipular solicitações Http e tratar situações de erro específicas (app/common/infrastructure/request-handling.interceptor.ts)<br/>
   Uso da Api HttpClient<br/>
   Forte uso de operadores RxJs<br/>
   Uso do serviço de indicação de progresso da solicitação<br/>
   Tratamento de exceções específicas (erros técnicos e erros de domínio)<br/>
-  
+- Lógica de reportagem de progresso de upload de arquivos (app/leads/common/services/leads.service.ts + app/common/ui/widgets/acrivity-indicator.*)
   (Continuar a listagem. Afinal, tem muita coisa que vale anotar aqui como índice/referência!)
   
 O projeto está em processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura de pastas, separações de responsabilidades) quanto de algoritmos, usos de elementos Angular mais adequados para situações específicas dentre outras coisas! Portanto, opiniões sempre são muito bem-vindas! :)
