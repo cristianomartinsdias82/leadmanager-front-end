@@ -27,7 +27,7 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
     return next
             .handle(request)
             .pipe(
-                tap(() => this.activityIndicatorService.display(req.reportProgress)),
+                tap(() => this.activityIndicatorService.show(req.reportProgress)),
                 tap((event: HttpEvent<any>) => {
                   
                   if (req.reportProgress) {

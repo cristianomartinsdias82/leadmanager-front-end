@@ -15,26 +15,28 @@ import {
 })
 export class AppComponent implements OnInit {
 
-  activityIndicator$ = this.activityIndicatorService.activityIndicatorSub$;
-
   constructor(
     private router: Router,
     private activityIndicatorService: ActivityIndicatorService
   ) {}
 
+  public get activityIndicator$() {
+    return this.activityIndicatorService.activityIndicatorSub$;
+  }
+
   ngOnInit() {
     this.router.events.subscribe({
       next: (event) => {
         if (event instanceof NavigationStart) {
-          this.activityIndicator$.next(true);
+          this.activityIndicatorService.show();
         } else if (event instanceof NavigationEnd ||
                    event instanceof NavigationError ||
                    event instanceof NavigationCancel) {
-          this.activityIndicator$.next(false);
+                    this.activityIndicatorService.hide();
         }
       },
       error: (_) => {
-        this.activityIndicator$.next(false);
+        this.activityIndicatorService.hide();
       }
     });
   }
