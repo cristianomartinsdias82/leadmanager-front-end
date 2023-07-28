@@ -35,7 +35,7 @@ Como executar o projeto localmente?
 - Garanta que a máquina esteja devidamente configurada, conforme a seção "Pré-requisitos para execução do Front-End da aplicação"
 - Acesse o Terminal, Command Prompt ou Powershell
 - Navegue até a pasta raíz do projeto (mesma pasta que contém o arquivo package.json, por exemplo)
-- Execute os seguintes comandos:
+- Execute os seguintes comandos:<br/>
   npm install<br/>
   ng serve -o<br/>
   (O comando irá gerar os arquivos necessários para execução e automaticamente abrirá o navegador web padrão com a Url da aplicação).<br/>
