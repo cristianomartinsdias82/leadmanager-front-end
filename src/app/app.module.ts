@@ -13,7 +13,7 @@ import { CepMaskDirective } from './common/ui/input-masks/cep-mask.directive';
 
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
-import { ErrorHandlerInterceptorProvider } from './common/infrastructure/error-handling.interceptor';
+import { RequestHandlerInterceptorProvider } from './common/infrastructure/request-handler.interceptor';
 import { ActivityIndicatorComponent } from './common/ui/widgets/activity-indicator/activity-indicator.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -47,7 +47,7 @@ registerLocaleData(localePt);
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pt-BR' },
-    ErrorHandlerInterceptorProvider
+    RequestHandlerInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })

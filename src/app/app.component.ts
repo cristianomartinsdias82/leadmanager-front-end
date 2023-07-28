@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private activityIndicatorService: ActivityIndicatorService,
+    private activityIndicatorService: ActivityIndicatorService
   ) {}
 
   ngOnInit() {

@@ -7,7 +7,8 @@ export const environment = {
     apiUrl: 'https://localhost:7244/api',
     apiKeyHeaderName: 'X-LeadManager-Api-Key',
     apiKeyHeaderValue: '74ynfkjy487yue47j',
-    fileUploadMaxSize: 10485760
+    fileUploadMaxSize: 10485760,
+    requestTimeoutInSecs: 30
   };
   
   /*

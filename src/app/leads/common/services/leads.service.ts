@@ -1,8 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Lead } from '../models/lead';
 import { DataService } from 'src/app/common/services/data-service.service';
-import { Observable, catchError, delay, map, of, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { ApplicationResponse } from 'src/app/common/application-response';
 import { environment } from 'src/environments/environment';
 import { MessageType } from 'src/app/common/ui/widgets/prompt-dialog/message-type';
@@ -24,28 +24,21 @@ export class LeadsService extends DataService<Lead> {
       LeadsService.LeadEndpoint);
    }
 
-   uploadLeadsFile(leadsBatch: File): Observable<ApplicationResponse<boolean>> {
-    
-    console.log(leadsBatch);
-    //TODO: Implement upload invocation and configure httpClient to report upload progress (read topic 'Upload progress' at ChatGPT)
+   uploadLeadsFile(file: File): Observable<HttpEvent<any>> {
 
+    const formData: FormData = new FormData();
+    formData.append('file', file);
 
-    //For request simulation purposes
-    return  of({ success : true, data: false, operationCode: "1001" })
-            .pipe(
-              delay(2000),
-              map(res => res)
-            );
+    const req = new HttpRequest(
+      'POST',
+      `${environment.apiUrl}/${LeadsService.LeadEndpoint}/bulk-insert`,
+      formData,
+      { reportProgress: true });
+
+    return this.httpClient.request(req);
    }
 
    search(cnpjRazaoSocial: string, leadId: string | null): Observable<ApplicationResponse<boolean>> {
-    
-    //For request simulation purposes
-    // return  of({ success : true, data: false, operationCode: "1001" })
-    //         .pipe(
-    //           delay(2000),
-    //           map(res => res)
-    //         );
     
     return this.httpClient
                .get<ApplicationResponse<boolean>>(`${environment.apiUrl}/${LeadsService.LeadEndpoint}/search?searchTerm=${encodeURIComponent(cnpjRazaoSocial)}&leadId=${leadId}`)
@@ -61,3 +54,10 @@ export class LeadsService extends DataService<Lead> {
     return throwError(() => { return { error : err, message: errorMessage } });
   }
 }
+
+//For request simulation purposes
+// return  of({ success : true, data: false, operationCode: "1001" })
+//         .pipe(
+//           delay(2000),
+//           map(res => res)
+//         );
