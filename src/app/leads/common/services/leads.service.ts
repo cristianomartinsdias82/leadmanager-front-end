@@ -1,12 +1,10 @@
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Lead } from '../models/lead';
 import { DataService } from 'src/app/common/services/data-service.service';
-import { Observable, catchError, throwError } from 'rxjs';
 import { ApplicationResponse } from 'src/app/common/application-response';
-import { environment } from 'src/environments/environment';
-import { MessageType } from 'src/app/common/ui/widgets/prompt-dialog/message-type';
-import { NotificationService } from 'src/app/common/ui/widgets/notification-dialog/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +13,7 @@ export class LeadsService extends DataService<Lead> {
 
   private static LeadEndpoint = 'leads';
 
-  constructor(
-    httpClient: HttpClient,
-    private notificationService: NotificationService) {
+  constructor(httpClient: HttpClient) {
     
     super(
       httpClient,
@@ -41,17 +37,7 @@ export class LeadsService extends DataService<Lead> {
    search(cnpjRazaoSocial: string, leadId: string | null): Observable<ApplicationResponse<boolean>> {
     
     return this.httpClient
-               .get<ApplicationResponse<boolean>>(`${environment.apiUrl}/${LeadsService.LeadEndpoint}/search?searchTerm=${encodeURIComponent(cnpjRazaoSocial)}&leadId=${leadId}`)
-               .pipe(
-                  catchError((err) => this.handleError(err, 'Erro ao tentar obter os dados!'))
-               );
-  }
-
-  handleError(err: HttpErrorResponse, errorMessage: string) : Observable<any>
-  {
-    this.notificationService.displayMessage(errorMessage, MessageType.Error);
-
-    return throwError(() => { return { error : err, message: errorMessage } });
+               .get<ApplicationResponse<boolean>>(`${environment.apiUrl}/${LeadsService.LeadEndpoint}/search?searchTerm=${encodeURIComponent(cnpjRazaoSocial)}&leadId=${leadId}`);
   }
 }
 

@@ -1,5 +1,8 @@
+import { HttpEvent, HttpEventType, HttpResponseBase } from '@angular/common/http';
+
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { filter } from 'rxjs';
 import { PromptService } from 'src/app/common/ui/widgets/prompt-dialog/prompt.service';
 import { CustomValidators } from 'src/app/common/validation/custom-validators';
 import { LeadsService } from 'src/app/leads/common/services/leads.service';
@@ -32,8 +35,7 @@ export class LeadBulkInsertFormComponent implements OnInit /*, OnLeave*/ {
     this.configForm();
   }
 
-  configForm() 
-  {
+  configForm() {
     this.bulkInsertLeadForm = this.formBuilder.group({
       [this.bulkFileInputId]: [
         undefined,
@@ -51,9 +53,18 @@ export class LeadBulkInsertFormComponent implements OnInit /*, OnLeave*/ {
         this.bulkInsertLeadForm.markAsPristine();
         this.leadsService
           .uploadLeadsFile(this.arquivoLoteField.value._files[0] as File)
-          .subscribe(_ => this.success.emit());
+          .pipe(
+            filter(data => data.type === HttpEventType.ResponseHeader)
+          )
+          .subscribe({
+            next: ((data: any) => {
+              if (data.ok) {
+                this.success.emit();
+              }
+            })
+          })
       },
-      () => {},
+      null!,
       "Confirmação"
     );
 

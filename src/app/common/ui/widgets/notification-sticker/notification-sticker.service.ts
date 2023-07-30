@@ -5,12 +5,11 @@ import { MessageType } from '../prompt-dialog/message-type';
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationService {
+export class NotificationStickerService {
 
   constructor(private snackBar: MatSnackBar) { }
 
-  displayMessage(message: string, messageType = MessageType.Success)
-  {
+  show(message: string, messageType = MessageType.Success) {
     this.snackBar.open(
       message,
       'Close',

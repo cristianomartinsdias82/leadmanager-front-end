@@ -11,7 +11,7 @@ import { MatTable } from "@angular/material/table";
 import { Lead } from "src/app/leads/common/models/lead";
 import { LeadsService } from "src/app/leads/common/services/leads.service";
 import { PromptService } from "src/app/common/ui/widgets/prompt-dialog/prompt.service";
-import { NotificationService } from "src/app/common/ui/widgets/notification-dialog/notification.service";
+import { NotificationStickerService } from "src/app/common/ui/widgets/notification-sticker/notification-sticker.service";
 import { ApplicationResponse } from "src/app/common/application-response";
 import { Subscription } from "rxjs";
 
@@ -24,7 +24,7 @@ export class ListLeadsComponent implements AfterViewInit {
   constructor(
     private router: Router,
     private leadsService: LeadsService,
-    private notificationService: NotificationService,
+    private notificationStickerService: NotificationStickerService,
     private promptService: PromptService
   ) {
     this.dataSource = new ListLeadsDataSource();
@@ -53,7 +53,7 @@ export class ListLeadsComponent implements AfterViewInit {
       () => {
         this.leadsService.remove(lead!.id!).subscribe({
           next: () => {
-            this.notificationService.displayMessage(
+            this.notificationStickerService.show(
               "Lead removido com sucesso."
             );
 

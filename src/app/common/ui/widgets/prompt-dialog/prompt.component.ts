@@ -5,7 +5,7 @@ import { PromptParameters } from './prompt-parameters';
 @Component({
   selector: 'ldm-prompt',
   templateUrl: './prompt.component.html',
-  styleUrls: []
+  styleUrls: ['./prompt.component.scss']
 })
 export class PromptComponent {
 

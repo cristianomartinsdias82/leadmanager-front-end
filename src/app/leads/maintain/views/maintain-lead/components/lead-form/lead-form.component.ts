@@ -17,7 +17,7 @@ import { Endereco } from "src/app/address-search/models/endereco";
 import { AddressSearchService } from "src/app/address-search/services/address-search.service";
 import { ApplicationResponse } from "src/app/common/application-response";
 import { MessageType } from "src/app/common/ui/widgets/prompt-dialog/message-type";
-import { NotificationService } from "src/app/common/ui/widgets/notification-dialog/notification.service";
+import { NotificationStickerService } from "src/app/common/ui/widgets/notification-sticker/notification-sticker.service";
 import { PromptService } from "src/app/common/ui/widgets/prompt-dialog/prompt.service";
 import { CustomValidators } from "src/app/common/validation/custom-validators";
 import { Lead } from "src/app/leads/common/models/lead";
@@ -92,7 +92,7 @@ export class LeadFormComponent  implements OnInit {
     private leadsService: LeadsService,
     private addressSearchService: AddressSearchService,
     private promptService: PromptService,
-    private notificationService: NotificationService    
+    private notificationStickerService: NotificationStickerService    
   ) {
     
   }
@@ -178,7 +178,7 @@ export class LeadFormComponent  implements OnInit {
           this.estadoField.setValue("");
 
           if (response.message) {
-            this.notificationService.displayMessage(
+            this.notificationStickerService.show(
               response.message ? response.message : "Endereço não localizado.",
               MessageType.Error
             );

@@ -1,0 +1,9 @@
+<h1 mat-dialog-title *ngIf="data.showHeader">{{data.headerMessage}}</h1>
+<div mat-dialog-content *ngIf="data.inconsistencies">
+  <mat-list role="list">
+    <mat-list-item *ngFor="let inconsistency of data.inconsistencies" role="listitem">{{inconsistency.description}}</mat-list-item>
+  </mat-list>
+</div>
+<div mat-dialog-actions class="actions">
+  <button mat-button color="accent" (click)="onCloseClick()" mat-dialog-close cdkFocusInitial>{{data.closeButtonCaption}}</button>
+</div>
