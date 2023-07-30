@@ -4,6 +4,7 @@ import {
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { OnLeave } from "src/app/common/ui/navigation/on-leave";
+import { NotificationService } from "src/app/common/ui/widgets/notification-dialog/notification.service";
 import { PromptService } from "src/app/common/ui/widgets/prompt-dialog/prompt.service";
 
 @Component({
@@ -17,7 +18,8 @@ export class MaintainLeadComponent implements OnLeave {
 
   constructor(
     private router: Router,
-    private promptService: PromptService) {
+    private promptService: PromptService,
+    private notificationService: NotificationService) {
 
   }
 
@@ -29,6 +31,8 @@ export class MaintainLeadComponent implements OnLeave {
 
   onOperationSuccessful() {
     this.skipDisplayLeaveConfirmation = true;
+
+    this.notificationService.displayMessage('Dados salvos com sucesso!');
 
     this.redirectToMain();
   }
