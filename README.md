@@ -61,7 +61,7 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
   Uso de validadores assíncronos (app/common/validation/custom-validators.ts)<br/>
     Disparo de solicitação ao servidor para validação do Cnpj<br/>
     Disparo de solicitação ao servidor para validação da Razão social<br/>
-  Campo texto programador para fazer buscas assíncronas somente quando um determinado padrão de caracteres (cnpj e cep) foi atendido e após um certo tempo, a fim de evitar múltiplas solicitações a cada tecla digitada. (Efeito obtido através dos operadores RxJs debounceTime, filter e mergeMap via valueChanges do campo-texto)<br/>
+  Campo texto programado para fazer buscas assíncronas somente quando um determinado padrão de caracteres (formatos cnpj e cep, por exemplo) é atendido e após um certo tempo, a fim de evitar múltiplas solicitações a cada tecla digitada. (Efeito obtido através dos operadores RxJs 'debounceTime', 'filter' e 'mergeMap' via valueChanges do campo-texto)<br/>
   Uso de diretivas de elementos html (app/common/ui/input-masks/cep-mask.directive.ts + cnpj-mask.directive.ts)<br/>
     Formatação automática/dinâmica dos campos Cnpj e Cep<br/>
     Lógica de configuração no campo Cep para buscar o endereço relacionado<br/>
