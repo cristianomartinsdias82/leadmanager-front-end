@@ -50,10 +50,10 @@ Novas demandas no radar:
 - (Technical debt) Criar um Dockerfile para o projeto
 - (Technical debt) Adicionar a aplicação ao Docker-Compose para simplificar a configuração da máquina e permitir automatizar a execução da mesma em uma única linha de comando
 
-Em termos de implementação, o que tem de reaproveitável no código-fonte deste projeto e/ou que de repente pode servir como ponto de partida ou para outros projetos?
+Em termos de implementação, o que tem de reaproveitável no código-fonte deste projeto e/ou que de repente pode servir como ponto de partida para outros projetos?
 - Estruturação de pastas de maneira um pouco similar a projetos de back-end implementados com Clean Architecture, agrupando implementações por features (List leads, Maintain Lead)
-- No formulário de gerenciamento de Leads (app/leads/maintain/views/maintain-lead.*)
-  Formulário digirido a modelo
+- No formulário de gerenciamento de Leads (app/leads/maintain/views/maintain-lead/components/lead-form.*):
+  Formulário digirido a modelo (formulário reativo!)
   Lógica de construção do formulário com FormBuilder<br/>
   Uso de validadores síncronos (app/common/validation/custom-validators.ts)<br/>
     Validação de Cnpj através de Regex e através do algoritmo baseado no Módulo 1<br/>
@@ -61,6 +61,7 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
   Uso de validadores assíncronos (app/common/validation/custom-validators.ts)<br/>
     Disparo de solicitação ao servidor para validação do Cnpj<br/>
     Disparo de solicitação ao servidor para validação da Razão social<br/>
+  Campo texto programador para fazer buscas assíncronas somente quando um determinado padrão de caracteres (cnpj e cep) foi atendido e após um certo tempo, a fim de evitar múltiplas solicitações a cada tecla digitada. (Efeito obtido através dos operadores RxJs debounceTime, filter e mergeMap via valueChanges do campo-texto)<br/>
   Uso de diretivas de elementos html (app/common/ui/input-masks/cep-mask.directive.ts + cnpj-mask.directive.ts)<br/>
     Formatação automática/dinâmica dos campos Cnpj e Cep<br/>
     Lógica de configuração no campo Cep para buscar o endereço relacionado<br/>
@@ -72,5 +73,10 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
   Tratamento de exceções específicas (erros técnicos e erros de domínio)<br/>
 - Lógica de reportagem de progresso de upload de arquivos (app/leads/common/services/leads.service.ts + app/common/ui/widgets/acrivity-indicator.*)
   (Continuar a listagem. Afinal, tem muita coisa que vale anotar aqui como índice/referência!)
+- Widgets de interface de usuário (app/common/ui/widgets/*):<br/>
+  Modal de diálogo de prompt configurável<br/>
+  Indicador de atividade (Spinner), capaz inclusive de mostrar percentual de progresso para casos de upload de arquivo, por exemplo<br/>
+  Notificador do tipo Sticker<br/>
+  Notificador do tipo Painel em modal<br/>
   
-O projeto está em processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura de pastas, separações de responsabilidades) quanto de algoritmos, usos de elementos Angular mais adequados para situações específicas dentre outras coisas! Portanto, opiniões sempre são muito bem-vindas! :)
+O projeto está em constante processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura de pastas, separações de responsabilidades) quanto em termos de algoritmos, uso do Typescript, uso de elementos Angular mais adequados para situações específicas, dentre outras coisas! Portanto, sugestões e críticas sempre são muito bem-vindas! :)
