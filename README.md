@@ -1,22 +1,21 @@
 # Projeto: Lead Manager (Front-end)
 
-O que é o Lead Manager?<br/>
-É um projeto que tem como objetivo permitir gerenciar de maneira simples e intuitiva - através de operações de listagem, adiçāo, atualizaçāo e remoção - dados de leads.
-A parte de front-end do projeto consiste atualmente em duas telas.
-Uma para listagem de leads que, a partir dela, os usuários são capazes de:
-- Visualizar uma lista contendo os dados principais de leads existentes
-- Acionar o botão para adicionar novos leads
-  - Via cadastro manual
-  - Via arquivos em lote no formato CSV
-- Selecionar um lead a fim de removê-lo ou
-- Selecionar um lead e acionar o botão para atualizar os respectivos dados<br/>
-E outra para as operações de adicionar um novo lead ou atualizar um lead previamente selecionado
+O que é o Lead Manager?
+É um projeto que tem como objetivo permitir gerenciar de maneira simples e intuitiva - através de operações de listagem, adiçāo, atualizaçāo e remoção - dados de leads. A parte de front-end do projeto consiste atualmente em duas telas. Uma para listagem de leads a partir da qual os usuários são capazes de:
 
-O Lead Manager é um projeto que utiliza as seguintes linguagens, tecnologias, funcionalidades e ferramentas:
+Visualizar uma lista contendo os dados principais de leads existentes
+Ir para a tela de adicionar novos leads
+Via cadastro manual
+Via arquivos em lote no formato CSV
+Selecionar um lead a fim de removê-lo ou
+Selecionar um lead e acionar o botão para atualizar os respectivos dados
+E outra tela para as operações de adicionar ou atualizar um lead previamente selecionado
+
+O projeto está em constante evolução e utiliza a seguinte plataforma e linguagens, tecnologias, funcionalidades e ferramentas:
 - Práticas de Código limpo / Clean code
 - Plataforma Angular versão 16
 - Angular Material e Angular CDK
-- Node versão 18
+- NodeJs versão 18
 - Linguagens Javascript e Typescript versão 5
 - Programação reativa com RxJs
 - HTML5
