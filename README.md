@@ -43,7 +43,8 @@ Como executar o projeto localmente?
 
 Novas demandas no radar:
 - (Bug) Ao selecionar um Lead para atualização, a pesquisa de endereço por CEP está sendo disparada, sobrescrevendo os dados de endereço previamente informados no cadastro do mesmo
-- (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso 
+- (Improvement) Ao selecionar um Lead para atualização, abrir a aba de cadastro manual automaticamente
+- (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso
   - Possibilidade 1: a aplicação deverá ser capaz de encaminhar a solicitação de autenticação para um servidor de identidade a fim de obter o Token de autenticação
   - Possibilidade 2: a aplicação deverá invocar o endpoint de autenticação da API de leads a fim de obter o Token de autenticação
 - (Technical debt) Criar um Dockerfile para o projeto
