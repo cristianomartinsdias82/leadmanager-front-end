@@ -1,22 +1,21 @@
 # Projeto: Lead Manager (Front-end)
 
-O que é o Lead Manager?<br/>
-É um projeto que tem como objetivo permitir gerenciar de maneira simples e intuitiva - através de operações de listagem, adiçāo, atualizaçāo e remoção - dados de leads.
-A parte de front-end do projeto consiste atualmente em duas telas.
-Uma para listagem de leads que, a partir dela, os usuários são capazes de:
-- Visualizar uma lista contendo os dados principais de leads existentes
-- Acionar o botão para adicionar novos leads
-  - Via cadastro manual
-  - Via arquivos em lote no formato CSV
-- Selecionar um lead a fim de removê-lo ou
-- Selecionar um lead e acionar o botão para atualizar os respectivos dados<br/>
-E outra para as operações de adicionar um novo lead ou atualizar um lead previamente selecionado
+O que é o Lead Manager?
+É um projeto que tem como objetivo permitir gerenciar de maneira simples e intuitiva - através de operações de listagem, adiçāo, atualizaçāo e remoção - dados de leads. A parte de front-end do projeto consiste atualmente em duas telas. Uma para listagem de leads a partir da qual os usuários são capazes de:
 
-O Lead Manager é um projeto que utiliza as seguintes linguagens, tecnologias, funcionalidades e ferramentas:
+Visualizar uma lista contendo os dados principais de leads existentes
+Ir para a tela de adicionar novos leads
+Via cadastro manual
+Via arquivos em lote no formato CSV
+Selecionar um lead a fim de removê-lo ou
+Selecionar um lead e acionar o botão para atualizar os respectivos dados
+E outra tela para as operações de adicionar ou atualizar um lead previamente selecionado
+
+O projeto está em constante evolução e utiliza a seguinte plataforma e linguagens, tecnologias, funcionalidades e ferramentas:
 - Práticas de Código limpo / Clean code
 - Plataforma Angular versão 16
 - Angular Material e Angular CDK
-- Node versão 18
+- NodeJs versão 18
 - Linguagens Javascript e Typescript versão 5
 - Programação reativa com RxJs
 - HTML5
@@ -44,16 +43,17 @@ Como executar o projeto localmente?
 
 Novas demandas no radar:
 - (Bug) Ao selecionar um Lead para atualização, a pesquisa de endereço por CEP está sendo disparada, sobrescrevendo os dados de endereço previamente informados no cadastro do mesmo
-- (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso 
+- (Improvement) Ao selecionar um Lead para atualização, abrir a aba de cadastro manual automaticamente
+- (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso
   - Possibilidade 1: a aplicação deverá ser capaz de encaminhar a solicitação de autenticação para um servidor de identidade a fim de obter o Token de autenticação
   - Possibilidade 2: a aplicação deverá invocar o endpoint de autenticação da API de leads a fim de obter o Token de autenticação
 - (Technical debt) Criar um Dockerfile para o projeto
 - (Technical debt) Adicionar a aplicação ao Docker-Compose para simplificar a configuração da máquina e permitir automatizar a execução da mesma em uma única linha de comando
 
-Em termos de implementação, o que tem de reaproveitável no código-fonte deste projeto e/ou que de repente pode servir como ponto de partida ou para outros projetos?
+Em termos de implementação, o que tem de reaproveitável no código-fonte deste projeto e/ou que de repente pode servir como ponto de partida para outros projetos?
 - Estruturação de pastas de maneira um pouco similar a projetos de back-end implementados com Clean Architecture, agrupando implementações por features (List leads, Maintain Lead)
-- No formulário de gerenciamento de Leads (app/leads/maintain/views/maintain-lead.*)
-  Formulário digirido a modelo
+- No formulário de gerenciamento de Leads (app/leads/maintain/views/maintain-lead/components/lead-form.*):
+  Formulário digirido a modelo (formulário reativo!)
   Lógica de construção do formulário com FormBuilder<br/>
   Uso de validadores síncronos (app/common/validation/custom-validators.ts)<br/>
     Validação de Cnpj através de Regex e através do algoritmo baseado no Módulo 1<br/>
@@ -61,6 +61,7 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
   Uso de validadores assíncronos (app/common/validation/custom-validators.ts)<br/>
     Disparo de solicitação ao servidor para validação do Cnpj<br/>
     Disparo de solicitação ao servidor para validação da Razão social<br/>
+  Campo texto programado para fazer buscas assíncronas somente quando um determinado padrão de caracteres (formatos cnpj e cep, por exemplo) é atendido e após um certo tempo, a fim de evitar múltiplas solicitações a cada tecla digitada. (Efeito obtido através dos operadores RxJs 'debounceTime', 'filter' e 'mergeMap' via valueChanges do campo-texto)<br/>
   Uso de diretivas de elementos html (app/common/ui/input-masks/cep-mask.directive.ts + cnpj-mask.directive.ts)<br/>
     Formatação automática/dinâmica dos campos Cnpj e Cep<br/>
     Lógica de configuração no campo Cep para buscar o endereço relacionado<br/>
@@ -72,5 +73,10 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
   Tratamento de exceções específicas (erros técnicos e erros de domínio)<br/>
 - Lógica de reportagem de progresso de upload de arquivos (app/leads/common/services/leads.service.ts + app/common/ui/widgets/acrivity-indicator.*)
   (Continuar a listagem. Afinal, tem muita coisa que vale anotar aqui como índice/referência!)
+- Widgets de interface de usuário (app/common/ui/widgets/*):<br/>
+  Modal de diálogo de prompt configurável<br/>
+  Indicador de atividade (Spinner), capaz inclusive de mostrar percentual de progresso para casos de upload de arquivo, por exemplo<br/>
+  Notificador do tipo Sticker<br/>
+  Notificador do tipo Painel em modal<br/>
   
-O projeto está em processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura de pastas, separações de responsabilidades) quanto de algoritmos, usos de elementos Angular mais adequados para situações específicas dentre outras coisas! Portanto, opiniões sempre são muito bem-vindas! :)
+O projeto está em constante processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura de pastas, separações de responsabilidades) quanto em termos de algoritmos, uso do Typescript, uso de elementos Angular mais adequados para situações específicas, dentre outras coisas! Portanto, sugestões e críticas sempre são muito bem-vindas! :)
