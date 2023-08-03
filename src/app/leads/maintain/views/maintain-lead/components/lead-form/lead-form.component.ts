@@ -33,6 +33,7 @@ export class LeadFormComponent  implements OnInit {
   @ViewChild("Numero") numeroFieldRef!: ElementRef;
   @Output() cancel = new EventEmitter<boolean>();
   @Output() success = new EventEmitter<void>();
+  @Output() leadSelected = new EventEmitter<void>();
 
   maintainLeadForm!: FormGroup;
   get formTitle() {
@@ -210,6 +211,7 @@ export class LeadFormComponent  implements OnInit {
 
           this.leadForm!.setValue(lead);
           this.leadForm!.markAsTouched();
+          this.leadSelected.emit();
         });
     }, 0);
   }

@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { OnLeave } from "src/app/common/ui/navigation/on-leave";
 import { NotificationStickerService } from "src/app/common/ui/widgets/notification-sticker/notification-sticker.service";
 import { PromptService } from "src/app/common/ui/widgets/prompt-dialog/prompt.service";
+import { LeadMaintenanceTabs } from "./components/lead-maintenance-tabs.enum";
 
 @Component({
   selector: "ldm-maintain-lead",
@@ -13,12 +14,12 @@ import { PromptService } from "src/app/common/ui/widgets/prompt-dialog/prompt.se
 export class MaintainLeadComponent implements OnLeave {
 
   private skipDisplayLeaveConfirmation = true;
+  activeTab: LeadMaintenanceTabs = LeadMaintenanceTabs.BulkInsert
 
   constructor(
     private router: Router,
     private promptService: PromptService,
     private notificationStickerService: NotificationStickerService) {
-
   }
 
   onCancelOperation(skipDisplayLeaveConfirmation: boolean) {
@@ -33,6 +34,10 @@ export class MaintainLeadComponent implements OnLeave {
     this.notificationStickerService.show('Dados salvos com sucesso!');
 
     this.redirectToMain();
+  }
+
+  onLeadSelected() {
+    this.activeTab = LeadMaintenanceTabs.ManualRegistration;
   }
 
   onLeave(): boolean | Observable<boolean> {

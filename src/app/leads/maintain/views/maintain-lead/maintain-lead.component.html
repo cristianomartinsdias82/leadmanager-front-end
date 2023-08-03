@@ -1,4 +1,4 @@
-<mat-tab-group animationDuration="300ms" [selectedIndex]="0" mat-stretch-tabs="false" mat-align-tabs="start">
+<mat-tab-group animationDuration="300ms" [selectedIndex]="activeTab" mat-stretch-tabs="false" mat-align-tabs="start">
     <mat-tab [disabled]="false" label="Em lote">
         <ldm-lead-bulk-insert-form
             (cancel)="onCancelOperation($event)"
@@ -7,6 +7,7 @@
     <mat-tab label="Cadastro manual">
         <ldm-lead-form
         (cancel)="onCancelOperation($event)"
-        (success)="onOperationSuccessful()"></ldm-lead-form>
+        (success)="onOperationSuccessful()"
+        (leadSelected)="onLeadSelected()"></ldm-lead-form>
     </mat-tab>    
 </mat-tab-group>
