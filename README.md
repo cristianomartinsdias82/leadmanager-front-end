@@ -1,14 +1,15 @@
 # Projeto: Lead Manager (Front-end)
 
 O que é o Lead Manager?
-É um projeto que tem como objetivo permitir gerenciar de maneira simples e intuitiva - através de operações de listagem, adiçāo, atualizaçāo e remoção - dados de leads. A parte de front-end do projeto consiste atualmente em duas telas. Uma para listagem de leads a partir da qual os usuários são capazes de:
-
-Visualizar uma lista contendo os dados principais de leads existentes
-Ir para a tela de adicionar novos leads
-Via cadastro manual
-Via arquivos em lote no formato CSV
-Selecionar um lead a fim de removê-lo ou
-Selecionar um lead e acionar o botão para atualizar os respectivos dados
+É um projeto que tem como objetivo permitir gerenciar de maneira simples e intuitiva - através de operações de listagem, adiçāo, atualizaçāo e remoção - dados de leads.
+A parte de front-end do projeto consiste atualmente em duas telas.
+Uma para listagem de leads a partir da qual os usuários são capazes de:
+- Visualizar uma lista contendo os dados principais de leads existentes
+- Ir para a tela de adicionar novos leads
+  - Via cadastro manual
+  - Via arquivos em lote no formato CSV
+- Selecionar um lead a fim de removê-lo ou
+- Selecionar um lead e acionar o botão para atualizar os respectivos dados<br/>
 E outra tela para as operações de adicionar ou atualizar um lead previamente selecionado
 
 O projeto está em constante evolução e utiliza a seguinte plataforma e linguagens, tecnologias, funcionalidades e ferramentas:
@@ -43,8 +44,7 @@ Como executar o projeto localmente?
 
 Novas demandas no radar:
 - (Bug) Ao selecionar um Lead para atualização, a pesquisa de endereço por CEP está sendo disparada, sobrescrevendo os dados de endereço previamente informados no cadastro do mesmo
-- (Improvement) Ao selecionar um Lead para atualização, abrir a aba de cadastro manual automaticamente
-- (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso
+- (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso indevido
   - Possibilidade 1: a aplicação deverá ser capaz de encaminhar a solicitação de autenticação para um servidor de identidade a fim de obter o Token de autenticação
   - Possibilidade 2: a aplicação deverá invocar o endpoint de autenticação da API de leads a fim de obter o Token de autenticação
 - (Technical debt) Criar um Dockerfile para o projeto
