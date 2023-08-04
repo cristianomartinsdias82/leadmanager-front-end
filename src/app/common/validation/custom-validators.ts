@@ -5,6 +5,19 @@ import { ApplicationResponse } from "../application-response";
 
 export class CustomValidators {
 
+    private static knownInvalidCnpjs = [
+        "00000000000000",
+        "11111111111111",
+        "22222222222222",
+        "33333333333333",
+        "44444444444444",
+        "55555555555555",
+        "66666666666666",
+        "77777777777777",
+        "88888888888888",
+        "99999999999999"
+    ];
+
     static isCnpjMatch(input: string) : boolean {
         return new RegExp(/^[0-9]{2}\.[0-9]{3}\.[0-9]{3}\/[0-9]{4}\-[0-9]{2}$/g).test(input);
     }
@@ -17,23 +30,12 @@ export class CustomValidators {
             return invalidCnpj;
 
         //https://www.geradorcnpj.com/javascript-validar-cnpj.htm
-        var cnpj = control.value.replace(/[^\d]+/g,'');
+        const cnpj = control.value.replace(/[^\d]+/g,'');
  
-        // Elimina CNPJs invalidos conhecidos
-        if (cnpj == "00000000000000" || 
-            cnpj == "11111111111111" || 
-            cnpj == "22222222222222" || 
-            cnpj == "33333333333333" || 
-            cnpj == "44444444444444" || 
-            cnpj == "55555555555555" || 
-            cnpj == "66666666666666" || 
-            cnpj == "77777777777777" || 
-            cnpj == "88888888888888" || 
-            cnpj == "99999999999999")
-            return invalidCnpj;
+        if (CustomValidators.knownInvalidCnpjs.includes(cnpj))
+             return invalidCnpj;
          
-        // Valida DVs
-        let tamanho = cnpj.length - 2
+        let tamanho = cnpj.length - 2;
         let numeros = cnpj.substring(0,tamanho);
         const digitos = cnpj.substring(tamanho);
         let soma = 0;
