@@ -42,7 +42,7 @@ Como executar o projeto localmente?
   ng serve -o<br/>
   (O comando irá gerar os arquivos necessários para execução e automaticamente abrirá o navegador web padrão com a Url da aplicação).<br/>
 
-Novas demandas no radar:
+Demandas no radar:
 - (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso indevido
   - Possibilidade 1: a aplicação deverá ser capaz de encaminhar a solicitação de autenticação para um servidor de identidade a fim de obter o Token de autenticação
   - Possibilidade 2: a aplicação deverá invocar o endpoint de autenticação da API de leads a fim de obter o Token de autenticação
