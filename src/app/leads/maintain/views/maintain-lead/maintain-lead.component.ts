@@ -13,7 +13,7 @@ import { LeadMaintenanceTabs } from "./components/lead-maintenance-tabs.enum";
 })
 export class MaintainLeadComponent implements OnLeave {
 
-  private skipDisplayLeaveConfirmation = true;
+  private skipLeaveConfirmationPrompt = true;
   activeTab: LeadMaintenanceTabs = LeadMaintenanceTabs.BulkInsert
 
   constructor(
@@ -22,14 +22,14 @@ export class MaintainLeadComponent implements OnLeave {
     private notificationStickerService: NotificationStickerService) {
   }
 
-  onCancelOperation(skipDisplayLeaveConfirmation: boolean) {
-    this.skipDisplayLeaveConfirmation = skipDisplayLeaveConfirmation;
+  onCancelOperation(skipLeaveConfirmationPrompt: boolean) {
+    this.skipLeaveConfirmationPrompt = skipLeaveConfirmationPrompt;
     
     this.redirectToMain();
   }
 
   onOperationSuccessful() {
-    this.skipDisplayLeaveConfirmation = true;
+    this.skipLeaveConfirmationPrompt = true;
 
     this.notificationStickerService.show('Dados salvos com sucesso!');
 
@@ -42,14 +42,14 @@ export class MaintainLeadComponent implements OnLeave {
 
   onLeave(): boolean | Observable<boolean> {
 
-    if (this.skipDisplayLeaveConfirmation) {
+    if (this.skipLeaveConfirmationPrompt) {
       return true;
     }
 
     this.promptService.openDialog(
       "Você tem dados que ainda não foram salvos. Deseja realmente sair desta página? Todos os dados serão perdidos!",
       () => {
-        this.skipDisplayLeaveConfirmation = true;
+        this.skipLeaveConfirmationPrompt = true;
         this.redirectToMain();
       },
       () => {},

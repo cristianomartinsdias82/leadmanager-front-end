@@ -12,7 +12,7 @@ import {
   Validators,
   AbstractControl,
 } from "@angular/forms";
-import { debounceTime, filter, mergeMap } from "rxjs";
+import { debounceTime, filter, mergeMap, of } from "rxjs";
 import { Endereco } from "src/app/address-search/models/endereco";
 import { AddressSearchService } from "src/app/address-search/services/address-search.service";
 import { ApplicationResponse } from "src/app/common/application-response";
@@ -34,6 +34,8 @@ export class LeadFormComponent  implements OnInit {
   @Output() cancel = new EventEmitter<boolean>();
   @Output() success = new EventEmitter<void>();
   @Output() leadSelected = new EventEmitter<void>();
+
+  skipSearchingsOnInit = false;
 
   maintainLeadForm!: FormGroup;
   get formTitle() {
@@ -100,11 +102,14 @@ export class LeadFormComponent  implements OnInit {
 
   ngOnInit() {
 
+    this.skipSearchingsOnInit = !!this.leadId;
+
     this.configForm();
     
     if (this.leadId) {
         this.loadLeadData();
     }
+
   }
 
   configForm() {
@@ -169,7 +174,16 @@ export class LeadFormComponent  implements OnInit {
       .pipe(
         debounceTime(500),
         filter((input) => CustomValidators.isCepMatch(input)),
-        mergeMap((input) => this.addressSearchService.search(input))
+        mergeMap((input) => {
+
+          if (this.skipSearchingsOnInit) {
+            this.skipSearchingsOnInit = false;
+            return of();
+          }
+
+          return this.addressSearchService.search(input);
+          
+        })
       )
       .subscribe((response: ApplicationResponse<Endereco>) => {
         if (!response.data) {
