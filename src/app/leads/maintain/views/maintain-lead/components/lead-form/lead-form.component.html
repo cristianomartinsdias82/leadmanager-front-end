@@ -10,7 +10,7 @@ https://stackoverflow.com/questions/46745171/angular-material-show-mat-error-on-
                     <div fxFlex="13%">
                         <mat-form-field>
                             <label>CNPJ</label>
-                            <input maxlength="18" minlength="18" cnpjMask matInput formControlName="cnpj" />
+                            <input [readonly]="!cnpjFieldEnabled" maxlength="18" minlength="18" cnpjMask matInput formControlName="cnpj" />
                             <mat-error *ngIf="cnpjField.hasError('required')">Cnpj é obrigatório.</mat-error>
                             <mat-error *ngIf="cnpjField.hasError('invalidCnpj')">Cnpj inválido.</mat-error>
                             <mat-error *ngIf="cnpjField.hasError('existingLead')">Lead existente.</mat-error>

@@ -22,6 +22,7 @@ import { PromptService } from "src/app/common/ui/widgets/prompt-dialog/prompt.se
 import { CustomValidators } from "src/app/common/validation/custom-validators";
 import { Lead } from "src/app/leads/common/models/lead";
 import { LeadsService } from "src/app/leads/common/services/leads.service";
+import { MaintenanceMode } from "src/app/common/maintenance-mode";
 
 @Component({
   selector: "ldm-lead-form",
@@ -35,11 +36,17 @@ export class LeadFormComponent  implements OnInit {
   @Output() success = new EventEmitter<void>();
   @Output() leadSelected = new EventEmitter<void>();
 
+  maintenanceMode = MaintenanceMode.NewData;
+
   skipSearchingsOnInit = false;
 
   maintainLeadForm!: FormGroup;
   get formTitle() {
     return !!!this.leadId ? "Novo lead" : "Lead";
+  }
+
+  get cnpjFieldEnabled() {
+    return this.maintenanceMode === MaintenanceMode.NewData;
   }
 
   get cnpjField() {
@@ -220,6 +227,7 @@ export class LeadFormComponent  implements OnInit {
       this.leadsService
         .getById(this.leadId!)
         .subscribe((result: ApplicationResponse<Lead>) => {
+          this.maintenanceMode = MaintenanceMode.DataUpdate;
           let lead = result.data!;
           delete lead.id;
 
