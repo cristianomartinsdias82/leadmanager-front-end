@@ -1,4 +1,8 @@
+import { ListSortDirection } from "./list-sort-direction";
+
 export interface PagingParameters {
-    page: number,
-    itemsPerPage: number
+    pageNumber: number,
+    pageSize: number,
+    sortColumn: string,
+    sortDirection: ListSortDirection
 }

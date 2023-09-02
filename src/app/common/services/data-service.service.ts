@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { Observable, map } from 'rxjs';
 import { PagingParameters } from 'src/app/common/paging-parameters';
 import { ApplicationResponse } from '../application-response';
+import { PagedList } from '../paged-list';
 
 export abstract class DataService<T> {
 
@@ -10,10 +11,19 @@ export abstract class DataService<T> {
     protected httpClient: HttpClient,
     private endpoint: string) { }
 
-  fetch(pagingParameters?: PagingParameters): Observable<ApplicationResponse<T[]>> {
+  fetch(pagingParameters?: PagingParameters): Observable<ApplicationResponse<PagedList<T>>> {
 
     return this.httpClient
-               .get<ApplicationResponse<T[]>>(`${environment.apiUrl}/${this.endpoint}?page=${pagingParameters?.page ?? 1}&itemsPerPage=${pagingParameters?.itemsPerPage ?? 10}`);
+                .get<ApplicationResponse<PagedList<T>>>(
+                    `${environment.apiUrl}/${this.endpoint}`,
+                    {
+                      params: {
+                        page: pagingParameters!.pageNumber,
+                        pageSize: pagingParameters!.pageSize,
+                        sortColumn: pagingParameters!.sortColumn,
+                        sortDirection: pagingParameters!.sortDirection
+                      }
+                    })
   }
 
   getById(id: string): Observable<ApplicationResponse<T>> {

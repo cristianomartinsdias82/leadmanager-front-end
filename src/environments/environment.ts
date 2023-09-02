@@ -8,7 +8,7 @@ export const environment = {
     apiKeyHeaderName: 'X-LeadManager-Api-Key',
     apiKeyHeaderValue: '74ynfkjy487yue47j',
     fileUploadMaxSize: 10485760,
-    requestTimeoutInSecs: 30
+    requestTimeoutInSecs: 300
   };
   
   /*
