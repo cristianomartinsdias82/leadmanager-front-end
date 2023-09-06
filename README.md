@@ -4,7 +4,7 @@ O que é o Lead Manager?
 É um projeto que tem como objetivo permitir gerenciar de maneira simples e intuitiva - através de operações de listagem, adiçāo, atualizaçāo e remoção - dados de leads.
 A parte de front-end do projeto consiste atualmente em duas telas.
 Uma para listagem de leads a partir da qual os usuários são capazes de:
-- Visualizar uma lista contendo os dados principais de leads existentes
+- Visualizar uma lista contendo os dados principais de leads existentes de forma paginada
 - Ir para a tela de adicionar novos leads
   - Via cadastro manual
   - Via arquivos em lote no formato CSV
@@ -43,7 +43,6 @@ Como executar o projeto localmente?
   (O comando irá gerar os arquivos necessários para execução e automaticamente abrirá o navegador web padrão com a Url da aplicação).<br/>
 
 Backlog:
-- (Bug) Não permitir alterar o campo CNPJ do Lead
 - (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso indevido
   - Possibilidade 1: a aplicação deverá ser capaz de encaminhar a solicitação de autenticação para um servidor de identidade a fim de obter o Token de autenticação
   - Possibilidade 2: a aplicação deverá invocar o endpoint de autenticação da API de leads a fim de obter o Token de autenticação
@@ -77,6 +76,7 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
   Modal de diálogo de prompt configurável<br/>
   Indicador de atividade (Spinner), capaz inclusive de mostrar percentual de progresso para casos de upload de arquivo, por exemplo<br/>
   Notificador do tipo Sticker<br/>
+- Customização do DataSource do DataTable do Angular Material para delegar as funcionalidades de paginação e ordenação para o servidor (app/common/paged-list.ts, list-sort-direction.ts, paging-parameters.ts + app/leads/list/views/list-leads/list-leads.component.ts, list-leads.datasource.ts)
   Notificador do tipo Painel em modal<br/>
   
 O projeto está em constante processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura de pastas, separações de responsabilidades) quanto em termos de algoritmos, uso do Typescript, uso de elementos Angular mais adequados para situações específicas, dentre outras coisas! Portanto, sugestões e críticas sempre são muito bem-vindas! :)
