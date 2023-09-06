@@ -7,13 +7,14 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # Copy the entire application to the container
 COPY . .
 
 # Build the Angular application in production mode
-RUN npm run build
+#RUN npm run build
+RUN npm run build-containerized
 
 # Stage 2: Create the production-ready container
 FROM nginx:alpine

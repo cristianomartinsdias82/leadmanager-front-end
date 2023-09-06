@@ -1,10 +1,12 @@
 {
   "name": "lead-manager-web",
-  "version": "0.9.1",
+  "version": "1.0.14",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "start-containerized": "ng serve -c containerized",
+    "build": "ng build --configuration",
+    "build-containerized": "ng build --configuration containerized",
     "watch": "ng build --watch --configuration development"
   },
   "private": true,
@@ -31,5 +33,9 @@
     "@angular/cli": "~16.0.4",
     "@angular/compiler-cli": "^16.0.0",
     "typescript": "~5.0.2"
+  },
+  "engines": {
+    "node": "18.16.1",
+    "npm": "9.5.1"
   }
 }
