@@ -13,7 +13,6 @@ RUN npm ci --legacy-peer-deps
 COPY . .
 
 # Build the Angular application in production mode
-#RUN npm run build
 RUN npm run build-containerized
 
 # Stage 2: Create the production-ready container

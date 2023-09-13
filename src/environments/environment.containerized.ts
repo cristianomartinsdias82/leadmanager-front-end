@@ -3,7 +3,7 @@
 export const environment = {
     production: true,
     apiUrl: 'http://localhost:8001/api',
-    apiKeyHeaderName: 'X-LeadManager-Api-Key',
+    apiKeyHeaderName: 'LeadManager-Api-Key',
     apiKeyHeaderValue: '74ynfkjy487yue47j',
     fileUploadMaxSize: 10485760,
     requestTimeoutInSecs: 30
