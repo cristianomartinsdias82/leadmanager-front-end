@@ -10,4 +10,5 @@ export interface Lead extends Entity {
     bairro: string;
     numero?: string;
     complemento?: string;
+    revision?:string;
 }

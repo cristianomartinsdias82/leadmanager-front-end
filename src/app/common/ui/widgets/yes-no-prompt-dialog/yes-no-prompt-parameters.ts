@@ -1,4 +1,4 @@
-export interface PromptParameters
+export interface YesNoPromptParameters
 {
     title: string;
     question: string;

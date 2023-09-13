@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Endereco } from '../models/endereco';
-import { MessageType } from 'src/app/common/ui/widgets/prompt-dialog/message-type';
+import { MessageTypes } from 'src/app/common/ui/notification/message-types';
 import { ApplicationResponse } from 'src/app/common/application-response';
 import { NotificationStickerService } from 'src/app/common/ui/widgets/notification-sticker/notification-sticker.service';
 
@@ -26,7 +26,7 @@ export class AddressSearchService {
 
   handleError(err: HttpErrorResponse, errorMessage: string) : Observable<any>
   {
-    this.notificationStickerService.show(errorMessage, MessageType.Error);
+    this.notificationStickerService.show(errorMessage, MessageTypes.Error);
 
     return throwError(() => { return { error : err, message: errorMessage } });
   }

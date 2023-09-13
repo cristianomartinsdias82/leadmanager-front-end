@@ -44,10 +44,10 @@ export abstract class DataService<T> {
                );
   }
 
-  remove(id: string): Observable<ApplicationResponse<any>> {
+  remove(id: string, revision: string): Observable<ApplicationResponse<any>> {
 
     return this.httpClient
-               .delete<ApplicationResponse<T>>(`${environment.apiUrl}/${this.endpoint}/${id}`);
+               .delete<ApplicationResponse<T>>(`${environment.apiUrl}/${this.endpoint}/${id}?revision=${revision}`);
                
   }
 }

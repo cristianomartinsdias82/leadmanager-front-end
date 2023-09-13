@@ -4,11 +4,14 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ActivityIndicatorService } from '../ui/widgets/activity-indicator/activity-indicator.service';
 import { NotificationPanelService } from '../ui/widgets/notification-panel/notification-panel.service';
+import { OperationCodes } from '../infrastructure/operation-codes';
+import { ConflictResolutionService } from '../services/conflict-resolution.service';
 
 @Injectable()
 export class RequestHandlerInterceptor implements HttpInterceptor {
 
   constructor(
+    private conflictResolutionService: ConflictResolutionService,
     private notificationPanelService: NotificationPanelService,
     private activityIndicatorService: ActivityIndicatorService) {}
 
@@ -52,25 +55,24 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
                 }),
                 timeout(environment.requestTimeoutInSecs * 1000),
                 //retry({ count : 3, delay : Math.random() * 1367 }),
-                catchError(error => this.handleError(error)),
+                catchError(error => this.handleError(error, request)),
                 finalize(() => this.activityIndicatorService.hide(req.reportProgress))
             );
   }
 
-  handleError(data: any): Observable<HttpEvent<any>> {
+  private handleError(data: any, request: HttpRequest<any>): Observable<HttpEvent<any>> {
 
     let message = '';
 
     if (data.error) {
 
-      if (data.error.inconsistencies) {
-
+      if (data.error.operationCode === OperationCodes.ConcurrencyIssue) {
+        return this.conflictResolutionService.resolve(data.error.data, request, data.error.message);
+      }
+      else if (data.error.inconsistencies) {
         message = 'Encontrada(s) uma ou mais inconsistências ao processar a solicitação:';
-
       } else if (data.error.message) {
-
         message = data.error.message;
-
       } else {
 
         message = "Houve um erro ao tentar processar a solicitação";

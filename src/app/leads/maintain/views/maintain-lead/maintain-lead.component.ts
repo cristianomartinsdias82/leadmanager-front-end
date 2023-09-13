@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { OnLeave } from "src/app/common/ui/navigation/on-leave";
 import { NotificationStickerService } from "src/app/common/ui/widgets/notification-sticker/notification-sticker.service";
-import { PromptService } from "src/app/common/ui/widgets/prompt-dialog/prompt.service";
+import { PromptService } from "src/app/common/ui/notification/prompt.service";
 import { LeadMaintenanceTabs } from "./components/lead-maintenance-tabs.enum";
 
 @Component({
@@ -46,7 +46,7 @@ export class MaintainLeadComponent implements OnLeave {
       return true;
     }
 
-    this.promptService.openDialog(
+    this.promptService.openYesNoDialog(
       "Você tem dados que ainda não foram salvos. Deseja realmente sair desta página? Todos os dados serão perdidos!",
       () => {
         this.skipLeaveConfirmationPrompt = true;

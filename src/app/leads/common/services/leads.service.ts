@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Lead } from '../models/lead';
 import { DataService } from 'src/app/common/services/data-service.service';
 import { ApplicationResponse } from 'src/app/common/application-response';
+import { RevisionUpdate } from 'src/app/common/infrastructure/revision-update';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,13 @@ import { ApplicationResponse } from 'src/app/common/application-response';
 export class LeadsService extends DataService<Lead> {
 
   private static LeadEndpoint = 'leads';
+
+  private leadRevisionUpdateSubscription = new Subject<RevisionUpdate>();
+  onLeadRevisionUpdate$ = this.leadRevisionUpdateSubscription.asObservable();
+
+  setLeadNewRevision(revisionUpdate: RevisionUpdate) {
+    this.leadRevisionUpdateSubscription.next(revisionUpdate);
+  }
 
   constructor(httpClient: HttpClient) {
     

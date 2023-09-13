@@ -17,10 +17,12 @@ import { CepMaskDirective } from './common/ui/input-masks/cep-mask.directive';
 
 import { ActivityIndicatorComponent } from './common/ui/widgets/activity-indicator/activity-indicator.component';
 import { NotificationPanelComponent } from './common/ui/widgets/notification-panel/notification-panel.component';
-import { PromptComponent } from './common/ui/widgets/prompt-dialog/prompt.component';
+import { YesNoPromptComponent } from './common/ui/widgets/yes-no-prompt-dialog/yes-no-prompt.component';
+import { CustomPromptComponent } from './common/ui/widgets/custom-prompt-dialog/custom-prompt.component';
 
 import localePt from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
+
 registerLocaleData(localePt);
 
 @NgModule({
@@ -28,7 +30,8 @@ registerLocaleData(localePt);
     AppComponent,
     ListLeadsComponent,
     MaintainLeadComponent,
-    PromptComponent,
+    YesNoPromptComponent,
+    CustomPromptComponent,
     CnpjMaskDirective,
     CepMaskDirective,
     ActivityIndicatorComponent,

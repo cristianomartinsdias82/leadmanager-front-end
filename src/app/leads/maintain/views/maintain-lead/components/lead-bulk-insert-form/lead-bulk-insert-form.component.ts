@@ -3,7 +3,7 @@ import { HttpEvent, HttpEventType, HttpResponseBase } from '@angular/common/http
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { filter } from 'rxjs';
-import { PromptService } from 'src/app/common/ui/widgets/prompt-dialog/prompt.service';
+import { PromptService } from 'src/app/common/ui/notification/prompt.service';
 import { CustomValidators } from 'src/app/common/validation/custom-validators';
 import { LeadsService } from 'src/app/leads/common/services/leads.service';
 import { environment } from 'src/environments/environment';
@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: "./lead-bulk-insert-form.component.html",
   styleUrls: ["./lead-bulk-insert-form.component.scss"]
 })
-export class LeadBulkInsertFormComponent implements OnInit /*, OnLeave*/ {
+export class LeadBulkInsertFormComponent implements OnInit {
 
   @Output() cancel = new EventEmitter<boolean>();
   @Output() success = new EventEmitter<void>();
@@ -47,7 +47,7 @@ export class LeadBulkInsertFormComponent implements OnInit /*, OnLeave*/ {
 
   onSubmit() {
 
-    this.promptService.openDialog(
+    this.promptService.openYesNoDialog(
       "Salvar os dados?",
       () => {
         this.bulkInsertLeadForm.markAsPristine();

@@ -16,13 +16,14 @@ import { debounceTime, filter, mergeMap, of } from "rxjs";
 import { Endereco } from "src/app/address-search/models/endereco";
 import { AddressSearchService } from "src/app/address-search/services/address-search.service";
 import { ApplicationResponse } from "src/app/common/application-response";
-import { MessageType } from "src/app/common/ui/widgets/prompt-dialog/message-type";
+import { MessageTypes } from "src/app/common/ui/notification/message-types";
 import { NotificationStickerService } from "src/app/common/ui/widgets/notification-sticker/notification-sticker.service";
-import { PromptService } from "src/app/common/ui/widgets/prompt-dialog/prompt.service";
+import { PromptService } from "src/app/common/ui/notification/prompt.service";
 import { CustomValidators } from "src/app/common/validation/custom-validators";
 import { Lead } from "src/app/leads/common/models/lead";
 import { LeadsService } from "src/app/leads/common/services/leads.service";
-import { MaintenanceMode } from "src/app/common/maintenance-mode";
+import { MaintenanceModes } from "src/app/common/infrastructure/maintenance-modes";
+import { RevisionUpdate } from "src/app/common/infrastructure/revision-update";
 
 @Component({
   selector: "ldm-lead-form",
@@ -36,7 +37,7 @@ export class LeadFormComponent  implements OnInit {
   @Output() success = new EventEmitter<void>();
   @Output() leadSelected = new EventEmitter<void>();
 
-  maintenanceMode = MaintenanceMode.NewData;
+  maintenanceMode = MaintenanceModes.NewData;
 
   skipSearchingsOnInit = false;
 
@@ -46,7 +47,11 @@ export class LeadFormComponent  implements OnInit {
   }
 
   get cnpjFieldEnabled() {
-    return this.maintenanceMode === MaintenanceMode.NewData;
+    return this.maintenanceMode === MaintenanceModes.NewData;
+  }
+
+  private getField(fieldName: string): AbstractControl<any, any> | null {
+    return this.leadForm!.get(fieldName)!;
   }
 
   get cnpjField() {
@@ -103,9 +108,7 @@ export class LeadFormComponent  implements OnInit {
     private addressSearchService: AddressSearchService,
     private promptService: PromptService,
     private notificationStickerService: NotificationStickerService    
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit() {
 
@@ -117,6 +120,7 @@ export class LeadFormComponent  implements OnInit {
         this.loadLeadData();
     }
 
+    this.leadsService.onLeadRevisionUpdate$.subscribe(this.onLeadRevisionUpdate.bind(this));
   }
 
   configForm() {
@@ -173,7 +177,8 @@ export class LeadFormComponent  implements OnInit {
             Validators.minLength(2),
             Validators.maxLength(30),
           ]),
-        ]
+        ],
+        revision:[] //Concurrency checking purposes
       }),
     });
 
@@ -202,7 +207,7 @@ export class LeadFormComponent  implements OnInit {
           if (response.message) {
             this.notificationStickerService.show(
               response.message ? response.message : "Endereço não localizado.",
-              MessageType.Error
+              MessageTypes.Error
             );
 
             this.cepField.setErrors(CustomValidators.CepValidationError());
@@ -227,7 +232,7 @@ export class LeadFormComponent  implements OnInit {
       this.leadsService
         .getById(this.leadId!)
         .subscribe((result: ApplicationResponse<Lead>) => {
-          this.maintenanceMode = MaintenanceMode.DataUpdate;
+          this.maintenanceMode = MaintenanceModes.DataUpdate;
           let lead = result.data!;
           delete lead.id;
 
@@ -240,7 +245,7 @@ export class LeadFormComponent  implements OnInit {
 
   onSubmit() {
 
-    this.promptService.openDialog(
+    this.promptService.openYesNoDialog(
       "Salvar os dados?",
       () => {
         this.maintainLeadForm.markAsPristine();
@@ -258,8 +263,8 @@ export class LeadFormComponent  implements OnInit {
     this.cancel.emit(this.maintainLeadForm.pristine);
   }
 
-  private getField(fieldName: string): AbstractControl<any, any> | null {
-    return this.leadForm!.get(fieldName)!;
+  onLeadRevisionUpdate(revisionUpdate: RevisionUpdate) {
+    this.getField('revision')?.setValue(revisionUpdate.revision);
   }
 }
 

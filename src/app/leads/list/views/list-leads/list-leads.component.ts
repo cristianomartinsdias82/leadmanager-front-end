@@ -1,15 +1,15 @@
 import { AfterViewInit, Component, OnDestroy, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
-import { ListLeadsDataSource } from "./list-leads.datasource";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
+import { Subscription } from "rxjs";
+import { ListLeadsDataSource } from "./list-leads.datasource";
 import { Lead } from "src/app/leads/common/models/lead";
 import { LeadsService } from "src/app/leads/common/services/leads.service";
-import { PromptService } from "src/app/common/ui/widgets/prompt-dialog/prompt.service";
+import { PromptService } from "src/app/common/ui/notification/prompt.service";
 import { NotificationStickerService } from "src/app/common/ui/widgets/notification-sticker/notification-sticker.service";
 import { ApplicationResponse } from "src/app/common/application-response";
-import { Subscription } from "rxjs";
 import { PagedList } from "src/app/common/paged-list";
 import { PagingParameters } from "src/app/common/paging-parameters";
 import { ListSortDirection } from "src/app/common/list-sort-direction";
@@ -59,10 +59,11 @@ export class ListLeadsComponent implements AfterViewInit, OnDestroy {
   }
 
   onDeleteItemClick(lead: Lead) {
-    this.promptService.openDialog(
+    console.log(lead);
+    this.promptService.openYesNoDialog(
       `Deseja realmente remover o lead '${lead.razaoSocial}'?`,
       () => {
-        this.leadsService.remove(lead!.id!).subscribe({
+        this.leadsService.remove(lead!.id!, lead!.revision!).subscribe({
           next: () => {
             this.notificationStickerService.show("Lead removido com sucesso.");
 
