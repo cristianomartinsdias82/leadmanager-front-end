@@ -27,7 +27,7 @@ O projeto está em constante evolução e utiliza a seguinte plataforma e lingua
 
 Pré-requisitos para execução do Front-End da aplicação<br/>
 É necessário possuir os seguintes componentes instalados na máquina:
-- NodeJS 18 (que pode ser obtido através da url: https://nodejs.org/en)
+- NodeJS 18.16 (que pode ser obtido através da url: https://nodejs.org/en)
 - Angular CLI
   Após instalado o NodeJs, digitar a seguinte linha de comando no Terminal, Command Prompt ou Powershell:<br/>
     npm install -g @angular/cli [ENTER]<br/>
@@ -44,10 +44,15 @@ Como executar o projeto localmente?
 
 Backlog:
 - (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso indevido
+  - A partir daí, a aplicação deverá receber e trafegar um Token de acesso aos recursos da API (JWT)
+    - O token deverá ter o tempo de vida útil de 30 minutos
+      - Permitir auto-renovação do token com refresh tokens
+    - Armazenar este token utilizando localStorage
   - Possibilidade 1: a aplicação deverá ser capaz de encaminhar a solicitação de autenticação para um servidor de identidade a fim de obter o Token de autenticação
   - Possibilidade 2: a aplicação deverá invocar o endpoint de autenticação da API de leads a fim de obter o Token de autenticação
-- (Technical debt) Criar um Dockerfile para o projeto
-- (Technical debt) Adicionar a aplicação ao Docker-Compose para simplificar a configuração da máquina e permitir automatizar a execução da mesma em uma única linha de comando
+- (Bug) Apurar e resolver o problema do envio de solicitações adicionais HTTP toda vez que é solicitada a ordenação dos dados (cliques nas colunas ordenáveis)
+- (Tech debt) Implementar uma classe manipuladora global de erros
+  - Quando um erro não manipulado ocorrer, redirecionar o usuário para uma rota ~/erro, para a qual deverá ser apresentado o SVG informando sobre ocorrido.
 
 Em termos de implementação, o que tem de reaproveitável no código-fonte deste projeto e/ou que de repente pode servir como ponto de partida para outros projetos?
 - Estruturação de pastas de maneira um pouco similar a projetos de back-end implementados com Clean Architecture, agrupando implementações por features (List leads, Maintain Lead)
