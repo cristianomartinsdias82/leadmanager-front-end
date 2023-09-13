@@ -10,7 +10,9 @@ Uma para listagem de leads a partir da qual os usuários são capazes de:
   - Via arquivos em lote no formato CSV
 - Selecionar um lead a fim de removê-lo ou
 - Selecionar um lead e acionar o botão para atualizar os respectivos dados<br/>
-E outra tela para as operações de adicionar ou atualizar um lead previamente selecionado
+E outra tela para as operações de adicionar ou atualizar um lead previamente selecionado<br/>
+- Em situações de conflito de atualização e remoção de dados, o usuário tem a possibilidade de tomar uma decisão sobre como proceder neste tipo de cenário (sobrescrever, carregar os novos dados, cancelar...)
+de maneira fácil e intuitiva
 
 O projeto está em constante evolução e utiliza a seguinte plataforma e linguagens, tecnologias, funcionalidades e ferramentas:
 - Práticas de Código limpo / Clean code
@@ -50,8 +52,8 @@ Backlog:
     - Armazenar este token utilizando localStorage
   - Possibilidade 1: a aplicação deverá ser capaz de encaminhar a solicitação de autenticação para um servidor de identidade a fim de obter o Token de autenticação
   - Possibilidade 2: a aplicação deverá invocar o endpoint de autenticação da API de leads a fim de obter o Token de autenticação
-- (Bug) Apurar e resolver o problema do envio de solicitações adicionais HTTP toda vez que é solicitada a ordenação dos dados (cliques nas colunas ordenáveis)
-- (Tech debt) Implementar uma classe manipuladora global de erros
+- (Bug) Apurar e resolver o problema do envio de solicitações adicionais HTTP toda vez que é solicitada a ordenação dos dados na listagem de Leads (cliques nas colunas ordenáveis)
+- (Technical debt) Implementar uma classe manipuladora global de erros
   - Quando um erro não manipulado ocorrer, redirecionar o usuário para uma rota ~/erro, para a qual deverá ser apresentado o SVG informando sobre ocorrido.
 
 Em termos de implementação, o que tem de reaproveitável no código-fonte deste projeto e/ou que de repente pode servir como ponto de partida para outros projetos?
@@ -74,14 +76,17 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
   Uso da Api HttpClient<br/>
   Forte uso de operadores RxJs<br/>
   Uso do serviço de indicação de progresso da solicitação<br/>
-  Tratamento de exceções específicas (erros técnicos e erros de domínio)<br/>
+  Tratamento de exceções específicas (erros técnicos, de concorrência e erros de domínio)<br/>
 - Lógica de reportagem de progresso de upload de arquivos (app/leads/common/services/leads.service.ts + app/common/ui/widgets/acrivity-indicator.*)
   (Continuar a listagem. Afinal, tem muita coisa que vale anotar aqui como índice/referência!)
 - Widgets de interface de usuário (app/common/ui/widgets/*):<br/>
-  Modal de diálogo de prompt configurável<br/>
+  Modal de diálogo de prompt do tipo Sim/Não configurável<br/>
+  Modal de diálogo de prompt customizável - que oferece a possibilidade de informar quais botoões inserir e qual será o comportamento ao clicar em cada um deles<br/>
   Indicador de atividade (Spinner), capaz inclusive de mostrar percentual de progresso para casos de upload de arquivo, por exemplo<br/>
   Notificador do tipo Sticker<br/>
+  Painel de notificação de dados baseado em pares chave-valor (atualmente utilizado para mostrar erros retornados pelo servidor como fruto de erros e validação de um cadastro de Lead, por exemplo)
 - Customização do DataSource do DataTable do Angular Material para delegar as funcionalidades de paginação e ordenação para o servidor (app/common/paged-list.ts, list-sort-direction.ts, paging-parameters.ts + app/leads/list/views/list-leads/list-leads.component.ts, list-leads.datasource.ts)
   Notificador do tipo Painel em modal<br/>
+- Serviço intermediador de resolução de conflitos de operações de atualização e remoção de dados (app/common/services/conflict-resolution-esrvice.ts)
   
 O projeto está em constante processo de evolução e sempre pode ser melhorado, tanto em termos de organização (estrutura de pastas, separações de responsabilidades) quanto em termos de algoritmos, uso do Typescript, uso de elementos Angular mais adequados para situações específicas, dentre outras coisas! Portanto, sugestões e críticas sempre são muito bem-vindas! :)
