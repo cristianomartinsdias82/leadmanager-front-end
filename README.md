@@ -52,7 +52,6 @@ Backlog:
     - Armazenar este token utilizando localStorage
   - Possibilidade 1: a aplicação deverá ser capaz de encaminhar a solicitação de autenticação para um servidor de identidade a fim de obter o Token de autenticação
   - Possibilidade 2: a aplicação deverá invocar o endpoint de autenticação da API de leads a fim de obter o Token de autenticação
-- (Bug) Apurar e resolver o problema do envio de solicitações adicionais HTTP toda vez que é solicitada a ordenação dos dados na listagem de Leads (cliques nas colunas ordenáveis)
 - (Technical debt) Implementar uma classe manipuladora global de erros
   - Quando um erro não manipulado ocorrer, redirecionar o usuário para uma rota ~/erro, para a qual deverá ser apresentado o SVG informando sobre ocorrido.
 
