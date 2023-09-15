@@ -1,17 +1,15 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { MatPaginator } from "@angular/material/paginator";
-import { MatSort } from "@angular/material/sort";
-import { MatTable } from "@angular/material/table";
-import { Subscription } from "rxjs";
-import { ListLeadsDataSource } from "./list-leads.datasource";
+import { MatSort, Sort } from "@angular/material/sort";
+import { MatTable, MatTableDataSource } from "@angular/material/table";
+import { filter, map, startWith, switchMap } from "rxjs";
 import { Lead } from "src/app/leads/common/models/lead";
 import { LeadsService } from "src/app/leads/common/services/leads.service";
 import { PromptService } from "src/app/common/ui/notification/prompt.service";
 import { NotificationStickerService } from "src/app/common/ui/widgets/notification-sticker/notification-sticker.service";
 import { ApplicationResponse } from "src/app/common/application-response";
 import { PagedList } from "src/app/common/paged-list";
-import { PagingParameters } from "src/app/common/paging-parameters";
 import { ListSortDirection } from "src/app/common/list-sort-direction";
 
 @Component({
@@ -19,39 +17,73 @@ import { ListSortDirection } from "src/app/common/list-sort-direction";
   templateUrl: "./list-leads.component.html",
   styleUrls: ["./list-leads.component.scss"],
 })
-export class ListLeadsComponent implements AfterViewInit, OnDestroy {
+export class ListLeadsComponent implements AfterViewInit {
   constructor(
     private router: Router,
     private leadsService: LeadsService,
     private notificationStickerService: NotificationStickerService,
     private promptService: PromptService
-  ) {
-    this.initDataSource();
-  }
-
-  initDataSource() {
-    const self = this;
-    this.dataSource = new ListLeadsDataSource();
-    this.dataSource.pageChanged.subscribe(function(paginationArgs: PagingParameters) { self.loadData(paginationArgs) }.bind(this));
-    this.dataSource.sorted.subscribe(function(paginationArgs: PagingParameters) { self.loadData(paginationArgs) }.bind(this));
-  }
+  ) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatTable) table!: MatTable<Lead>;
 
-  dataSource: ListLeadsDataSource = null!;
+  dataSource = new MatTableDataSource<Lead>();
   displayedColumns = ["cnpj", "razaoSocial", "cep", "estado", "acoes"];
-  leadsServiceSubscription: Subscription = Subscription.EMPTY;
   leads: Lead[] = [];
+  itemCount = 0;
+  sortColumn = this.displayedColumns[1];
+  sortDirection = ListSortDirection.Ascending;
 
   ngAfterViewInit() {
-    this.loadData({
-      pageNumber: 1,
-      pageSize: 10,
-      sortColumn: 'razaoSocial',
-      sortDirection: ListSortDirection.Ascending
-    });
+
+    //https://www.angularjswiki.com/material/mat-table-serverside-pagination/
+    setTimeout(() =>{
+      this.dataSource.paginator = this.paginator;
+      this.paginator.page.pipe(
+
+        startWith({}),
+        switchMap(() =>
+            this.leadsService.fetch({
+              pageNumber: this.paginator.pageIndex + 1,
+              pageSize: this.paginator.pageSize,
+              sortColumn: this.sortColumn,
+              sortDirection: this.sortDirection })
+        ),
+        map((response: ApplicationResponse<PagedList<Lead>>) => {
+          this.itemCount = response.data!.itemCount;
+          return response.data!.items;
+        })
+      ).subscribe((leads:Lead[]) => {
+        this.leads = leads;
+        this.dataSource = new MatTableDataSource(leads);
+      });
+    
+      this.sort.sortChange.pipe(
+
+        filter((sort:Sort) => ['asc','desc'].includes(sort.direction)),
+        switchMap((sort: Sort) => {
+            this.sortColumn = sort.active;
+            this.sortDirection = sort.direction === 'asc' ? ListSortDirection.Ascending : ListSortDirection.Descending;
+
+            return this.leadsService.fetch({
+              pageNumber: this.paginator.pageIndex + 1,
+              pageSize: this.paginator.pageSize,
+              sortColumn: this.sortColumn,
+              sortDirection: this.sortDirection
+            })
+        }),
+        map((response: ApplicationResponse<PagedList<Lead>>) => {
+          this.itemCount = response.data!.itemCount;
+          return response.data!.items;
+        })
+      ).subscribe((leads:Lead[]) => {
+        this.leads = leads;
+        this.dataSource = new MatTableDataSource(leads);
+      });
+    },0);
+    
   }
 
   onRefreshListClick() {
@@ -59,7 +91,6 @@ export class ListLeadsComponent implements AfterViewInit, OnDestroy {
   }
 
   onDeleteItemClick(lead: Lead) {
-    console.log(lead);
     this.promptService.openYesNoDialog(
       `Deseja realmente remover o lead '${lead.razaoSocial}'?`,
       () => {
@@ -81,29 +112,5 @@ export class ListLeadsComponent implements AfterViewInit, OnDestroy {
     this.router
       .navigateByUrl("/", { skipLocationChange: true })
       .then(() => this.router.navigate(["/leads"]));
-  }
-
-  loadData(pagingParameters: PagingParameters) {
-    //https://blog.simplified.courses/angular-expression-changed-after-it-has-been-checked-error/ (see "Real-life use cases and solving the issue" topic)
-    setTimeout(() => {
-      this.initDataSource();
-      this.leadsServiceSubscription = this.leadsService
-        .fetch(pagingParameters)
-        .subscribe((response: ApplicationResponse<PagedList<Lead>>) => {
-
-          this.dataSource.data = response.data!.items;
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-          this.table.dataSource = this.dataSource;
-
-          this.dataSource.setPaginatorItemCount(response.data!.itemCount);
-          this.leads = this.dataSource.data;
-          
-        });
-    }, 0);
-  }
-
-  ngOnDestroy() {
-    this.leadsServiceSubscription.unsubscribe();
   }
 }

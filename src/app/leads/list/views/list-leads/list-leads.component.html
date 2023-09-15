@@ -10,7 +10,7 @@
             </span>
         </button>
         <div class="mat-elevation-z4">
-            <table mat-table class="full-width-table" matSort aria-label="Elements">
+            <table mat-table [dataSource]="dataSource" class="full-width-table" matSort aria-label="Elements">
 
               <!-- Cnpj Column -->
               <ng-container matColumnDef="cnpj">
@@ -59,11 +59,11 @@
             </table>
             <div fxLayoutAlign="center end">
                 <div>
-                    <mat-paginator #paginator
-                      [length]="dataSource!.data!.length"
-                      [pageIndex]="0"
-                      [pageSize]="10"
+                    <mat-paginator
+                      #paginator
+                      [length]="itemCount"
                       [pageSizeOptions]="[5, 10, 50]"
+                      showFirstLastButtons
                       aria-label="Selecionar página">
                     </mat-paginator>
                   </div>
