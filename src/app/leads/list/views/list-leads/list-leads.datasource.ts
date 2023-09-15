@@ -1,67 +1,88 @@
-import { DataSource } from '@angular/cdk/collections';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { Observable, of as observableOf } from 'rxjs';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 
-import { Lead } from '../../../common/models/lead'
-import { EventEmitter } from '@angular/core';
-import { PagingParameters } from 'src/app/common/paging-parameters';
 import { ListSortDirection } from 'src/app/common/list-sort-direction';
+import { filter, map, startWith, switchMap } from 'rxjs';
+import { LeadsService } from 'src/app/leads/common/services/leads.service';
+import { ApplicationResponse } from 'src/app/common/application-response';
+import { PagedList } from 'src/app/common/paged-list';
+import { Lead } from 'src/app/leads/common/models/lead';
 
-export class ListLeadsDataSource extends DataSource<Lead> {
-  data: Lead[] = [];
-  paginator: MatPaginator | undefined;
-  sort: MatSort | undefined;
-  sorted = new EventEmitter<PagingParameters>();
-  pageChanged = new EventEmitter<PagingParameters>();
 
-  constructor() {
-    super();
+export class ListLeadsDataSource {
+
+  private dataSource = new MatTableDataSource<Lead>();
+  private sortColumn = '';
+  private sortDirection = ListSortDirection.Ascending;
+  private static sortDirections = ['asc', 'desc'];
+
+  constructor(
+    private leadsService: LeadsService,
+    private table:MatTable<Lead>,
+    private paginator: MatPaginator,
+    private sort: MatSort,
+    initialSortColumnName: string) {
+    
+    this.sortColumn = initialSortColumnName;
+
+    this.initialize();
   }
 
-  connect(): Observable<Lead[]> {
+  private initialize() {
+
+    //https://www.angularjswiki.com/material/mat-table-serverside-pagination/
+    setTimeout(() => {
+      
+      this.dataSource.paginator = this.paginator;
+      this.paginator.page.pipe(
+
+        startWith({}),
+        switchMap(() =>
+            this.leadsService.fetch({
+              pageNumber: this.paginator.pageIndex + 1,
+              pageSize: this.paginator.pageSize,
+              sortColumn: this.sortColumn,
+              sortDirection: this.sortDirection })
+        ),
+        map((response: ApplicationResponse<PagedList<Lead>>) => {
+          this.paginator.length = response.data!.itemCount;
+
+          return response.data!.items;
+        })
+      ).subscribe((leads:Lead[]) => {
+        this.dataSource = new MatTableDataSource(leads);
+        this.table.dataSource = this.dataSource;        
+      });
     
-    if (this.paginator && this.sort) {
+      this.sort.sortChange.pipe(
 
-      this.sort.sortChange.subscribe({
-        next: (value: Sort) => {
-          if (value.direction === '')
-            return;
+        filter((sort:Sort) => ListLeadsDataSource.sortDirections.includes(sort.direction)),
+        switchMap((sort: Sort) => {
+            this.sortColumn = sort.active;
+            this.sortDirection = ListLeadsDataSource.getSortDirection(sort);
 
-          this.sorted.emit({
-            pageNumber : this.paginator!.pageIndex + 1,
-            pageSize: this.paginator!.pageSize,
-            sortColumn: value.active,
-            sortDirection: ListLeadsDataSource.getSortDirection(value)
-           });
-        }
+            return this.leadsService.fetch({
+              pageNumber: this.paginator.pageIndex + 1,
+              pageSize: this.paginator.pageSize,
+              sortColumn: this.sortColumn,
+              sortDirection: this.sortDirection
+            })
+        }),
+        map((response: ApplicationResponse<PagedList<Lead>>) => {
+          this.paginator.length = response.data!.itemCount;
+
+          return response.data!.items;
+        })
+      ).subscribe((leads:Lead[]) => {
+        this.dataSource = new MatTableDataSource(leads);
+        this.table.dataSource = this.dataSource;
       });
+    },0);
 
-      this.paginator.page.subscribe({
-        next: (value: PageEvent) => {
-          this.sorted.emit({
-            pageNumber : value.pageIndex + 1,
-            pageSize: value.pageSize,
-            sortColumn: this.sort!.active === undefined || this.sort!.active === '' ? 'cnpj' : this.sort!.active,
-            sortDirection: ListLeadsDataSource.getSortDirection(this.sort!)
-           });
-        }
-      });
-
-      return observableOf(this.data);
-
-    } else {
-      throw Error('Please set the paginator and sort on the data source before connecting.');
-    }
   }
 
   private static getSortDirection(sort: Sort) : ListSortDirection {
-    return sort.direction === 'asc' ? ListSortDirection.Ascending : ListSortDirection.Descending;
+     return sort.direction === 'asc' ? ListSortDirection.Ascending : ListSortDirection.Descending;
   }
-
-  setPaginatorItemCount(itemCount: number) {
-    setTimeout(() => this.paginator!.length = itemCount, 0);
-  }
-
-  disconnect(): void {}
 }

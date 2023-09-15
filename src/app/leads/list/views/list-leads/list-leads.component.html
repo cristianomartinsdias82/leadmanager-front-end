@@ -3,14 +3,13 @@
         <mat-card-title class="title">
             <h1>Lead Manager</h1>
         </mat-card-title>
-        <button id="#new-lead" mat-icon-button routerLink="/leads/novo">
-            <!-- <mat-icon>add_circle_outline</mat-icon> -->
+        <button id="new-lead" mat-icon-button routerLink="/leads/novo">
             <span class="material-icons new-lead">
               add_circle_outline
             </span>
         </button>
         <div class="mat-elevation-z4">
-            <table mat-table [dataSource]="dataSource" class="full-width-table" matSort aria-label="Elements">
+            <table mat-table class="full-width-table" matSort aria-label="Elements">
 
               <!-- Cnpj Column -->
               <ng-container matColumnDef="cnpj">
@@ -61,7 +60,6 @@
                 <div>
                     <mat-paginator
                       #paginator
-                      [length]="itemCount"
                       [pageSizeOptions]="[5, 10, 50]"
                       showFirstLastButtons
                       aria-label="Selecionar página">
