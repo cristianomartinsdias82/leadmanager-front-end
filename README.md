@@ -28,12 +28,11 @@ O projeto está em constante evolução e utiliza a seguinte plataforma e lingua
   - ngx-material-file-input (utilizado no formulário de upload de leads em lote)
 
 Pré-requisitos para execução da aplicação
-É necessário possuir o(s) seguinte(s) componente(s) instalado(s) na máquina:
-
-Docker
-Caso a máquina seja Mac, siga os passos conforme a url: https://docs.docker.com/desktop/install/mac-install/
-Caso a máquina seja Linux, siga os passos conforme a url: https://docs.docker.com/desktop/install/linux-install/#generic-installation-steps
-Caso a máquina seja Windows, siga os passos conforme a url: https://docs.docker.com/desktop/install/windows-install/
+É necessário possuir o(s) seguinte(s) componente(s) instalado(s) na máquina:<br/>
+Docker<br/>
+Caso a máquina seja Mac, siga os passos conforme a url: https://docs.docker.com/desktop/install/mac-install/<br/>
+Caso a máquina seja Linux, siga os passos conforme a url: https://docs.docker.com/desktop/install/linux-install/#generic-installation-steps<br/>
+Caso a máquina seja Windows, siga os passos conforme a url: https://docs.docker.com/desktop/install/windows-install/<br/>
 
 Como executar o projeto localmente?
 Após a configuração da máquina - conforme a seção "Pré-requisitos para execução do Front-End da aplicação" - faça o seguinte:
