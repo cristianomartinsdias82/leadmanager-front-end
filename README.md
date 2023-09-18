@@ -45,6 +45,7 @@ Como executar o projeto localmente?
   (O comando irá gerar os arquivos necessários para execução e automaticamente abrirá o navegador web padrão com a Url da aplicação).<br/>
 
 Backlog:
+- (Technical debt) Revisar a estrutura de pastas e módulos da aplicação para estar conforme as recomendações na url a seguir: https://angular.io/guide/styleguide#overall-structural-guidelines
 - (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso indevido
   - A partir daí, a aplicação deverá receber e trafegar um Token de acesso aos recursos da API (JWT)
     - O token deverá ter o tempo de vida útil de 30 minutos
