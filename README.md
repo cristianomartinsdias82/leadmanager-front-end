@@ -27,22 +27,23 @@ O projeto está em constante evolução e utiliza a seguinte plataforma e lingua
 - Pacotes NPM complementares
   - ngx-material-file-input (utilizado no formulário de upload de leads em lote)
 
-Pré-requisitos para execução do Front-End da aplicação<br/>
-É necessário possuir os seguintes componentes instalados na máquina:
-- NodeJS 18.16 (que pode ser obtido através da url: https://nodejs.org/en)
-- Angular CLI
-  Após instalado o NodeJs, digitar a seguinte linha de comando no Terminal, Command Prompt ou Powershell:<br/>
-    npm install -g @angular/cli [ENTER]<br/>
-    NOTA: Caso o sistema operacional seja o Linux ou MacOs, poderá ser necessário prefixar a linha de comando com sudo e, em seguida, ter que informar a senha de administrador para prosseguir com a instalação.
+Pré-requisitos para execução da aplicação
+É necessário possuir o(s) seguinte(s) componente(s) instalado(s) na máquina:
+
+Docker
+Caso a máquina seja Mac, siga os passos conforme a url: https://docs.docker.com/desktop/install/mac-install/
+Caso a máquina seja Linux, siga os passos conforme a url: https://docs.docker.com/desktop/install/linux-install/#generic-installation-steps
+Caso a máquina seja Windows, siga os passos conforme a url: https://docs.docker.com/desktop/install/windows-install/
 
 Como executar o projeto localmente?
-- Garanta que a máquina esteja devidamente configurada, conforme a seção "Pré-requisitos para execução do Front-End da aplicação"
-- Acesse o Terminal, Command Prompt ou Powershell
-- Navegue até a pasta raíz do projeto (mesma pasta que contém o arquivo package.json, por exemplo)
-- Execute os seguintes comandos:<br/>
-  npm install<br/>
-  ng serve -o<br/>
-  (O comando irá gerar os arquivos necessários para execução e automaticamente abrirá o navegador web padrão com a Url da aplicação).<br/>
+Após a configuração da máquina - conforme a seção "Pré-requisitos para execução do Front-End da aplicação" - faça o seguinte:
+- Inicialize o Docker
+- Navegue até a pasta raiz da aplicação aonde o projeto foi baixado e digite o seguinte comando:
+docker-compose up -d<br/>
+(Para interromper a execução do projeto, ainda na mesma pasta do mesmo, digite o seguinte comando:<br/>
+docker-compose down)<br/>
+Abra o navegador e digite a seguinte URL na barra de endereço:<br/>
+http://localhost:8002<br/>
 
 Backlog:
 - (Technical debt) Revisar a estrutura de pastas e módulos da aplicação para estar conforme as recomendações na url a seguir: https://angular.io/guide/styleguide#overall-structural-guidelines
