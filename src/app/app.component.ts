@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivityIndicatorService } from "./common/ui/widgets/activity-indicator/activity-indicator.service";
 import {
   NavigationCancel,
   NavigationEnd,
@@ -7,6 +6,7 @@ import {
   NavigationStart,
   Router,
 } from "@angular/router";
+import { ActivityIndicatorService } from "./shared/ui/widgets/activity-indicator/activity-indicator.service";
 
 @Component({
   selector: "ldm-root",
@@ -14,7 +14,6 @@ import {
   styleUrls: ["app.component.scss"],
 })
 export class AppComponent implements OnInit {
-
   constructor(
     private router: Router,
     private activityIndicatorService: ActivityIndicatorService
@@ -29,15 +28,17 @@ export class AppComponent implements OnInit {
       next: (event) => {
         if (event instanceof NavigationStart) {
           this.activityIndicatorService.show();
-        } else if (event instanceof NavigationEnd ||
-                   event instanceof NavigationError ||
-                   event instanceof NavigationCancel) {
-                    this.activityIndicatorService.hide();
+        } else if (
+          event instanceof NavigationEnd ||
+          event instanceof NavigationError ||
+          event instanceof NavigationCancel
+        ) {
+          this.activityIndicatorService.hide();
         }
       },
       error: (_) => {
         this.activityIndicatorService.hide();
-      }
+      },
     });
   }
 }
