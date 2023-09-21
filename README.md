@@ -14,7 +14,7 @@ E outra tela para as operações de adicionar ou atualizar um lead previamente s
 - Em situações de conflito de atualização e remoção de dados, o usuário tem a possibilidade de tomar uma decisão sobre como proceder neste tipo de cenário (sobrescrever, carregar os novos dados, cancelar...)
 de maneira fácil e intuitiva
 
-O projeto está em constante evolução e utiliza a seguinte plataforma e linguagens, tecnologias, funcionalidades e ferramentas:
+O projeto utiliza as seguintes plataformas, linguagens, tecnologias, funcionalidades e ferramentas:
 - Práticas de Código limpo / Clean code
 - Plataforma Angular versão 16
 - Angular Material e Angular CDK
@@ -45,7 +45,6 @@ docker-compose down)
 http://localhost:8002<br/>
 
 Backlog:
-- (Technical debt) Revisar a estrutura de pastas e módulos da aplicação para estar conforme as recomendações na url a seguir: https://angular.io/guide/styleguide#overall-structural-guidelines
 - (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso indevido
   - A partir daí, a aplicação deverá receber e trafegar um Token de acesso aos recursos da API (JWT)
     - O token deverá ter o tempo de vida útil de 30 minutos
@@ -81,7 +80,7 @@ Em termos de implementação, o que tem de reaproveitável no código-fonte dest
   (Continuar a listagem. Afinal, tem muita coisa que vale anotar aqui como índice/referência!)
 - Widgets de interface de usuário (app/common/ui/widgets/*):<br/>
   Modal de diálogo de prompt do tipo Sim/Não configurável<br/>
-  Modal de diálogo de prompt customizável - que oferece a possibilidade de informar quais botoões inserir e qual será o comportamento ao clicar em cada um deles<br/>
+  Modal de diálogo de prompt customizável - que oferece a possibilidade de informar quais botões inserir e qual será o comportamento ao clicar em cada um deles<br/>
   Indicador de atividade (Spinner), capaz inclusive de mostrar percentual de progresso para casos de upload de arquivo, por exemplo<br/>
   Notificador do tipo Sticker<br/>
   Painel de notificação de dados baseado em pares chave-valor (atualmente utilizado para mostrar erros retornados pelo servidor como fruto de erros e validação de um cadastro de Lead, por exemplo)
