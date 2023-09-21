@@ -1,30 +1,55 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { HttpClientModule } from "@angular/common/http";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { MaterialFileInputModule } from "ngx-material-file-input";
 
-import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule  } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatCardModule } from "@angular/material/card";
+import { MatTableModule } from "@angular/material/table";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatSortModule } from "@angular/material/sort";
+import { MatIconModule } from "@angular/material/icon";
+import { MatListModule } from "@angular/material/list";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatButtonModule } from "@angular/material/button";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatTabsModule } from "@angular/material/tabs";
+
+import { CepMaskDirective } from "./ui/input-masks/cep-mask.directive";
+import { CnpjMaskDirective } from "./ui/input-masks/cnpj-mask.directive";
+import { ActivityIndicatorComponent } from "./ui/widgets/activity-indicator/activity-indicator.component";
+import { CustomPromptComponent } from "./ui/widgets/custom-prompt-dialog/custom-prompt.component";
+import { NotificationPanelComponent } from "./ui/widgets/notification-panel/notification-panel.component";
+import { YesNoPromptComponent } from "./ui/widgets/yes-no-prompt-dialog/yes-no-prompt.component";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CepMaskDirective,
+    CnpjMaskDirective,
+    ActivityIndicatorComponent,
+    CustomPromptComponent,
+    NotificationPanelComponent,
+    YesNoPromptComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatListModule,
+    MatProgressSpinnerModule,
+    MatButtonModule,
+    MatIconModule
   ],
   exports: [
+    BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -42,7 +67,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatDialogModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    MaterialFileInputModule
-  ]
+    MaterialFileInputModule,
+    ActivityIndicatorComponent
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}
