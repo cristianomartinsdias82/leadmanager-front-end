@@ -76,49 +76,4 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
       finalize(() => this.activityIndicatorService.hide(req.reportProgress))
     );
   }
-
-  // private handleError(
-  //   data: any,
-  //   request: HttpRequest<any>
-  // ): Observable<HttpEvent<any>> {
-  //   let message = "";
-
-  //   if (data.error) {
-  //     if (data.error.operationCode === OperationCodes.ConcurrencyIssue) {
-  //       return this.conflictResolutionService.resolve(
-  //         data.error.data,
-  //         request,
-  //         data.error.message
-  //       );
-  //     } else if (data.error.inconsistencies) {
-  //       message =
-  //         "Encontrada(s) uma ou mais inconsistências ao processar a solicitação:";
-  //     } else if (data.error.message) {
-  //       message = data.error.message;
-  //     } else {
-  //       message = "Houve um erro ao tentar processar a solicitação";
-
-  //       if (data instanceof HttpErrorResponse) {
-  //         if (data.status === 0 && !data.ok) {
-  //           message += ": servidor indisponível";
-  //         }
-  //       }
-
-  //       if (data instanceof TimeoutError) {
-  //         message += ": tempo limite excedido";
-  //       }
-
-  //       message +=
-  //         ". Por favor, entre em contato com o suporte/administrador da aplicação e reporte o ocorrido. Pedimos desculpas pelo inconveniente.";
-  //     }
-  //   }
-
-  //   this.notificationPanelService.show(
-  //     message,
-  //     data.error.inconsistencies,
-  //     null!
-  //   );
-
-  //   return EMPTY;
-  // }
 }

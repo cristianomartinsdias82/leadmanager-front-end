@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { YesNoPromptParameters } from './yes-no-prompt-parameters';
 
 @Component({
-  selector: 'ldm-prompt',
+  selector: 'ldm-yes-no-prompt',
   templateUrl: './yes-no-prompt.component.html',
   styleUrls: ['./yes-no-prompt.component.scss']
 })

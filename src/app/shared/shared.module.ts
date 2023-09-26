@@ -1,8 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
 import { HttpClientModule } from "@angular/common/http";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MaterialFileInputModule } from "ngx-material-file-input";
@@ -20,18 +19,13 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTabsModule } from "@angular/material/tabs";
-
-import { CepMaskDirective } from "./ui/input-masks/cep-mask.directive";
-import { CnpjMaskDirective } from "./ui/input-masks/cnpj-mask.directive";
 import { ActivityIndicatorComponent } from "./ui/widgets/activity-indicator/activity-indicator.component";
-import { CustomPromptComponent } from "./ui/widgets/custom-prompt-dialog/custom-prompt.component";
 import { NotificationPanelComponent } from "./ui/widgets/notification-panel/notification-panel.component";
-import { YesNoPromptComponent } from "./ui/widgets/yes-no-prompt-dialog/yes-no-prompt.component";
+import { CustomPromptComponent } from "./ui/widgets/prompt-dialog/custom-prompt-dialog/custom-prompt.component";
+import { YesNoPromptComponent } from "./ui/widgets/prompt-dialog/yes-no-prompt-dialog/yes-no-prompt.component";
 
 @NgModule({
   declarations: [
-    CepMaskDirective,
-    CnpjMaskDirective,
     ActivityIndicatorComponent,
     CustomPromptComponent,
     NotificationPanelComponent,
@@ -39,8 +33,6 @@ import { YesNoPromptComponent } from "./ui/widgets/yes-no-prompt-dialog/yes-no-p
   ],
   imports: [
     CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
     MatDialogModule,
     MatListModule,
     MatProgressSpinnerModule,
@@ -48,8 +40,6 @@ import { YesNoPromptComponent } from "./ui/widgets/yes-no-prompt-dialog/yes-no-p
     MatIconModule
   ],
   exports: [
-    BrowserModule,
-    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

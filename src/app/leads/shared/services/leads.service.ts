@@ -3,9 +3,9 @@ import { Injectable } from "@angular/core";
 import { Observable, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Lead } from "../models/lead";
-import { DataService } from "src/app/core/services/data-access/data-service.service";
-import { RevisionUpdate } from "src/app/core/services/conflict-handling/revision-update";
-import { ApplicationResponse } from "src/app/core/application-response";
+import { DataService } from "src/app/shared/data-access/data-service.service";
+import { ApplicationResponse } from "src/app/shared/core/api-response/application-response";
+import { RevisionUpdate } from "./conflict-resolution/revision-update";
 
 @Injectable({
   providedIn: "root",
@@ -38,10 +38,7 @@ export class LeadsService extends DataService<Lead> {
     return this.httpClient.request(req);
   }
 
-  search(
-    cnpjRazaoSocial: string,
-    leadId: string | null
-  ): Observable<ApplicationResponse<boolean>> {
+  search(cnpjRazaoSocial: string, leadId: string | null): Observable<ApplicationResponse<boolean>> {
     return this.httpClient.get<ApplicationResponse<boolean>>(
       `${environment.apiUrl}/${
         LeadsService.LeadEndpoint

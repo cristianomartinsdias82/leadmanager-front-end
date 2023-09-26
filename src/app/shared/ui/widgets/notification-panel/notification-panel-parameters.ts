@@ -1,4 +1,4 @@
-import { Inconsistency } from "src/app/core/inconsistency";
+import { Inconsistency } from "src/app/shared/core/api-response/inconsistency";
 
 export interface NotificationPanelParameters
 {

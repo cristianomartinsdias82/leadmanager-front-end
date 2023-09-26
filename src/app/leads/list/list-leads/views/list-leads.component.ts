@@ -5,9 +5,9 @@ import { MatSort } from "@angular/material/sort";
 import { MatTable } from "@angular/material/table";
 import { ListLeadsDataSource } from "./list-leads.datasource";
 import { LeadsService } from "src/app/leads/shared/services/leads.service";
-import { Lead } from "src/app/leads/shared/models/lead";
 import { NotificationStickerService } from "src/app/shared/ui/widgets/notification-sticker/notification-sticker.service";
-import { PromptService } from "src/app/shared/ui/notification/prompt.service";
+import { Lead } from "src/app/leads/shared/models/lead";
+import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.service";
 
 @Component({
   selector: "ldm-list-leads",

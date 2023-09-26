@@ -1,29 +1,29 @@
 import { NgModule, LOCALE_ID } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
+import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SharedModule } from "./shared/shared.module";
-import { RequestHandlerInterceptorProvider } from "./core/services/request-handling/request-handler.interceptor-provider";
-
-import { AppComponent } from "./app.component";
-import { ListLeadsComponent } from "./leads/list/list-leads/views/list-leads.component";
-import { MaintainLeadComponent } from "./leads/maintain/maintain-lead/views/maintain-lead.component";
-import { LeadFormComponent } from "./leads/maintain/maintain-lead/views/components/lead-form/lead-form.component";
-import { LeadBulkInsertFormComponent } from "./leads/maintain/maintain-lead/views/components/lead-bulk-insert-form/lead-bulk-insert-form.component";
-
 import { registerLocaleData } from "@angular/common";
-
+import { RequestHandlerInterceptorProvider } from "./leads/core/request-handler.interceptor-provider";
 import localePt from "@angular/common/locales/pt";
+import { AppComponent } from "./app.component";
+import { AuthenticateComponent } from "./views/components/authenticate/authenticate.component";
+import { NotFoundComponent } from "./views/components/not-found/not-found.component";
 
 registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListLeadsComponent,
-    MaintainLeadComponent,
-    LeadFormComponent,
-    LeadBulkInsertFormComponent
+    AuthenticateComponent,
+    NotFoundComponent
   ],
-  imports: [AppRoutingModule, SharedModule],
+  imports: [
+    AppRoutingModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    SharedModule
+  ],
   providers: [
     RequestHandlerInterceptorProvider,
     { provide: LOCALE_ID, useValue: "pt-BR" },

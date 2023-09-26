@@ -3,22 +3,28 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { EMPTY, Observable } from "rxjs";
 import { LeadsService } from "src/app/leads/shared/services/leads.service";
-import { ConflictResolutionData } from "./conflict-resolution-data";
-import { RecordStates } from "./record-states";
-import { Lead } from "src/app/leads/shared/models/lead";
-import { Inconsistency } from "../../inconsistency";
-import { PromptService } from "src/app/shared/ui/notification/prompt.service";
+import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.service";
 import { NotificationPanelService } from "src/app/shared/ui/widgets/notification-panel/notification-panel.service";
+import { ConflictResolutionService } from "src/app/shared/conflict-resolution/conflict-resolution.service";
+import { ConflictResolutionLeadData } from "./conflict-resolution-lead-data";
+import { Lead } from "../../models/lead";
+import { RecordStates } from "./record-states";
+import { mapLeadPropsToKeyValuePairs } from "../../models/mapLeadPropsToKeyValuePairs.function";
 
 @Injectable({ providedIn: 'root' })
-export class ConflictResolutionService {
+export class ConflictResolutionLeadDataService extends ConflictResolutionService<Lead> {
     constructor(
         private router: Router,
         private leadsService: LeadsService,
         private promptService: PromptService,
-        private notificationPanelService: NotificationPanelService) {}
+        private notificationPanelService: NotificationPanelService) {
+            super();
+        }
 
-    resolve(data: ConflictResolutionData, request: HttpRequest<any>, serverMessage?: string) : Observable<HttpEvent<any>> {
+    resolve(
+        data: ConflictResolutionLeadData,
+        request: HttpRequest<any>,
+        serverMessage?: string) : Observable<HttpEvent<any>> {
 
         if (request.method === 'PUT') {
             if (data.recordState === RecordStates.Modified) {
@@ -34,7 +40,7 @@ export class ConflictResolutionService {
 
                             this.notificationPanelService.show(
                                 'Dados atualizados',
-                                ConflictResolutionService.toKeyValuePair(data.leadData!),
+                                mapLeadPropsToKeyValuePairs(data.leadData!),
                                 null!,
                                 true,
                                 'Fechar');
@@ -130,20 +136,5 @@ export class ConflictResolutionService {
         }
      
         return EMPTY;
-    }
-
-    private static toKeyValuePair(leadData: Lead) : Inconsistency[] {
-
-        return [
-            { fieldOrLabel: 'Cnpj', description: leadData.cnpj },
-            { fieldOrLabel: 'Razão social', description: leadData.razaoSocial },
-            { fieldOrLabel: 'Endereço', description: leadData.endereco },
-            { fieldOrLabel: 'Número', description: leadData.numero ? leadData.numero : '' },
-            { fieldOrLabel: 'Complemento', description: leadData.complemento ? leadData.complemento : '' },
-            { fieldOrLabel: 'Bairro', description: leadData.bairro },
-            { fieldOrLabel: 'Cidade', description: leadData.cidade },
-            { fieldOrLabel: 'Estado', description: leadData.estado },
-            { fieldOrLabel: 'Cep', description: leadData.cep },
-        ] as Inconsistency[];
     }
 }

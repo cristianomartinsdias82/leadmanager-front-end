@@ -1,7 +1,7 @@
 import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors } from "@angular/forms";
 import { Observable, debounceTime, filter, map, mergeMap, of, tap } from "rxjs";
-import { ApplicationResponse } from "src/app/core/application-response";
 import { LeadsService } from "src/app/leads/shared/services/leads.service";
+import { ApplicationResponse } from "src/app/shared/core/api-response/application-response";
 
 export class CustomValidators {
 

@@ -1,27 +1,25 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ListLeadsComponent } from "./leads/list/list-leads/views/list-leads.component";
-import { MaintainLeadComponent } from "./leads/maintain/maintain-lead/views/maintain-lead.component";
-import { LeaveConfirmationGuard } from "./shared/ui/navigation/leave-confirmation.guard";
+import { checkAuthenticated } from "./shared/authentication/checkAuthenticated.guard.fn";
+import { AuthenticateComponent } from "./views/components/authenticate/authenticate.component";
+import { NotFoundComponent } from "./views/components/not-found/not-found.component";
 
+//https://medium.com/ngconf/functional-route-guards-in-angular-8829f0e4ca5c
+//https://angular.io/guide/lazy-loading-ngmodules
+//Regarding CanLoad, please refer to one of youe threads inside ChatGPT ("Condition Lazy Load") for further details
 const routes: Routes = [
-  { path: "", component: ListLeadsComponent },
-  { path: "leads", component: ListLeadsComponent },
+  { path: "", component: AuthenticateComponent },
   {
-    path: "leads/novo",
-    component: MaintainLeadComponent,
-    canDeactivate: [LeaveConfirmationGuard],
+    path: "leads",
+    canLoad: [checkAuthenticated()],
+    canActivate: [checkAuthenticated()],
+    loadChildren: () => import('./leads/leads.module').then(m => m.LeadsModule)
   },
-  {
-    path: "leads/editar/:id",
-    component: MaintainLeadComponent,
-    canDeactivate: [LeaveConfirmationGuard],
-  },
-  { path: "**", component: ListLeadsComponent },
+  { path: "**", component: NotFoundComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

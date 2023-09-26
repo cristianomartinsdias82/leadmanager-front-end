@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { YesNoPromptComponent } from '../widgets/yes-no-prompt-dialog/yes-no-prompt.component';
-import { PromptActionButton } from '../widgets/custom-prompt-dialog/prompt-action-button';
-import { CustomPromptComponent } from '../widgets/custom-prompt-dialog/custom-prompt.component';
+import { YesNoPromptComponent } from './yes-no-prompt-dialog/yes-no-prompt.component';
+import { PromptActionButton } from './custom-prompt-dialog/prompt-action-button';
+import { CustomPromptComponent } from './custom-prompt-dialog/custom-prompt.component';
 
 @Injectable({
   providedIn: 'root'

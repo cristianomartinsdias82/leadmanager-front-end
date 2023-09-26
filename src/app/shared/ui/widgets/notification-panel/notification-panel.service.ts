@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationPanelComponent } from './notification-panel.component';
-import { Inconsistency } from 'src/app/core/inconsistency';
+import { Inconsistency } from 'src/app/shared/core/api-response/inconsistency';
 
 @Injectable({
   providedIn: 'root'

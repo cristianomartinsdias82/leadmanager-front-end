@@ -8,8 +8,8 @@ import {
 } from "@angular/forms";
 import { filter } from "rxjs";
 import { LeadsService } from "src/app/leads/shared/services/leads.service";
-import { PromptService } from "src/app/shared/ui/notification/prompt.service";
-import { CustomValidators } from "src/app/shared/validation/custom-validators";
+import { CustomValidators } from "src/app/leads/shared/validation/custom-validators";
+import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.service";
 import { environment } from "src/environments/environment";
 
 @Component({

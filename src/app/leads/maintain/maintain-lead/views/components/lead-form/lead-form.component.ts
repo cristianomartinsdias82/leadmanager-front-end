@@ -13,17 +13,17 @@ import {
   AbstractControl,
 } from "@angular/forms";
 import { debounceTime, filter, mergeMap, of } from "rxjs";
-import { ApplicationResponse } from "src/app/core/application-response";
-import { MaintenanceModes } from "src/app/core/maintenance-modes";
-import { RevisionUpdate } from "src/app/core/services/conflict-handling/revision-update";
 import { Endereco } from "src/app/leads/shared/models/endereco";
 import { Lead } from "src/app/leads/shared/models/lead";
 import { AddressSearchService } from "src/app/leads/shared/services/address-search.service";
+import { RevisionUpdate } from "src/app/leads/shared/services/conflict-resolution/revision-update";
 import { LeadsService } from "src/app/leads/shared/services/leads.service";
+import { CustomValidators } from "src/app/leads/shared/validation/custom-validators";
+import { ApplicationResponse } from "src/app/shared/core/api-response/application-response";
+import { MaintenanceModes } from "src/app/shared/core/maintenance-modes";
 import { MessageTypes } from "src/app/shared/ui/notification/message-types";
-import { PromptService } from "src/app/shared/ui/notification/prompt.service";
 import { NotificationStickerService } from "src/app/shared/ui/widgets/notification-sticker/notification-sticker.service";
-import { CustomValidators } from "src/app/shared/validation/custom-validators";
+import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.service";
 
 @Component({
   selector: "ldm-lead-form",

@@ -3,8 +3,8 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { LeadMaintenanceTabs } from "./components/lead-maintenance-tabs.enum";
 import { OnLeave } from "src/app/shared/ui/navigation/on-leave";
-import { PromptService } from "src/app/shared/ui/notification/prompt.service";
 import { NotificationStickerService } from "src/app/shared/ui/widgets/notification-sticker/notification-sticker.service";
+import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.service";
 
 @Component({
   selector: "ldm-maintain-lead",

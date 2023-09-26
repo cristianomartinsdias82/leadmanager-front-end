@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, map } from 'rxjs';
-import { PagingParameters } from '../../pagination/paging-parameters';
-import { ApplicationResponse } from '../../application-response';
-import { PagedList } from '../../pagination/paged-list';
+import { PagingParameters } from '../core/pagination/paging-parameters';
+import { ApplicationResponse } from '../core/api-response/application-response';
+import { PagedList } from '../core/pagination/paged-list';
 
 export abstract class DataService<T> {
 

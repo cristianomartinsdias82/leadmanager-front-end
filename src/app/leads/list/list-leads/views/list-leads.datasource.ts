@@ -2,12 +2,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { filter, map, startWith, switchMap } from 'rxjs';
-import { ApplicationResponse } from 'src/app/core/application-response';
-import { ListSortDirection } from 'src/app/core/pagination/list-sort-direction';
-import { PagedList } from 'src/app/core/pagination/paged-list';
 import { Lead } from 'src/app/leads/shared/models/lead';
 import { LeadsService } from 'src/app/leads/shared/services/leads.service';
-
+import { ApplicationResponse } from 'src/app/shared/core/api-response/application-response';
+import { ListSortDirection } from 'src/app/shared/core/pagination/list-sort-direction';
+import { PagedList } from 'src/app/shared/core/pagination/paged-list';
 
 export class ListLeadsDataSource {
 

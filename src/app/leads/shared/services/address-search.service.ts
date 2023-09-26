@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Endereco } from '../models/endereco';
-import { ApplicationResponse } from 'src/app/core/application-response';
 import { NotificationStickerService } from 'src/app/shared/ui/widgets/notification-sticker/notification-sticker.service';
 import { MessageTypes } from 'src/app/shared/ui/notification/message-types';
+import { ApplicationResponse } from 'src/app/shared/core/api-response/application-response';
 
 @Injectable({
   providedIn: 'root'
