@@ -3,5 +3,15 @@ import { AuthenticationService } from "./authentication.service";
 import { CanActivateFn } from "@angular/router";
 
 export function checkAuthenticated(): CanActivateFn {
-    return () => inject(AuthenticationService).isAuthenticated();
+    return () => {
+        
+        //Temporarily commented out
+        // const authService = inject(AuthenticationService);
+
+        // if (!authService.isAuthenticated()) {
+        //     authService.redirectToLoginView();
+        // }
+
+        return true;
+    };
 }

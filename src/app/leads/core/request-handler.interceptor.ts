@@ -20,13 +20,15 @@ import { handleError } from "./handle-error.function";
 import { NotificationPanelService } from "src/app/shared/ui/widgets/notification-panel/notification-panel.service";
 import { ActivityIndicatorService } from "src/app/shared/ui/widgets/activity-indicator/activity-indicator.service";
 import { ConflictResolutionLeadDataService } from "../shared/services/conflict-resolution/conflict-resolution-lead-data.service";
+import { OAuthService } from "angular-oauth2-oidc";
 
 @Injectable()
 export class RequestHandlerInterceptor implements HttpInterceptor {
   constructor(
     private conflictResolutionService: ConflictResolutionLeadDataService,
     private notificationPanelService: NotificationPanelService,
-    private activityIndicatorService: ActivityIndicatorService
+    private activityIndicatorService: ActivityIndicatorService,
+    private oAuthService: OAuthService
   ) {}
 
   intercept(
@@ -35,9 +37,11 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     let percentage = 0;
     const EndOfOperation = -1;
+
     var request = req.clone({
       setHeaders: {
-        [environment.apiKeyHeaderName]: environment.apiKeyHeaderValue,
+        "Authorization": `Bearer ${this.oAuthService.getAccessToken()}`,
+        [environment.apiKeyHeaderName]: environment.apiKeyHeaderValue
       }
     });
 

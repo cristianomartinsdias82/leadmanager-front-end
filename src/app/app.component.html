@@ -2,3 +2,4 @@
     <router-outlet></router-outlet>
 </div>
 <ldm-activity-indicator *ngIf="activityIndicator$ | async"></ldm-activity-indicator>
+<ldm-logout *ngIf="userIsAuthenticated$ | async"></ldm-logout>

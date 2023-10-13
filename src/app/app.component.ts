@@ -7,6 +7,9 @@ import {
   Router,
 } from "@angular/router";
 import { ActivityIndicatorService } from "./shared/ui/widgets/activity-indicator/activity-indicator.service";
+import { AuthenticationService } from "./shared/authentication/authentication.service";
+import { OAuthEvent, OAuthService } from "angular-oauth2-oidc";
+import { authConfig } from "./core/security/sso/auth-config";
 
 @Component({
   selector: "ldm-root",
@@ -16,14 +19,30 @@ import { ActivityIndicatorService } from "./shared/ui/widgets/activity-indicator
 export class AppComponent implements OnInit {
   constructor(
     private router: Router,
-    private activityIndicatorService: ActivityIndicatorService
-  ) {}
+    private authenticationService: AuthenticationService,
+    private activityIndicatorService: ActivityIndicatorService,
+    private authService: OAuthService
+  ) {
+      this.authService.configure(authConfig);
+      this.authService.loadDiscoveryDocumentAndTryLogin().then(doc => {
+        this.authService.initCodeFlow();
+      });
+
+      this.authService.events.subscribe((ev:OAuthEvent) => {
+        console.log(ev);
+      });
+  }
 
   public get activityIndicator$() {
     return this.activityIndicatorService.activityIndicatorSub$;
   }
 
+  public get userIsAuthenticated$() {
+    return this.authenticationService.userIsAuthenticated$;
+  }
+
   ngOnInit() {
+
     this.router.events.subscribe({
       next: (event) => {
         if (event instanceof NavigationStart) {

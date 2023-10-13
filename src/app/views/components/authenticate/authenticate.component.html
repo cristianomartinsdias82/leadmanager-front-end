@@ -1,0 +1,37 @@
+<div class="login" *ngIf="!(userIsAuthenticated$ | async)">
+  <form [formGroup]="authenticationForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h1>Autentique-se</h1>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-form-field>
+          <label>Usuário</label>
+          <input matInput formControlName="usuario" #Usuario />
+          <mat-error *ngIf="usuarioField.touched && usuarioField.hasError('required')">Informe o usuário.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <label>Senha</label>
+          <input
+            matInput
+            formControlName="senha"
+            type="password"
+            (paste)="onPastePassword($event)"
+          />
+          <mat-error *ngIf="senhaField.touched && senhaField.hasError('required')">Informe a senha.</mat-error>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          [disabled]="!authenticationForm.valid"
+          mat-raised-button
+          color="accent"
+        >
+          Entrar
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
