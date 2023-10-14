@@ -22,7 +22,7 @@
     "@angular/platform-browser": "^16.0.0",
     "@angular/platform-browser-dynamic": "^16.0.0",
     "@angular/router": "^16.0.0",
-    "angular-oauth2-oidc": "^15.0.1",
+    "angular-auth-oidc-client": "^16.0.1",
     "ngx-material-file-input": "^4.0.1",
     "package": "^1.0.1",
     "rxjs": "~7.8.0",
@@ -36,7 +36,7 @@
     "typescript": "~5.0.2"
   },
   "engines": {
-    "node": "18.16.1",
-    "npm": "9.5.1"
+    "node": "v18.17.1",
+    "npm": "10.1.0"
   }
 }

@@ -1,20 +1,22 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { checkAuthenticated } from "./shared/authentication/checkAuthenticated.guard.fn";
 import { NotFoundComponent } from "./views/components/not-found/not-found.component";
-import { HomeComponent } from "./views/components/home/home.component";
+import { AutoLoginPartialRoutesGuard } from "angular-auth-oidc-client";
+import { AuthCallbackComponent } from "./core/security/authentication/components/auth-callback/auth-callback.component";
 
-//https://medium.com/ngconf/functional-route-guards-in-angular-8829f0e4ca5c
 //https://angular.io/guide/lazy-loading-ngmodules
 //Regarding CanLoad, please refer to one of your threads inside ChatGPT ("Condition Lazy Load") for further details
+//https://github.com/damienbod/angular-auth-oidc-client
+//https://angular-auth-oidc-client.com/docs/documentation/auto-login
 const routes: Routes = [
-  { path: "", component: HomeComponent, pathMatch: "full" },
+  { path: "", redirectTo: 'leads', pathMatch: "full" },
   {
     path: "leads",
-    canLoad: [checkAuthenticated()],
-    canActivate: [checkAuthenticated()],
+    canLoad: [AutoLoginPartialRoutesGuard],
+    canActivate: [AutoLoginPartialRoutesGuard],
     loadChildren: () => import('./leads/leads.module').then(m => m.LeadsModule)
   },
+  { path: 'auth-callback', component: AuthCallbackComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: "**", redirectTo: '/not-found' }
 ];

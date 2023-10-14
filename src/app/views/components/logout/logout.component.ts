@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthenticationService } from 'src/app/shared/authentication/authentication.service';
+import { AuthenticationService } from 'src/app/core/security/authentication/authentication.service';
 
 @Component({
   selector: 'ldm-logout',
