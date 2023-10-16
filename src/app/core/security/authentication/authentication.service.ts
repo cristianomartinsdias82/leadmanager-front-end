@@ -1,36 +1,25 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Subject } from "rxjs";
-import { Router } from "@angular/router";
+import { Subject } from "rxjs";
+import { OidcSecurityService } from "angular-auth-oidc-client";
 
 @Injectable({ providedIn:'root' })
 export class AuthenticationService {
 
-    constructor(
-        private httpClient: HttpClient,
-        private router: Router) {}
+    constructor(private oidcSecurityService: OidcSecurityService) {}
 
-    private userAuthenticationSuccessful = new BehaviorSubject<{}>({});
-    public onUserAuthenticationSuccessful$ = this.userAuthenticationSuccessful.asObservable();
+    private onUserOnline = new Subject<boolean>();
+    public userIsOnline$ = this.onUserOnline.asObservable();
+    public userIsAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
 
-    private userIsAuthenticated = new BehaviorSubject<boolean>(false);
-    public userIsAuthenticated$ = this.userIsAuthenticated.asObservable();
-
-    private userLoggedOut = new Subject<unknown>();
-    public onUserLoggedOut$ = this.userLoggedOut.asObservable();
-
-    isAuthenticated(): boolean {
-
-        //To be continued...
-        console.log(this.userIsAuthenticated.getValue());
-
-        return this.userIsAuthenticated.getValue();
+    initializeAuthFlow() {
+        this.oidcSecurityService
+        .checkAuth()
+        .subscribe(_ => this.onUserOnline.next(true));
     }
 
     logout() {
-
-        //To be continued...
-        this.userLoggedOut.next(null);
-        this.userIsAuthenticated.next(false);
+        this.oidcSecurityService
+        .logoff()
+        .subscribe(_ => this.onUserOnline.next(false));
     }
 }

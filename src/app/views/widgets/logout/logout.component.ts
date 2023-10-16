@@ -8,7 +8,8 @@ import { AuthenticationService } from 'src/app/core/security/authentication/auth
 })
 export class LogoutComponent {
 
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(
+    private authenticationService: AuthenticationService) {}
 
   onLogoutClick() {
     this.authenticationService.logout();

@@ -12,8 +12,8 @@ export class AppComponent implements OnInit {
   
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
-    private activityIndicatorService: ActivityIndicatorService) {}
+    private activityIndicatorService: ActivityIndicatorService,
+    private authenticationService: AuthenticationService) {}
 
   public get activityIndicator$() {
     return this.activityIndicatorService.activityIndicatorSub$;
@@ -21,6 +21,10 @@ export class AppComponent implements OnInit {
 
   public get userIsAuthenticated$() {
     return this.authenticationService.userIsAuthenticated$;
+  }
+
+  public get userIsOnline$() {
+    return this.authenticationService.userIsOnline$;
   }
 
   ngOnInit() {

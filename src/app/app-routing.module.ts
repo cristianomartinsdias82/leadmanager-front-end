@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { NotFoundComponent } from "./views/components/not-found/not-found.component";
 import { AutoLoginPartialRoutesGuard } from "angular-auth-oidc-client";
 import { AuthCallbackComponent } from "./core/security/authentication/components/auth-callback/auth-callback.component";
+import { UserLoggedOutComponent } from "./views/components/user-logged-out/user-logged-out.component";
 
 //https://angular.io/guide/lazy-loading-ngmodules
 //Regarding CanLoad, please refer to one of your threads inside ChatGPT ("Condition Lazy Load") for further details
@@ -18,6 +19,7 @@ const routes: Routes = [
   },
   { path: 'auth-callback', component: AuthCallbackComponent },
   { path: 'not-found', component: NotFoundComponent },
+  { path: 'user-logged-out', component: UserLoggedOutComponent },
   { path: "**", redirectTo: '/not-found' }
 ];
 
