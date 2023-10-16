@@ -46,6 +46,8 @@ export class AppComponent implements OnInit {
           this.activityIndicatorService.hide();
         },
       });
+
+      this.authenticationService.checkUserIsAuthenticated();
     }, 0);
   }
 }

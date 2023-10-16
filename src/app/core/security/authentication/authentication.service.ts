@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { Subject, tap } from "rxjs";
 import { OidcSecurityService } from "angular-auth-oidc-client";
 
 @Injectable({ providedIn:'root' })
@@ -21,5 +21,15 @@ export class AuthenticationService {
         this.oidcSecurityService
         .logoff()
         .subscribe(_ => this.onUserOnline.next(false));
+    }
+
+    checkUserIsAuthenticated() {
+        this.oidcSecurityService
+                .isAuthenticated()
+                .subscribe(isAuth => {
+                    if (isAuth) {
+                        this.onUserOnline.next(true);
+                    }
+        });
     }
 }
