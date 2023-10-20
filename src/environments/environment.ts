@@ -21,7 +21,7 @@ export const environment = {
       silentRenew: true,
       useRefreshToken: true,
       logLevel: LogLevel.Debug,
-      secureRoutes: ['https://localhost:7266/api/']
+      secureRoutes: ['https://localhost:7244/api']
     }
 };
   

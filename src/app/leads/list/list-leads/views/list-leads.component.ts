@@ -47,7 +47,7 @@ export class ListLeadsComponent implements AfterViewInit {
     this.promptService.openYesNoDialog(
       `Deseja realmente remover o lead '${lead.razaoSocial}'?`,
       () => {
-        this.leadsService.remove(lead!.id!, lead!.revision!).subscribe({
+        this.leadsService.remove(lead.id!, lead.revision!).subscribe({
           next: () => {
             this.notificationStickerService.show("Lead removido com sucesso.");
 
@@ -61,9 +61,6 @@ export class ListLeadsComponent implements AfterViewInit {
   }
 
   reloadView() {
-    //https://stackoverflow.com/questions/40983055/how-to-reload-the-current-route-with-the-angular-2-router
-    this.router
-      .navigateByUrl("/", { skipLocationChange: true })
-      .then(() => this.router.navigate(["/leads"]));
+    window.location.reload();
   }
 }

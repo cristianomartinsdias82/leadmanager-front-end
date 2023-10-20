@@ -11,15 +11,15 @@ export const environment = {
     fileUploadMaxSize: 10485760,
     requestTimeoutInSecs: 30,
     authConfig: {
-      authority: 'https://localhost:7266',
-      redirectUrl: 'http://localhost:4200/auth-callback',
-      postLogoutRedirectUri: 'http://localhost:4200/user-logged-out',
+      authority: 'https://localhost:8003',
+      redirectUrl: 'http://localhost:8002/auth-callback',
+      postLogoutRedirectUri: 'http://localhost:8002/user-logged-out',
       clientId: 'leadmanager_spa',
       scope: 'openid profile roles offline_access',
       responseType: 'code',
       silentRenew: true,
       useRefreshToken: true,
       logLevel: LogLevel.Error,
-      secureRoutes: ['https://localhost:7266/api/']
+      secureRoutes: ['https://localhost:8001/api/']
     }
 };
