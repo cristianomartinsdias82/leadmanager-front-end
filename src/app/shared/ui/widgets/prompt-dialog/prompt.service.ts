@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { YesNoPromptComponent } from './yes-no-prompt-dialog/yes-no-prompt.component';
 import { PromptActionButton } from './custom-prompt-dialog/prompt-action-button';
 import { CustomPromptComponent } from './custom-prompt-dialog/custom-prompt.component';
+import { ComponentType } from '@angular/cdk/portal';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PromptService {
 
-  constructor(
-    private dialog: MatDialog
-  ) { }
+  constructor(private dialog: MatDialog) { }
 
   openYesNoDialog(
     question: string,    
@@ -51,6 +50,20 @@ export class PromptService {
           description,
           actionButtons
         }
+      });
+  }
+
+  //https://stackoverflow.com/questions/57057287/using-generic-type-parameter-in-angular-material-dialog-dialog-open-method
+  openDialog<TComponent, TData>(
+    component: ComponentType<TComponent>,
+    data: TData,
+    widthInPercent: number = 50    
+  ) : MatDialogRef<TComponent> {
+    return this.dialog.open(
+      component,
+      {
+        width: `${widthInPercent}%`,
+        data
       });
   }
 

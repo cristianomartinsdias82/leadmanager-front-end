@@ -22,6 +22,11 @@ export const environment = {
       useRefreshToken: true,
       logLevel: LogLevel.Error,
       secureRoutes: ['https://localhost:7266/api/']
+    },
+    oneTimePassword: {
+      digitCount: 6,
+      lifeSpanInSeconds: 90,
+      dialogWithInPercent: 20
     }
 };
   
