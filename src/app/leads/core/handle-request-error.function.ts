@@ -3,23 +3,22 @@ import { EMPTY, Observable, TimeoutError } from "rxjs";
 import { NotificationPanelService } from "src/app/shared/ui/widgets/notification-panel/notification-panel.service";
 import { ConflictResolutionLeadDataService } from "../shared/services/conflict-resolution/conflict-resolution-lead-data.service";
 import { OperationCodes } from "src/app/shared/core/api-response/operation-codes";
+import { OneTimePasswordService } from "src/app/core/security/authorization/components/one-time-password/one-time-password.service";
 
-export function handleError(
+export function handleRequestError(
     data: any,
     request: HttpRequest<any>,
     notificationPanelService: NotificationPanelService,
-    conflictResolutionService: ConflictResolutionLeadDataService): Observable<HttpEvent<any>> {
+    conflictResolutionService: ConflictResolutionLeadDataService,
+    oneTimePasswordService: OneTimePasswordService): Observable<HttpEvent<any>> {
+
   let message = "";
   let isHttpErrorResponse = data instanceof HttpErrorResponse;
 
   if (data.error) {
 
     if (data.error.operationCode === OperationCodes.ConcurrencyIssue) {
-      return conflictResolutionService.resolve(
-        data.error.data,
-        request,
-        data.error.message
-      );
+      return conflictResolutionService.resolve(data.error.data, request, data.error.message);
     } else if (data.error.inconsistencies) {
       message = "Encontrada(s) uma ou mais inconsistências ao processar a solicitação:";
     } else if (data.error.message) {
@@ -40,8 +39,24 @@ export function handleError(
       message += ". Por favor, entre em contato com o suporte/administrador da aplicação e reporte o ocorrido. Pedimos desculpas pelo inconveniente.";
     }
   } else if (isHttpErrorResponse) {
-    if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(data.status) > -1) {
+
+    if (data.status === HttpStatusCode.Forbidden) {
+
       message = "Acesso negado para acessar o recurso solicitado.";
+
+    } else if (data.status === HttpStatusCode.Unauthorized) {
+
+      if ((request.headers.get('WWW-Authenticate')?.indexOf('OTP') ?? -1) > -1) {
+
+        oneTimePasswordService.init();
+
+        return EMPTY;
+      } else {
+
+        message = "Acesso negado para acessar o recurso solicitado.";
+
+      }
+ 
     }
   }
 
