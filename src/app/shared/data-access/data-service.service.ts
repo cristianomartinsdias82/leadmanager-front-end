@@ -47,7 +47,6 @@ export abstract class DataService<T> {
   remove(id: string, revision: string): Observable<ApplicationResponse<any>> {
 
     return this.httpClient
-               .delete<ApplicationResponse<T>>(`${environment.apiUrl}/${this.endpoint}/${id}?revision=${encodeURIComponent(revision)}`);
-               
+               .delete<ApplicationResponse<T>>(`${environment.apiUrl}/${this.endpoint}/${id}?revision=${encodeURIComponent(revision)}`);               
   }
 }

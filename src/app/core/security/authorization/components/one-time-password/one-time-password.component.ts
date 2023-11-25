@@ -8,6 +8,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { OneTimePasswordComponentData } from "./one-time-password-component-data";
 import { Timer } from "./timer.model";
+import { OneTimePasswordService } from "./one-time-password.service";
 
 @Component({
   selector: "ldm-one-time-password",
@@ -15,6 +16,14 @@ import { Timer } from "./timer.model";
   styleUrls: ["./one-time-password.component.scss"]
 })
 export class OneTimePasswordComponent implements OnInit {
+
+  constructor(
+    public dialogRef: MatDialogRef<OneTimePasswordComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: OneTimePasswordComponentData,
+    private formBuilder: FormBuilder,
+    private oneTimePasswordService: OneTimePasswordService
+  ) {
+  }
 
   readonly DigitInputControlsName = 'digitInputs';
   oneTimePasswordForm!: FormGroup;
@@ -27,11 +36,8 @@ export class OneTimePasswordComponent implements OnInit {
   expirationTime: Date = null!;
   timedOut = false;
 
-  constructor(
-    public dialogRef: MatDialogRef<OneTimePasswordComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: OneTimePasswordComponentData,
-    private formBuilder: FormBuilder
-  ) {
+  public get message$() {
+    return this.oneTimePasswordService.onMessageSet$;
   }
 
   ngOnInit() {

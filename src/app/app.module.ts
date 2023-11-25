@@ -34,12 +34,12 @@ registerLocaleData(localePt);
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
-    AuthModule.forRoot({config: environment.authConfig}),
+    //AuthModule.forRoot({config: environment.authConfig}),
     NgxCountdownModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: "pt-BR" },
-    { provide: AbstractSecurityStorage, useClass: DefaultLocalStorageService },
+    //{ provide: AbstractSecurityStorage, useClass: DefaultLocalStorageService },
     RequestHandlerInterceptorProvider,
   ],
   bootstrap: [AppComponent]

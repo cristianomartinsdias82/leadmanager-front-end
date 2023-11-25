@@ -6,6 +6,8 @@ import { Lead } from "../models/lead";
 import { DataService } from "src/app/shared/data-access/data-service.service";
 import { ApplicationResponse } from "src/app/shared/core/api-response/application-response";
 import { RevisionUpdate } from "./conflict-resolution/revision-update";
+import { Permissions } from "src/app/core/security/permissions";
+import { OneTimePasswordService } from "src/app/core/security/authorization/components/one-time-password/one-time-password.service";
 
 @Injectable({
   providedIn: "root",
@@ -20,7 +22,9 @@ export class LeadsService extends DataService<Lead> {
     this.leadRevisionUpdateSubscription.next(revisionUpdate);
   }
 
-  constructor(httpClient: HttpClient) {
+  constructor(
+    httpClient: HttpClient,
+    private oneTimePasswordService: OneTimePasswordService) {
     super(httpClient, LeadsService.LeadEndpoint);
   }
 
@@ -46,6 +50,19 @@ export class LeadsService extends DataService<Lead> {
         cnpjRazaoSocial
       )}&leadId=${leadId}`
     );
+  }
+
+  removeLead(leadId: string, revision: string): Observable<ApplicationResponse<any>> {
+
+    return this.httpClient
+               .delete<ApplicationResponse<Lead>>(`${environment.apiUrl}/${LeadsService.LeadEndpoint}/${leadId}?revision=${encodeURIComponent(revision)}`,
+               {
+                headers: {
+                  resource : Permissions.Delete,
+                  otp: this.oneTimePasswordService.getInformedCode()
+                }
+               });
+
   }
 }
 

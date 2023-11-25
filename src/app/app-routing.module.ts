@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { NotFoundComponent } from "./views/components/not-found/not-found.component";
-import { AutoLoginPartialRoutesGuard } from "angular-auth-oidc-client";
+//import { AutoLoginPartialRoutesGuard } from "angular-auth-oidc-client";
 import { AuthCallbackComponent } from "./core/security/authentication/components/auth-callback/auth-callback.component";
 import { UserLoggedOutComponent } from "./views/components/user-logged-out/user-logged-out.component";
 
@@ -13,8 +13,8 @@ const routes: Routes = [
   { path: "", redirectTo: 'leads', pathMatch: "full" },
   {
     path: "leads",
-    canLoad: [AutoLoginPartialRoutesGuard],
-    canActivate: [AutoLoginPartialRoutesGuard],
+    //canLoad: [AutoLoginPartialRoutesGuard],
+    //canActivate: [AutoLoginPartialRoutesGuard],
     loadChildren: () => import('./leads/leads.module').then(m => m.LeadsModule)
   },
   { path: 'auth-callback', component: AuthCallbackComponent },
