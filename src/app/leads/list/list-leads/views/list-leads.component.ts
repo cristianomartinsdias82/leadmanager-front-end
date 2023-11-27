@@ -20,7 +20,7 @@ export class ListLeadsComponent implements AfterViewInit {
     private leadsService: LeadsService,
     private notificationStickerService: NotificationStickerService,
     private promptService: PromptService,
-    private otpService: OneTimePasswordService
+    private oneTimePasswordService: OneTimePasswordService
   ) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -63,15 +63,20 @@ export class ListLeadsComponent implements AfterViewInit {
                 this.reloadView();
               },
               error: (err) => {
-                console.log(err);
-                this.otpService.setMessage('Fudeu!');
-                if (err.statusCode == environment.oneTimePassword.otpChallengeStatusCode) {
-                  this.otpService.openDialog(() => {
-                    this.removeLead(lead); });
+                
+                let message = '';
+                switch (err.statusCode) {
+                  case environment.oneTimePassword.otpInvalidStatusCode: { message = 'Código inválido.'; break; }
+                  case environment.oneTimePassword.otpExpiredStatusCode: { message = 'Código expirado.'; break; }
+                  default:  { message = ''; break; } //Challenge
                 }
-                else if (err.statusCode == environment.oneTimePassword.otpInvalidStatusCode) {
-                  this.otpService.openDialog(() => { this.removeLead(lead); });
-                }
+
+                setTimeout(() => {
+                  this.oneTimePasswordService
+                        .openDialog(() => { this.removeLead(lead); })
+                        .subscribe(_ => this.oneTimePasswordService.setMessage(message));
+                }, 100);
+
               }
             });
   }

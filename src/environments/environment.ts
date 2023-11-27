@@ -25,10 +25,11 @@ export const environment = {
     },
     oneTimePassword: {
       digitCount: 6,
-      lifeSpanInSeconds: 25,
+      lifeSpanInSeconds: 30,
       dialogWidthInPercent: 20,
       otpChallengeStatusCode: 461,
-      otpInvalidStatusCode: 462
+      otpInvalidStatusCode: 462,
+      otpExpiredStatusCode: 463
     }
 };
   

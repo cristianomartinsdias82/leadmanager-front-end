@@ -1,21 +1,20 @@
-import { HttpErrorResponse, HttpEvent, HttpHeaders, HttpRequest, HttpStatusCode } from "@angular/common/http";
+import { HttpErrorResponse, HttpEvent, HttpRequest, HttpStatusCode } from "@angular/common/http";
 import { EMPTY, Observable, TimeoutError, throwError } from "rxjs";
 import { NotificationPanelService } from "src/app/shared/ui/widgets/notification-panel/notification-panel.service";
-import { ConflictResolutionLeadDataService } from "../shared/services/conflict-resolution/conflict-resolution-lead-data.service";
 import { OperationCodes } from "src/app/shared/core/api-response/operation-codes";
+import { ConflictResolutionService } from "src/app/shared/conflict-resolution/conflict-resolution.service";
 import { environment } from "src/environments/environment";
 
 export function handleRequestError(
     data: any,
     request: HttpRequest<any>,
     notificationPanelService: NotificationPanelService,
-    conflictResolutionService: ConflictResolutionLeadDataService): Observable<HttpEvent<any>> {
+    conflictResolutionService: ConflictResolutionService<any>): Observable<HttpEvent<any>> {
 
   let message = "";
-  let isHttpErrorResponse = data instanceof HttpErrorResponse;
+  const isHttpErrorResponse = data instanceof HttpErrorResponse;
 
   if (data.error) {
-
     if (data.error.operationCode === OperationCodes.ConcurrencyIssue) {
       return conflictResolutionService.resolve(data.error.data, request, data.error.message);
     } else if (data.error.inconsistencies) {
@@ -39,23 +38,22 @@ export function handleRequestError(
     }
   } else if (isHttpErrorResponse) {
 
-    if (Number(data.status) === environment.oneTimePassword.otpChallengeStatusCode) {
-      
+    if ([environment.oneTimePassword.otpChallengeStatusCode,
+         environment.oneTimePassword.otpInvalidStatusCode,
+         environment.oneTimePassword.otpExpiredStatusCode].indexOf(Number(data.status)) > -1) {
+
       return throwError(() => {
-        return {
-          statusCode: environment.oneTimePassword.otpChallengeStatusCode
-        }
+        return { statusCode: data.status }
       });
 
     }
     else if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(Number(data.status)) > -1) {
-
       message = "Acesso negado para acessar o recurso solicitado.";
-
     }
+
   }
 
-  notificationPanelService.show(message, data.error?.inconsistencies || [], null!);
+  notificationPanelService.show(message, data.error.inconsistencies, null!);
 
   return EMPTY;
 }

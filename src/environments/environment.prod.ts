@@ -28,7 +28,8 @@ export const environment = {
       lifeSpanInSeconds: 90,
       dialogWidthInPercent: 20,
       otpChallengeStatusCode: 461,
-      otpInvalidStatusCode: 462
+      otpInvalidStatusCode: 462,
+      otpExpiredStatusCode: 463
     }
 };
   

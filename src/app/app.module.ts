@@ -3,13 +3,13 @@ import { AppRoutingModule } from "./app-routing.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SharedModule } from "./shared/shared.module";
-import { AuthModule, AbstractSecurityStorage, DefaultLocalStorageService } from "angular-auth-oidc-client";
+//import { AuthModule, AbstractSecurityStorage, DefaultLocalStorageService } from "angular-auth-oidc-client";
 import { NgxCountdownModule } from "@iamserver/ngx-countdown";
 
 import { registerLocaleData } from "@angular/common";
 import { RequestHandlerInterceptorProvider } from "./leads/core/request-handler.interceptor-provider";
 import localePt from "@angular/common/locales/pt";
-import { environment } from "src/environments/environment";
+//import { environment } from "src/environments/environment";
 
 import { AppComponent } from "./app.component";
 import { LogoutComponent } from "./views/widgets/logout/logout.component";

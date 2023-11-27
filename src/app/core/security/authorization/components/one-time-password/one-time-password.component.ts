@@ -1,10 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup,
-} from "@angular/forms";
+import { AbstractControl, FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { OneTimePasswordComponentData } from "./one-time-password-component-data";
 import { Timer } from "./timer.model";
@@ -37,7 +32,7 @@ export class OneTimePasswordComponent implements OnInit {
   timedOut = false;
 
   public get message$() {
-    return this.oneTimePasswordService.onMessageSet$;
+    return this.oneTimePasswordService.message$;
   }
 
   ngOnInit() {

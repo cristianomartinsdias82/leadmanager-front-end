@@ -4,7 +4,7 @@ import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.se
 import { OneTimePasswordComponent } from "./one-time-password.component";
 import { OneTimePasswordComponentData } from "./one-time-password-component-data";
 import { environment } from "src/environments/environment";
-import { Observable, Subject, of } from "rxjs";
+import { BehaviorSubject, Observable, Subject, of } from "rxjs";
 import { ApplicationResponse } from "src/app/shared/core/api-response/application-response";
 import { Permissions } from "../../../permissions";
 
@@ -15,8 +15,11 @@ export class OneTimePasswordService {
   constructor(private promptService: PromptService) {}
 
   private oneTimePasswordDialogRef: MatDialogRef<OneTimePasswordComponent> = null!;
-  private onMessageSet = new Subject<string>();
-  public onMessageSet$ = this.onMessageSet.asObservable();
+  private messageSubject = new Subject<string>();
+  public message$ = this.messageSubject.asObservable();
+
+  // private otpIsExpiredSubject = new BehaviorSubject<boolean>(false);
+  // private otpIsExpired$ = this.otpIsExpiredSubject.asObservable();
 
   private informedCode = '';
   private afterCodeInformed: () => void = null!;
@@ -32,10 +35,10 @@ export class OneTimePasswordService {
   }
 
   setMessage(message:string) {
-    this.onMessageSet.next(message);
+    this.messageSubject.next(message);
   }
 
-  openDialog(onAfterCodeInformed: () => void) {
+  openDialog(onAfterCodeInformed: () => void): Observable<void> {
 
     if (!!this.oneTimePasswordDialogRef) {
       this.oneTimePasswordDialogRef.close();
@@ -43,7 +46,7 @@ export class OneTimePasswordService {
 
     this.afterCodeInformed = onAfterCodeInformed;
 
-    setTimeout(() => {
+    //setTimeout(() => {
       this.oneTimePasswordDialogRef = this.promptService.openDialog<OneTimePasswordComponent, OneTimePasswordComponentData>(
         OneTimePasswordComponent,
         {
@@ -55,7 +58,8 @@ export class OneTimePasswordService {
         },
         environment.oneTimePassword.dialogWidthInPercent
       );
-    }, 20);
+      return this.oneTimePasswordDialogRef.afterOpened();
+    //}, 20);
   }
 
   onSend(code: string): Observable<ApplicationResponse<boolean>> {

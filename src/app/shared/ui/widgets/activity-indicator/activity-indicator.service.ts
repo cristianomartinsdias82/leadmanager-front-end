@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 export class ActivityIndicatorService {
 
   private activityIndicatorSubject = new BehaviorSubject<boolean>(true);
-  public activityIndicatorSub$ = this.activityIndicatorSubject.asObservable();
+  public activityIndicator$ = this.activityIndicatorSubject.asObservable();
 
   private showProgressPercentageSubject = new BehaviorSubject<boolean>(false);
   public showProgressPercentage$ = this.showProgressPercentageSubject.asObservable();

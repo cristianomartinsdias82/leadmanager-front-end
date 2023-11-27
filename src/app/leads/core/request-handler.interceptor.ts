@@ -19,13 +19,13 @@ import { environment } from "src/environments/environment";
 import { handleRequestError } from "./handle-request-error.function";
 import { NotificationPanelService } from "src/app/shared/ui/widgets/notification-panel/notification-panel.service";
 import { ActivityIndicatorService } from "src/app/shared/ui/widgets/activity-indicator/activity-indicator.service";
-import { ConflictResolutionLeadDataService } from "../shared/services/conflict-resolution/conflict-resolution-lead-data.service";
+import { ConflictResolutionService } from "src/app/shared/conflict-resolution/conflict-resolution.service";
 //import { OidcSecurityService } from "angular-auth-oidc-client";
 
 @Injectable()
 export class RequestHandlerInterceptor implements HttpInterceptor {
   constructor(
-    private conflictResolutionService: ConflictResolutionLeadDataService,
+    private conflictResolutionService: ConflictResolutionService<any>,
     private notificationPanelService: NotificationPanelService,
     private activityIndicatorService: ActivityIndicatorService
     //private oidcSecurityService: OidcSecurityService,
