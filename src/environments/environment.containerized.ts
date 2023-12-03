@@ -1,4 +1,4 @@
-//Here are great instructions about how to customize an environment (a containerized)
+//Here are great instructions about how to customize an environment (a containerized one)
 
 import { LogLevel } from "angular-auth-oidc-client";
 
@@ -23,8 +23,8 @@ export const environment = {
       secureRoutes: ['https://localhost:8001/api/']
     },
     oneTimePassword: {
-      digitCount: 6,
-      lifeSpanInSeconds: 90,
+      countdownDigitCount: 6,
+      expirationTimeInSeconds: 120,
       dialogWidthInPercent: 20,
       otpChallengeStatusCode: 461,
       otpInvalidStatusCode: 462,

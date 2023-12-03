@@ -4,20 +4,21 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { OneTimePasswordComponentData } from "./one-time-password-component-data";
 import { Timer } from "./timer.model";
 import { OneTimePasswordService } from "./one-time-password.service";
+import { ErrorMessages } from "src/app/leads/shared/messages/error-messages";
 
 @Component({
   selector: "ldm-one-time-password",
   templateUrl: "./one-time-password.component.html",
-  styleUrls: ["./one-time-password.component.scss"]
+  styleUrls: ["./one-time-password.component.scss"],
 })
 export class OneTimePasswordComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<OneTimePasswordComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: OneTimePasswordComponentData,
+    @Inject(MAT_DIALOG_DATA) public state: OneTimePasswordComponentData,
     private formBuilder: FormBuilder,
-    private oneTimePasswordService: OneTimePasswordService
-  ) {
+    private oneTimePasswordService: OneTimePasswordService) {
+
   }
 
   readonly DigitInputControlsName = 'digitInputs';
@@ -41,56 +42,27 @@ export class OneTimePasswordComponent implements OnInit {
   }
 
   setExpirationTime() {
+
     this.timedOut = false;
     this.expirationTime = new Date();
-    this.expirationTime.setSeconds(this.expirationTime.getSeconds() + this.data.lifeSpanInSeconds );
+    this.expirationTime.setSeconds(this.expirationTime.getSeconds() +
+                                  (this.state?.remainingTime ? (this.state?.remainingTime.minutes * 60) + this.state?.remainingTime.seconds : this.state.expirationTimeInSeconds));
+
   }
 
   configForm() {
     const controls: AbstractControl[] = [];
-    for (let index = 0; index < this.data.digitCount; index++) {
+    for (let index = 0; index < this.state.countdownDigitCount; index++) {
       controls.push(this.formBuilder.control(''));
     }
 
     this.oneTimePasswordForm = this.formBuilder.group({
       digitInputs: this.formBuilder.array(controls),
     });
-  }
 
-  onSendCodeClick() {
-    this.dialogRef.beforeClosed().subscribe({
-      next: (_) => this.data.onSend(this.getInsertedCode()),
+    this.oneTimePasswordService.code$.subscribe(code => {
+      document.getElementById('btnPostCode')?.focus();
     });
-    this.dialogRef.close();
-  }
-
-  onResendCodeClick() {
-
-    this.data
-          .onResendCodeRequested()
-          .subscribe();
-  }
-
-  onInputChange(e: any, inputIndex: number) {
-
-    const isValidDigit = this.possibleDigitKeyCodes.some(expr => expr(e.keyCode));
-    if (!isValidDigit) {
-      e.target.value = '';
-      e.preventDefault();
-      return false;
-    }
-
-    if (e.target.value.trim().length > 0) {
-
-      if (inputIndex < this.data.digitCount - 1) {
-        this.setFocusOn(inputIndex + 1);
-      } else {
-        
-        document.getElementById('btnPostCode')?.focus();
-      }
-    }
-
-    return true;
   }
 
   setFocusOn(inputIndex: number) {
@@ -108,12 +80,50 @@ export class OneTimePasswordComponent implements OnInit {
     return code;
   }
 
+  onSendCodeClick() {
+    this.dialogRef.beforeClosed().subscribe({
+      next: (_) => this.state.onSend(this.getInsertedCode())
+    });
+    this.dialogRef.close();
+  }
+
+  onResendCodeClick() {
+
+    this.state
+          .onResendCodeRequested()
+          .subscribe();
+          
+  }
+
+  onInputChange(e: any, inputIndex: number) {
+
+    const isValidDigit = this.possibleDigitKeyCodes.some(expr => expr(e.keyCode));
+    if (!isValidDigit) {
+      e.target.value = '';
+      e.preventDefault();
+      return false;
+    }
+
+    if (e.target.value.trim().length > 0) {
+
+      if (inputIndex < this.state.countdownDigitCount - 1) {
+        this.setFocusOn(inputIndex + 1);
+      } else {
+        this.oneTimePasswordService.setInformedCode(this.getInsertedCode());
+      }
+    }
+
+    return true;
+  }
+
   onCountdownComplete() {
     this.timedOut = true;
+    this.oneTimePasswordService.setMessage(ErrorMessages.TempoEnvioLimiteExcedido);
   }
   
   onCountdownUpdate(timer: Timer) {
     this.timeParts = timer;
+    this.oneTimePasswordService.setRemainingTime(timer);
   }
 
   get allCodeFieldsAreFilledIn() {
@@ -133,7 +143,11 @@ export class OneTimePasswordComponent implements OnInit {
     return this.oneTimePasswordForm.get(this.DigitInputControlsName) as FormArray;
   }
 
-  get remainingTime() {
-    return (this.timeParts.minutes < 10 ? `0${this.timeParts.minutes}` : this.timeParts.minutes) + ':' + (this.timeParts.seconds < 10 ? `0${this.timeParts.seconds}` : this.timeParts.seconds);
+  get remainingFormattedTime() {
+    if (this.timeParts) {
+      return (this.timeParts.minutes < 10 ? `0${this.timeParts.minutes}` : this.timeParts.minutes) + ':' + (this.timeParts.seconds < 10 ? `0${this.timeParts.seconds}` : this.timeParts.seconds);
+    }
+    
+    return null;
   }
 }

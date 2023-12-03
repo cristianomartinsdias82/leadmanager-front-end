@@ -13,19 +13,19 @@ import { OneTimePasswordService } from "src/app/core/security/authorization/comp
   providedIn: "root",
 })
 export class LeadsService extends DataService<Lead> {
+
   private static LeadEndpoint = "leads";
+  constructor(
+    httpClient: HttpClient,
+    private oneTimePasswordService: OneTimePasswordService) {
+    super(httpClient, LeadsService.LeadEndpoint);
+  }  
 
   private leadRevisionUpdateSubscription = new Subject<RevisionUpdate>();
   onLeadRevisionUpdate$ = this.leadRevisionUpdateSubscription.asObservable();
 
   setLeadNewRevision(revisionUpdate: RevisionUpdate) {
     this.leadRevisionUpdateSubscription.next(revisionUpdate);
-  }
-
-  constructor(
-    httpClient: HttpClient,
-    private oneTimePasswordService: OneTimePasswordService) {
-    super(httpClient, LeadsService.LeadEndpoint);
   }
 
   uploadLeadsFile(file: File): Observable<HttpEvent<any>> {

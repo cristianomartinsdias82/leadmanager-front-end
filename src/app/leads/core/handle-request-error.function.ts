@@ -4,6 +4,7 @@ import { NotificationPanelService } from "src/app/shared/ui/widgets/notification
 import { OperationCodes } from "src/app/shared/core/api-response/operation-codes";
 import { ConflictResolutionService } from "src/app/shared/conflict-resolution/conflict-resolution.service";
 import { environment } from "src/environments/environment";
+import { ErrorMessages } from "../shared/messages/error-messages";
 
 export function handleRequestError(
     data: any,
@@ -18,11 +19,11 @@ export function handleRequestError(
     if (data.error.operationCode === OperationCodes.ConcurrencyIssue) {
       return conflictResolutionService.resolve(data.error.data, request, data.error.message);
     } else if (data.error.inconsistencies) {
-      message = "Encontrada(s) uma ou mais inconsistências ao processar a solicitação:";
+      message = ErrorMessages.EncontradasInconsistencias;
     } else if (data.error.message) {
       message = data.error.message;
     } else {
-      message = "Houve um erro ao tentar processar a solicitação";
+      message = ErrorMessages.ErroAoProcessarSolicitacao;
 
       if (isHttpErrorResponse) {
         if (data.status === 0 && !data.ok) {
@@ -34,7 +35,7 @@ export function handleRequestError(
         message += ": tempo limite excedido";
       }
 
-      message += ". Por favor, entre em contato com o suporte/administrador da aplicação e reporte o ocorrido. Pedimos desculpas pelo inconveniente.";
+      message += `. ${ErrorMessages.EntreEmContatoSuporteAdm}`;
     }
   } else if (isHttpErrorResponse) {
 
@@ -48,7 +49,7 @@ export function handleRequestError(
 
     }
     else if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(Number(data.status)) > -1) {
-      message = "Acesso negado para acessar o recurso solicitado.";
+      message = ErrorMessages.AcessoNegado;
     }
 
   }

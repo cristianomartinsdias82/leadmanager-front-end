@@ -120,7 +120,6 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
         }),
         timeout(environment.requestTimeoutInSecs * 1000),
         //retry({ count : 3, delay : Math.random() * 1367 }),
-        //catchError((error) => this.handleError(error, request)), //WORKS,
         catchError((error) => handleRequestError(
                                       error,
                                       request,

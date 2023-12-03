@@ -9,6 +9,9 @@ import { Lead } from "src/app/leads/shared/models/lead";
 import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.service";
 import { OneTimePasswordService } from "src/app/core/security/authorization/components/one-time-password/one-time-password.service";
 import { environment } from "src/environments/environment";
+import { Permissions } from "src/app/core/security/permissions";
+import { NotificationPanelService } from "src/app/shared/ui/widgets/notification-panel/notification-panel.service";
+import { ErrorMessages } from "src/app/leads/shared/messages/error-messages";
 
 @Component({
   selector: "ldm-list-leads",
@@ -19,6 +22,7 @@ export class ListLeadsComponent implements AfterViewInit {
   constructor(
     private leadsService: LeadsService,
     private notificationStickerService: NotificationStickerService,
+    private notificationPanelService: NotificationPanelService,
     private promptService: PromptService,
     private oneTimePasswordService: OneTimePasswordService
   ) {}
@@ -59,24 +63,31 @@ export class ListLeadsComponent implements AfterViewInit {
             .subscribe({
               next: () => {
                 this.notificationStickerService.show("Lead removido com sucesso.");
-
+                this.oneTimePasswordService.reset();
                 this.reloadView();
               },
               error: (err) => {
                 
                 let message = '';
+                let displayOneTimePasswordDialog = true;
+
                 switch (err.statusCode) {
-                  case environment.oneTimePassword.otpInvalidStatusCode: { message = 'Código inválido.'; break; }
-                  case environment.oneTimePassword.otpExpiredStatusCode: { message = 'Código expirado.'; break; }
-                  default:  { message = ''; break; } //Challenge
+                  case environment.oneTimePassword.otpInvalidStatusCode: { message = ErrorMessages.CodigoInvalido; break; }
+                  case environment.oneTimePassword.otpExpiredStatusCode: { message = ErrorMessages.CodigoInvalido; break; }
+                  case environment.oneTimePassword.otpChallengeStatusCode: { message = ''; break; }
+                  default: {
+                    displayOneTimePasswordDialog = false;
+                    this.notificationPanelService.show(`${ErrorMessages.ErroAoProcessarSolicitacao}. ${ErrorMessages.EntreEmContatoSuporteAdm}`, null!, null!);
+                  }
                 }
 
-                setTimeout(() => {
-                  this.oneTimePasswordService
-                        .openDialog(() => { this.removeLead(lead); })
-                        .subscribe(_ => this.oneTimePasswordService.setMessage(message));
-                }, 100);
-
+                if (displayOneTimePasswordDialog) {
+                  setTimeout(() => {
+                    this.oneTimePasswordService
+                          .openDialog(() => { this.removeLead(lead); }, Permissions.Delete)
+                          .subscribe(_ => this.oneTimePasswordService.setMessage(message));
+                  }, 100);
+                }
               }
             });
   }

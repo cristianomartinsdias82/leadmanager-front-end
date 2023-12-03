@@ -24,8 +24,8 @@ export const environment = {
       secureRoutes: ['https://localhost:7266/api/']
     },
     oneTimePassword: {
-      digitCount: 6,
-      lifeSpanInSeconds: 90,
+      countdownDigitCount: 6,
+      expirationTimeInSeconds: 120,
       dialogWidthInPercent: 20,
       otpChallengeStatusCode: 461,
       otpInvalidStatusCode: 462,
