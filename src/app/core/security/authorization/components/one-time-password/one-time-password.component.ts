@@ -18,10 +18,11 @@ export class OneTimePasswordComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public state: OneTimePasswordComponentData,
     private formBuilder: FormBuilder,
     private oneTimePasswordService: OneTimePasswordService) {
-
   }
 
   readonly DigitInputControlsName = 'digitInputs';
+  readonly PostCodeButtonId = 'btnPostCode';
+
   oneTimePasswordForm!: FormGroup;
   possibleDigitKeyCodes = [
     (keyCode: number) => [8, 9].includes(keyCode),
@@ -39,15 +40,11 @@ export class OneTimePasswordComponent implements OnInit {
   ngOnInit() {
     this.configForm();
     this.setExpirationTime();
+    this.configAbandonBehavior();
   }
 
-  setExpirationTime() {
-
-    this.timedOut = false;
-    this.expirationTime = new Date();
-    this.expirationTime.setSeconds(this.expirationTime.getSeconds() +
-                                  (this.state?.remainingTime ? (this.state?.remainingTime.minutes * 60) + this.state?.remainingTime.seconds : this.state.expirationTimeInSeconds));
-
+  configAbandonBehavior() {
+    this.dialogRef.backdropClick().subscribe({ next: () => this.oneTimePasswordService.resetState() });
   }
 
   configForm() {
@@ -61,8 +58,17 @@ export class OneTimePasswordComponent implements OnInit {
     });
 
     this.oneTimePasswordService.code$.subscribe(code => {
-      document.getElementById('btnPostCode')?.focus();
+      document.getElementById(this.PostCodeButtonId)?.focus();
     });
+  }
+
+  setExpirationTime() {
+
+    this.timedOut = false;
+    this.expirationTime = new Date();
+    this.expirationTime.setSeconds(this.expirationTime.getSeconds() +
+                                  (this.state?.remainingTime ? (this.state?.remainingTime.minutes * 60) + this.state?.remainingTime.seconds : this.state.expirationTimeInSeconds));
+
   }
 
   setFocusOn(inputIndex: number) {
@@ -81,8 +87,9 @@ export class OneTimePasswordComponent implements OnInit {
   }
 
   onSendCodeClick() {
+
     this.dialogRef.beforeClosed().subscribe({
-      next: (_) => this.state.onSend(this.getInsertedCode())
+      next: () => this.state.onSend(this.getInsertedCode())
     });
     this.dialogRef.close();
   }

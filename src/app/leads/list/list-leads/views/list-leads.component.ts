@@ -63,7 +63,7 @@ export class ListLeadsComponent implements AfterViewInit {
             .subscribe({
               next: () => {
                 this.notificationStickerService.show("Lead removido com sucesso.");
-                this.oneTimePasswordService.reset();
+
                 this.reloadView();
               },
               error: (err) => {
@@ -77,11 +77,15 @@ export class ListLeadsComponent implements AfterViewInit {
                   case environment.oneTimePassword.otpChallengeStatusCode: { message = ''; break; }
                   default: {
                     displayOneTimePasswordDialog = false;
+
+                    //TODO: Implement a Global error handler
+                    //TODO: Next, throw an error from here so the global error handler can catch and handle it more properly
                     this.notificationPanelService.show(`${ErrorMessages.ErroAoProcessarSolicitacao}. ${ErrorMessages.EntreEmContatoSuporteAdm}`, null!, null!);
                   }
                 }
 
                 if (displayOneTimePasswordDialog) {
+                  
                   setTimeout(() => {
                     this.oneTimePasswordService
                           .openDialog(() => { this.removeLead(lead); }, Permissions.Delete)

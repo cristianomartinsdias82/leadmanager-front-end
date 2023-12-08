@@ -10,14 +10,11 @@ import { Permissions } from "../../../permissions";
 import { Timer } from "./timer.model";
 import { HttpClient } from "@angular/common/http";
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable({ providedIn: "root" })
 export class OneTimePasswordService {
 
-  constructor(
-    private promptService: PromptService,
-    private httpClient: HttpClient) {
+  constructor(private promptService: PromptService, private httpClient: HttpClient)
+  {
 
   }
 
@@ -36,13 +33,15 @@ export class OneTimePasswordService {
 
   private remainingTime?:Timer = null!;
 
-  reset() {
+  resetState() {
+
     this.informedCode = '';
     this.requestedResource = '';
     this.remainingTime = null!;
     this.codeSubject.next('');
     this.messageSubject.next('');
     this.onSendCodeRequest = null!
+
   }
 
   setRemainingTime(time: Timer) {
@@ -102,9 +101,7 @@ export class OneTimePasswordService {
     this.informedCode = code;
     this.onSendCodeRequest();
 
-    return of({
-      success: true,
-    });
+    return of({ success: true });
   }
 
   onResendCode(): Observable<ApplicationResponse<boolean>> {
