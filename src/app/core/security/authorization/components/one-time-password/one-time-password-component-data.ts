@@ -8,6 +8,4 @@ export interface OneTimePasswordComponentData {
     remainingTime?: Timer,
     onSend: (input: string) => Observable<ApplicationResponse<boolean>>,
     onResendCodeRequested: () => Observable<ApplicationResponse<boolean>>
-    onInvalidCodeResponse?: () => Observable<ApplicationResponse<boolean>>,
-    onExpiredCodeResponse?: () => Observable<ApplicationResponse<boolean>>,
 }

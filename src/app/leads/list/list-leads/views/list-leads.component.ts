@@ -57,6 +57,8 @@ export class ListLeadsComponent implements AfterViewInit {
     );
   }
 
+  //TODO: Your next assignment is to move all this messy code away from the component code. Abstract it away from here by placing it inside
+  //the LeadsService class
   removeLead(lead: Lead) {
     this.leadsService
             .removeLead(lead.id!, lead.revision!)
@@ -88,7 +90,10 @@ export class ListLeadsComponent implements AfterViewInit {
                   
                   setTimeout(() => {
                     this.oneTimePasswordService
-                          .openDialog(() => { this.removeLead(lead); }, Permissions.Delete)
+                          .openDialog({
+                              onSendCodeRequest: () => { this.removeLead(lead); },
+                              resource: Permissions.Delete
+                          })
                           .subscribe(_ => this.oneTimePasswordService.setMessage(message));
                   }, 100);
                 }
