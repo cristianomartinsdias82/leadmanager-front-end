@@ -10,21 +10,19 @@ import { Permissions } from "src/app/core/security/permissions";
 import { OneTimePasswordService } from "src/app/core/security/authorization/components/one-time-password/one-time-password.service";
 import { ErrorMessages } from "../messages/error-messages";
 import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.service";
+import { NotificationPanelService } from "src/app/shared/ui/widgets/notification-panel/notification-panel.service";
 
-@Injectable({
-  providedIn: "root",
-})
+@Injectable({ providedIn: "root" })
 export class LeadsService extends DataService<Lead> {
 
   private static LeadEndpoint = "leads";
   constructor(
     httpClient: HttpClient,
     private oneTimePasswordService: OneTimePasswordService,
-    private promptService: PromptService)
+    private promptService: PromptService,
+    private notificationPanelService: NotificationPanelService)
   {
-
     super(httpClient, LeadsService.LeadEndpoint);
-
   }  
 
   private leadRevisionUpdateSubscription = new Subject<RevisionUpdate>();
@@ -88,7 +86,7 @@ export class LeadsService extends DataService<Lead> {
                 default: { displayOneTimePasswordDialog = false;
                   //TODO: Implement a Global error handler
                   //TODO: Next, throw an error from here so the global error handler can catch and handle it more properly
-                  //this.notificationPanelService.show(`${ErrorMessages.ErroAoProcessarSolicitacao}. ${ErrorMessages.EntreEmContatoSuporteAdm}`, null!, null!);
+                  this.notificationPanelService.show(`${ErrorMessages.ErroAoProcessarSolicitacao}. ${ErrorMessages.EntreEmContatoSuporteAdm}`, null!, null!);
                 }
               }
 

@@ -1,10 +1,15 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { AbstractControl, FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { OneTimePasswordComponentData } from "./one-time-password-component-data";
 import { Timer } from "./timer.model";
 import { OneTimePasswordService } from "./one-time-password.service";
 import { ErrorMessages } from "src/app/leads/shared/messages/error-messages";
+import { OneTimePasswordComponentConfiguration } from "./one-time-password-component-configuration";
+
+enum AllowedNonDigitKeyCodes {
+  Backspace = 8,
+  HorizontalTab = 9
+};
 
 @Component({
   selector: "ldm-one-time-password",
@@ -15,7 +20,7 @@ export class OneTimePasswordComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<OneTimePasswordComponent>,
-    @Inject(MAT_DIALOG_DATA) public state: OneTimePasswordComponentData,
+    @Inject(MAT_DIALOG_DATA) public configState: OneTimePasswordComponentConfiguration,
     private formBuilder: FormBuilder,
     private oneTimePasswordService: OneTimePasswordService) {
   }
@@ -23,12 +28,12 @@ export class OneTimePasswordComponent implements OnInit {
   readonly DigitInputControlsName = 'digitInputs';
   readonly PostCodeButtonId = 'btnPostCode';
 
-  oneTimePasswordForm!: FormGroup;
-  possibleDigitKeyCodes = [
-    (keyCode: number) => [8, 9].includes(keyCode),
+  allowedKeyCodes = [
+    (keyCode: number) => [AllowedNonDigitKeyCodes.Backspace, AllowedNonDigitKeyCodes.HorizontalTab].includes(keyCode),
     (keyCode: number) => keyCode >= 48 && keyCode <= 57,
-    (keyCode: number) => keyCode >= 96 && keyCode <= 105,
+    (keyCode: number) => keyCode >= 96 && keyCode <= 105
   ];
+  oneTimePasswordForm!: FormGroup;
   timeParts: Timer = null!;
   expirationTime: Date = null!;
   timedOut = false;
@@ -49,7 +54,7 @@ export class OneTimePasswordComponent implements OnInit {
 
   configForm() {
     const controls: AbstractControl[] = [];
-    for (let index = 0; index < this.state.countdownDigitCount; index++) {
+    for (let index = 0; index < this.configState.countdownDigitCount; index++) {
       controls.push(this.formBuilder.control(''));
     }
 
@@ -67,7 +72,7 @@ export class OneTimePasswordComponent implements OnInit {
     this.timedOut = false;
     this.expirationTime = new Date();
     this.expirationTime.setSeconds(this.expirationTime.getSeconds() +
-                                  (this.state?.remainingTime ? (this.state?.remainingTime.minutes * 60) + this.state?.remainingTime.seconds : this.state.expirationTimeInSeconds));
+                                  (this.configState?.remainingTime ? (this.configState?.remainingTime.minutes * 60) + this.configState?.remainingTime.seconds : this.configState.expirationTimeInSeconds));
 
   }
 
@@ -89,14 +94,14 @@ export class OneTimePasswordComponent implements OnInit {
   onSendCodeClick() {
 
     this.dialogRef.beforeClosed().subscribe({
-      next: () => this.state.onSend(this.getInsertedCode())
+      next: () => this.configState.onSend(this.getInsertedCode())
     });
     this.dialogRef.close();
   }
 
   onResendCodeClick() {
 
-    this.state
+    this.configState
           .onResendCodeRequested()
           .subscribe();
           
@@ -104,16 +109,16 @@ export class OneTimePasswordComponent implements OnInit {
 
   onInputChange(e: any, inputIndex: number) {
 
-    const isValidDigit = this.possibleDigitKeyCodes.some(expr => expr(e.keyCode));
-    if (!isValidDigit) {
+    //Block if digit is not allowed
+    if (!this.allowedKeyCodes.some(expr => expr(e.keyCode))) {
       e.target.value = '';
-      e.preventDefault();
+
       return false;
     }
 
     if (e.target.value.trim().length > 0) {
 
-      if (inputIndex < this.state.countdownDigitCount - 1) {
+      if (inputIndex < this.configState.countdownDigitCount - 1) {
         this.setFocusOn(inputIndex + 1);
       } else {
         this.oneTimePasswordService.setInformedCode(this.getInsertedCode());

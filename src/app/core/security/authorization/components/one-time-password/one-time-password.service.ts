@@ -4,12 +4,11 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { environment } from "src/environments/environment";
 import { BehaviorSubject, Observable, Subject, mergeMap, of } from "rxjs";
 import { ApplicationResponse } from "src/app/shared/core/api-response/application-response";
-import { Permissions } from "../../../permissions";
 import { Timer } from "./timer.model";
 import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.service";
 import { OneTimePasswordComponent } from "./one-time-password.component";
-import { OneTimePasswordComponentData } from "./one-time-password-component-data";
 import { OneTimePasswordDialogParameters } from "./one-time-password-dialog-parameters";
+import { OneTimePasswordComponentConfiguration } from "./one-time-password-component-configuration";
 
 @Injectable({ providedIn: "root" })
 export class OneTimePasswordService {
@@ -77,7 +76,7 @@ export class OneTimePasswordService {
 
     this.dialogParameters = dialogParameters;
     
-    this.oneTimePasswordDialogRef = this.promptService.openDialog<OneTimePasswordComponent, OneTimePasswordComponentData>(
+    this.oneTimePasswordDialogRef = this.promptService.openDialog<OneTimePasswordComponent, OneTimePasswordComponentConfiguration>(
       OneTimePasswordComponent,
       {
         countdownDigitCount: environment.oneTimePassword.countdownDigitCount,
