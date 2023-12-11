@@ -19,11 +19,11 @@ export function handleRequestError(
     if (data.error.operationCode === OperationCodes.ConcurrencyIssue) {
       return conflictResolutionService.resolve(data.error.data, request, data.error.message);
     } else if (data.error.inconsistencies) {
-      message = ErrorMessages.EncontradasInconsistencias;
+      message = ErrorMessages.InconsistenciesFound;
     } else if (data.error.message) {
       message = data.error.message;
     } else {
-      message = ErrorMessages.ErroAoProcessarSolicitacao;
+      message = ErrorMessages.ErrorWhenProcessingRequest;
 
       if (isHttpErrorResponse) {
         if (data.status === 0 && !data.ok) {
@@ -35,7 +35,7 @@ export function handleRequestError(
         message += ": tempo limite excedido";
       }
 
-      message += `. ${ErrorMessages.EntreEmContatoSuporteAdm}`;
+      message += `. ${ErrorMessages.ContactSupportAdmin}`;
     }
   } else if (isHttpErrorResponse) {
 
@@ -49,12 +49,12 @@ export function handleRequestError(
 
     }
     else if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(Number(data.status)) > -1) {
-      message = ErrorMessages.AcessoNegado;
+      message = ErrorMessages.AccessDenied;
     }
 
   }
 
   notificationPanelService.show(message, data.error.inconsistencies, null!);
-
+  
   return EMPTY;
 }

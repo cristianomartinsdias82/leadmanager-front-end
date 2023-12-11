@@ -35,7 +35,7 @@ export class ListLeadsComponent implements OnInit, AfterViewInit, OnDestroy {
           .onLeadRemoveSuccessful$
           .subscribe({ next: () => {
               this.notificationStickerService.show("Lead removido com sucesso.");  
-              setTimeout(() => this.reloadView(), 750);
+              setTimeout(() => this.reloadView(), 700);
             }
           });
   }

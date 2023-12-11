@@ -8,9 +8,6 @@ import { ApplicationResponse } from "src/app/shared/core/api-response/applicatio
 import { RevisionUpdate } from "./conflict-resolution/revision-update";
 import { Permissions } from "src/app/core/security/permissions";
 import { OneTimePasswordService } from "src/app/core/security/authorization/components/one-time-password/one-time-password.service";
-import { ErrorMessages } from "../messages/error-messages";
-import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.service";
-import { NotificationPanelService } from "src/app/shared/ui/widgets/notification-panel/notification-panel.service";
 
 @Injectable({ providedIn: "root" })
 export class LeadsService extends DataService<Lead> {
@@ -18,9 +15,7 @@ export class LeadsService extends DataService<Lead> {
   private static LeadEndpoint = "leads";
   constructor(
     httpClient: HttpClient,
-    private oneTimePasswordService: OneTimePasswordService,
-    private promptService: PromptService,
-    private notificationPanelService: NotificationPanelService)
+    private oneTimePasswordService: OneTimePasswordService)
   {
     super(httpClient, LeadsService.LeadEndpoint);
   }  
@@ -59,65 +54,26 @@ export class LeadsService extends DataService<Lead> {
     );
   }
 
-  removeLead(lead: Lead, skipConfirmation = false) {
+  removeLead(lead: Lead) {
 
-    const action = () => {
-      this.httpClient
-          .delete<ApplicationResponse<Lead>>(`${environment.apiUrl}/${LeadsService.LeadEndpoint}/${lead.id!}?revision=${encodeURIComponent(lead.revision!)}`,
-          {
-            headers: {
-              resource : Permissions.Delete,
-                otp: this.oneTimePasswordService.getInformedCode()
-              }
-          })
-          .subscribe({
-            next: () => {
-              this.leadRemoveSuccessSubscription.next({});
-            },
-            error: (err) => {
-                  
-              let message = '';
-              let displayOneTimePasswordDialog = true;
+    const requiredPermission = Permissions.Delete;
 
-              switch (err.statusCode) {
-                case environment.oneTimePassword.otpInvalidStatusCode: { message = ErrorMessages.CodigoInvalido; break; }
-                case environment.oneTimePassword.otpExpiredStatusCode: { message = ErrorMessages.CodigoInvalido; break; }
-                case environment.oneTimePassword.otpChallengeStatusCode: { message = ''; break; }
-                default: { displayOneTimePasswordDialog = false;
-                  //TODO: Implement a Global error handler
-                  //TODO: Next, throw an error from here so the global error handler can catch and handle it more properly
-                  this.notificationPanelService.show(`${ErrorMessages.ErroAoProcessarSolicitacao}. ${ErrorMessages.EntreEmContatoSuporteAdm}`, null!, null!);
-                }
-              }
+    this.oneTimePasswordService.executeFlow<Lead>(
+      (): Observable<ApplicationResponse<Lead>> => this.httpClient.delete<ApplicationResponse<Lead>>(
+        `${environment.apiUrl}/${LeadsService.LeadEndpoint}/${lead.id!}?revision=${encodeURIComponent(lead.revision!)}`,
+        {
+          headers: {
+            resource : requiredPermission,
+              otp: this.oneTimePasswordService.getInformedCode()
+          }
+        }
+      ),
+      (_) => this.leadRemoveSuccessSubscription.next({}),
+      requiredPermission,
+      `Deseja realmente remover o lead '${lead.razaoSocial}'?`,
+      'Confirmação de exclusão'
+    );
 
-              if (displayOneTimePasswordDialog) {
-                    
-                setTimeout(() => {
-                  this.oneTimePasswordService
-                      .openDialog({
-                        onSendCodeRequest: () => { this.removeLead(lead, true); },
-                          resource: Permissions.Delete
-                      })
-                      .subscribe(_ => this.oneTimePasswordService.setMessage(message));
-                }, 100);
-
-              }
-            }
-          });
-    };
-
-    if (!skipConfirmation) {
-      this.promptService.openYesNoDialog(
-        `Deseja realmente remover o lead '${lead.razaoSocial}'?`,
-        () => {
-          action();
-        },
-        () => {},
-        "Confirmação de exclusão"
-      );
-    } else {
-      action();
-    }
   }
 }
 

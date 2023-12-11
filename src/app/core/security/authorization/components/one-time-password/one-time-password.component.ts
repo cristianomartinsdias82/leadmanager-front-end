@@ -25,8 +25,8 @@ export class OneTimePasswordComponent implements OnInit {
     private oneTimePasswordService: OneTimePasswordService) {
   }
 
-  readonly DigitInputControlsName = 'digitInputs';
-  readonly PostCodeButtonId = 'btnPostCode';
+  DigitInputControlsName = 'digitInputs';
+  PostCodeButtonId = 'btnPostCode';
 
   allowedKeyCodes = [
     (keyCode: number) => [AllowedNonDigitKeyCodes.Backspace, AllowedNonDigitKeyCodes.HorizontalTab].includes(keyCode),
@@ -130,7 +130,7 @@ export class OneTimePasswordComponent implements OnInit {
 
   onCountdownComplete() {
     this.timedOut = true;
-    this.oneTimePasswordService.setMessage(ErrorMessages.TempoEnvioLimiteExcedido);
+    this.oneTimePasswordService.setMessage(ErrorMessages.SendingTimeLimitExceeded);
   }
   
   onCountdownUpdate(timer: Timer) {

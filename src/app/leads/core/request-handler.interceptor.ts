@@ -13,6 +13,7 @@ import {
   tap,
   throwError,
   timeout,
+  mergeMap
 } from "rxjs";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
@@ -27,7 +28,7 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
   constructor(
     private conflictResolutionService: ConflictResolutionService<any>,
     private notificationPanelService: NotificationPanelService,
-    private activityIndicatorService: ActivityIndicatorService
+    private activityIndicatorService: ActivityIndicatorService,
     //private oidcSecurityService: OidcSecurityService,
     ) {}
 
@@ -72,15 +73,12 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
       //                   return EndOfOperation;
       //                 }),
       //                 timeout(environment.requestTimeoutInSecs * 1000),
-      //                 //retry({ count : 3, delay : Math.random() * 1367 }),
-      //                 //catchError((error) => this.handleError(error, request)), //WORKS
       //                 catchError((error) =>
       //                   handleRequestError(
       //                     error,
       //                     request,
       //                     this.notificationPanelService,
-      //                     this.conflictResolutionService,
-      //                     this.oneTimePasswordService
+      //                     this.conflictResolutionService
       //                   )
       //                 ),
       //                 finalize(() => this.activityIndicatorService.hide(req.reportProgress))
@@ -119,7 +117,6 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
           return EndOfOperation;
         }),
         timeout(environment.requestTimeoutInSecs * 1000),
-        //retry({ count : 3, delay : Math.random() * 1367 }),
         catchError((error) => handleRequestError(
                                       error,
                                       request,
