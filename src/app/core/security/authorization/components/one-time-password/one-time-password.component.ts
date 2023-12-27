@@ -5,6 +5,8 @@ import { Timer } from "./timer.model";
 import { OneTimePasswordService } from "./one-time-password.service";
 import { ErrorMessages } from "src/app/leads/shared/messages/error-messages";
 import { OneTimePasswordComponentConfiguration } from "./one-time-password-component-configuration";
+import { environment } from "src/environments/environment";
+import { userBrowserIsFirefox } from "src/app/shared/core/user-browser-is-firefox.fn";
 
 enum AllowedNonDigitKeyCodes {
   Backspace = 8,
@@ -62,7 +64,7 @@ export class OneTimePasswordComponent implements OnInit {
       digitInputs: this.formBuilder.array(controls),
     });
 
-    this.oneTimePasswordService.code$.subscribe(code => {
+    this.oneTimePasswordService.code$.subscribe(_ => {
       document.getElementById(this.PostCodeButtonId)?.focus();
     });
   }
@@ -77,7 +79,9 @@ export class OneTimePasswordComponent implements OnInit {
   }
 
   setFocusOn(inputIndex: number) {
+    try {
     this.getInputElement(inputIndex).focus();
+    } catch (e) {}
   }
 
   getInputElement(inputIndex: number) {
@@ -109,6 +113,13 @@ export class OneTimePasswordComponent implements OnInit {
 
   onInputChange(e: any, inputIndex: number) {
 
+    //Works in synchronization with onInputPaste event
+    //This condition allows the last field to be properly filled and trigger the informed code event afterwards
+    if (inputIndex == environment.oneTimePassword.countdownDigitCount - 1 && this.getInputElement(inputIndex).value != '') {
+      this.oneTimePasswordService.setInformedCode(this.getInsertedCode());
+      return true;
+    }
+
     //Block if digit is not allowed
     if (!this.allowedKeyCodes.some(expr => expr(e.keyCode))) {
       e.target.value = '';
@@ -126,6 +137,30 @@ export class OneTimePasswordComponent implements OnInit {
     }
 
     return true;
+  }
+
+  onInputPaste(e: any) {
+
+    if (userBrowserIsFirefox()) {
+      e.preventDefault();
+      return false;
+    }
+
+    navigator.clipboard.readText().then(clipText => {
+      if (clipText.length !== environment.oneTimePassword.countdownDigitCount || isNaN(+clipText)) {
+        e.preventDefault();
+        return false;
+      }
+      
+      for (let i = 0; i < environment.oneTimePassword.countdownDigitCount; i++) {
+        this.setFocusOn(i);
+        this.getInputElement(i).value = clipText.substr(i, 1);
+      }
+
+      return true;      
+    });
+
+    return false;
   }
 
   onCountdownComplete() {

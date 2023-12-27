@@ -20,7 +20,7 @@ export const environment = {
       responseType: 'code',
       silentRenew: true,
       useRefreshToken: true,
-      logLevel: LogLevel.Debug,
+      logLevel: LogLevel.Warn,
       secureRoutes: ['https://localhost:7244/api']
     },
     oneTimePassword: {

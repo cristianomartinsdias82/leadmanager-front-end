@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Subject, tap } from "rxjs";
+import { BehaviorSubject, Subject, of, tap } from "rxjs";
 import { OidcSecurityService } from "angular-auth-oidc-client";
 
 @Injectable({ providedIn:'root' })
@@ -7,8 +7,9 @@ export class AuthenticationService {
 
     constructor(private oidcSecurityService: OidcSecurityService) {}
 
-    private onUserOnline = new Subject<boolean>();
+    private onUserOnline = new BehaviorSubject<boolean>(false);
     public userIsOnline$ = this.onUserOnline.asObservable();
+
     public userIsAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
 
     initializeAuthFlow() {

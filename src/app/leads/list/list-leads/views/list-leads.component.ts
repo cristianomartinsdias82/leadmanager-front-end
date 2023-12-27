@@ -6,18 +6,16 @@ import { ListLeadsDataSource } from "./list-leads.datasource";
 import { LeadsService } from "src/app/leads/shared/services/leads.service";
 import { NotificationStickerService } from "src/app/shared/ui/widgets/notification-sticker/notification-sticker.service";
 import { Lead } from "src/app/leads/shared/models/lead";
-import { PromptService } from "src/app/shared/ui/widgets/prompt-dialog/prompt.service";
 import { Subscription } from "rxjs";
 
 @Component({
   selector: "ldm-list-leads",
   templateUrl: "./list-leads.component.html",
-  styleUrls: ["./list-leads.component.scss"],
+  styleUrls: ["./list-leads.component.scss"]
 })
 export class ListLeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private leadsService: LeadsService,
-    private promptService: PromptService,
     private notificationStickerService: NotificationStickerService
   ) {}
 
@@ -34,7 +32,7 @@ export class ListLeadsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.onLeadRemoveSuccessfulSubsc = this.leadsService
           .onLeadRemoveSuccessful$
           .subscribe({ next: () => {
-              this.notificationStickerService.show("Lead removido com sucesso.");  
+              this.notificationStickerService.show("Lead removido com sucesso.");
               setTimeout(() => this.reloadView(), 700);
             }
           });
@@ -64,5 +62,9 @@ export class ListLeadsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   reloadView() {
     window.location.reload();
+  }
+
+  get containsLeadData$() {
+    return this.leadsService.onLeadDataRetrieve$;
   }
 }

@@ -1,11 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { PagingParameters } from '../core/pagination/paging-parameters';
 import { ApplicationResponse } from '../core/api-response/application-response';
 import { PagedList } from '../core/pagination/paged-list';
 
 export abstract class DataService<T> {
+
+  private leadDataRetrievalSubscription = new BehaviorSubject<boolean>(true);
+  public onLeadDataRetrieve$ = this.leadDataRetrievalSubscription.asObservable();
 
   constructor(
     protected httpClient: HttpClient,
@@ -13,17 +16,22 @@ export abstract class DataService<T> {
 
   fetch(pagingParameters?: PagingParameters): Observable<ApplicationResponse<PagedList<T>>> {
 
-    return this.httpClient
-                .get<ApplicationResponse<PagedList<T>>>(
-                    `${environment.apiUrl}/${this.endpoint}`,
-                    {
-                      params: {
-                        page: pagingParameters!.pageNumber,
-                        pageSize: pagingParameters!.pageSize,
-                        sortColumn: pagingParameters!.sortColumn,
-                        sortDirection: pagingParameters!.sortDirection
-                      }
-                    })
+      return this.httpClient
+                  .get<ApplicationResponse<PagedList<T>>>(
+                      `${environment.apiUrl}/${this.endpoint}`,
+                      {
+                        params: {
+                          page: pagingParameters!.pageNumber,
+                          pageSize: pagingParameters!.pageSize,
+                          sortColumn: pagingParameters!.sortColumn,
+                          sortDirection: pagingParameters!.sortDirection
+                        }
+                      })
+                    .pipe(
+                      tap((appResponse: ApplicationResponse<PagedList<T>>) => {
+                        this.leadDataRetrievalSubscription.next((appResponse!.data?.items?.length ?? 0) > 0);
+                      })
+                    );
   }
 
   getById(id: string): Observable<ApplicationResponse<T>> {

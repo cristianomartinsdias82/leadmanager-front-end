@@ -8,7 +8,9 @@
               add_circle_outline
             </span>
         </button>
-        <div class="mat-elevation-z4">
+        <div class="no-data-message" *ngIf="!(containsLeadData$ | async)">No lead data. Click Plus button to start registering.</div>
+        <div class="mat-elevation-z4" *ngIf="containsLeadData$ | async">
+            
             <table mat-table class="full-width-table" matSort aria-label="Elements">
 
               <!-- Cnpj Column -->
