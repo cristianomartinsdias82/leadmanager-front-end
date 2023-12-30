@@ -14,7 +14,7 @@ export function handleRequestError(
 
   let message = "";
   const isHttpErrorResponse = data instanceof HttpErrorResponse;
-
+  
   if (data.error) {
     if (data.error.operationCode === OperationCodes.ConcurrencyIssue) {
       return conflictResolutionService.resolve(data.error.data, request, data.error.message);
@@ -49,12 +49,14 @@ export function handleRequestError(
 
     }
     else if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(Number(data.status)) > -1) {
+
       message = ErrorMessages.AccessDenied;
+      
     }
 
   }
 
-  notificationPanelService.show(message, data.error.inconsistencies, null!);
+  notificationPanelService.show(message, data.error?.inconsistencies, null!);
   
   return EMPTY;
 }
