@@ -10,6 +10,7 @@ export const environment = {
     apiKeyHeaderValue: '74ynfkjy487yue47j',
     fileUploadMaxSize: 10485760,
     requestTimeoutInSecs: 30,
+    requestMaxAttempts: 5,
     authConfig: {
       authority: 'https://localhost:8003',
       redirectUrl: 'http://localhost:8002/auth-callback',

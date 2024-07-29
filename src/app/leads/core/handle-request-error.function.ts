@@ -15,7 +15,10 @@ export function handleRequestError(
   let message = "";
   const isHttpErrorResponse = data instanceof HttpErrorResponse;
   
-  if (data.error) {
+  if (data instanceof TimeoutError) {
+    message = `${ErrorMessages.ErrorWhenProcessingRequest}: tempo limite da requisição excedido.`;
+  } else if (data.error) {
+    
     if (data.error.operationCode === OperationCodes.ConcurrencyIssue) {
       return conflictResolutionService.resolve(data.error.data, request, data.error.message);
     } else if (data.error.inconsistencies) {
@@ -29,10 +32,6 @@ export function handleRequestError(
         if (data.status === 0 && !data.ok) {
           message += ": servidor indisponível";
         }
-      }
-
-      if (data instanceof TimeoutError) {
-        message += ": tempo limite excedido";
       }
 
       message += `. ${ErrorMessages.ContactSupportAdmin}`;

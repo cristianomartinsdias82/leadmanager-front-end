@@ -9,30 +9,19 @@ export class ActivityIndicatorService {
   private activityIndicatorSubject = new BehaviorSubject<boolean>(true);
   public activityIndicator$ = this.activityIndicatorSubject.asObservable();
 
-  private showProgressPercentageSubject = new BehaviorSubject<boolean>(false);
-  public showProgressPercentage$ = this.showProgressPercentageSubject.asObservable();
+  private reportSubject = new BehaviorSubject<string>('');
+  public report$ = this.reportSubject.asObservable();
 
-  private progressPercentageSubject = new BehaviorSubject<number>(0.0);
-  public progressPercentage$ = this.progressPercentageSubject.asObservable();
-
-  show(displayProgressPercentage = false) {
+  show() {
     this.activityIndicatorSubject.next(true);
-
-    if (displayProgressPercentage) {
-      this.showProgressPercentageSubject.next(true);
-    }
   }
 
-  hide(hideProgressPercentage = false) {
+  hide() {
     this.activityIndicatorSubject.next(false);
-
-    if (hideProgressPercentage) {
-      this.showProgressPercentageSubject.next(false);
-    }
   }
-
-  updateProgressPercentage(percentage: number) {
-    this.progressPercentageSubject.next(percentage);
+  
+  report(data: string) {
+    this.reportSubject.next(data);
   }
 
 }

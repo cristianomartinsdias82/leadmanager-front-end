@@ -8,13 +8,10 @@ import { ActivityIndicatorService } from './activity-indicator.service';
 })
 export class ActivityIndicatorComponent {
 
-  constructor (private activityIndicatorService: ActivityIndicatorService) {}
+  constructor (public activityIndicatorService: ActivityIndicatorService) {}
 
-  public get progressPercentage$() {
-    return this.activityIndicatorService.progressPercentage$;
+  public get report$() {
+    return this.activityIndicatorService.report$;
   }
 
-  public get showProgressPercentage$() {
-    return this.activityIndicatorService.showProgressPercentage$;
-  }
 }

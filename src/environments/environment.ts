@@ -10,7 +10,8 @@ export const environment = {
     apiKeyHeaderName: 'LeadManager-Api-Key',
     apiKeyHeaderValue: '74ynfkjy487yue47j',
     fileUploadMaxSize: 10485760,
-    requestTimeoutInSecs: 300,
+    requestTimeoutInSecs: 10,
+    requestMaxAttempts: 5,
     authConfig: {
       authority: 'https://localhost:7266',
       redirectUrl: 'http://localhost:4200/auth-callback',

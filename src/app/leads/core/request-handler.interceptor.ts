@@ -13,7 +13,10 @@ import {
   tap,
   throwError,
   timeout,
-  mergeMap
+  mergeMap,
+  delay as delayOperator,
+  retryWhen,
+  scan
 } from "rxjs";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
@@ -35,6 +38,9 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       let percentage = 0;
       const EndOfOperation = -1;
+
+      const Delay = 1000;
+      const count = environment.requestMaxAttempts - 1;
   
       return this.oidcSecurityService
                  .getAccessToken()
@@ -49,13 +55,13 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
                     });
 
                     return next.handle(request).pipe(
-                      tap(() => this.activityIndicatorService.show(req.reportProgress)),
+                      tap(() => this.activityIndicatorService.show()),
                       tap((event: HttpEvent<any>) => {
                         if (req.reportProgress) {
                           if (event.type === HttpEventType.UploadProgress) {
                             percentage = Math.round((100 * event.loaded) / event.total!);
                 
-                            this.activityIndicatorService.updateProgressPercentage(percentage);
+                            this.activityIndicatorService.report(`${percentage}%`);
                 
                             return percentage;
                           } else if (event instanceof HttpErrorResponse) {
@@ -66,13 +72,30 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
                                 )
                             );
                           } else {
-                            this.activityIndicatorService.updateProgressPercentage(100);
+                            this.activityIndicatorService.report('100%');
                           }
                         }
                 
                         return EndOfOperation;
                       }),
-                      timeout(environment.requestTimeoutInSecs * 1000),
+                      timeout(environment.requestTimeoutInSecs * Delay),
+                      retryWhen((errors) =>
+                        errors.pipe(
+                          scan((acc, error) => ({count: acc.count + 1, error}),
+                          {
+                            count: 0,
+                            error: undefined as any
+                          }),
+                          tap((current) => {
+                            this.activityIndicatorService.report(`Tentativa #${current.count + 1}`);
+
+                            if (current.count > count) {
+                              throw current.error;
+                            }
+                          }),
+                          delayOperator(3 * Delay)
+                        )
+                      ),                      
                       catchError((error) =>
                         handleRequestError(
                           error,
@@ -81,7 +104,7 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
                           this.conflictResolutionService
                         )
                       ),
-                      finalize(() => this.activityIndicatorService.hide(req.reportProgress))
+                      finalize(() => this.activityIndicatorService.hide())
                     );
                   })
                  );
