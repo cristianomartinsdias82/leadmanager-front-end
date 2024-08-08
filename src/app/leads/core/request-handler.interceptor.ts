@@ -14,9 +14,9 @@ import {
   throwError,
   timeout,
   mergeMap,
-  delay as delayOperator,
-  retryWhen,
-  scan
+  //delay as delayOperator,
+  //retryWhen,
+  //scan
 } from "rxjs";
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
@@ -79,23 +79,27 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
                         return EndOfOperation;
                       }),
                       timeout(environment.requestTimeoutInSecs * Delay),
-                      retryWhen((errors) =>
-                        errors.pipe(
-                          scan((acc, error) => ({count: acc.count + 1, error}),
-                          {
-                            count: 0,
-                            error: undefined as any
-                          }),
-                          tap((current) => {
-                            this.activityIndicatorService.report(`Tentativa #${current.count + 1}`);
+                      // retryWhen((errors) =>
+                      //   //Esta implementação como está atualmente cria problemas (fica retentando) em 2 cenários:
+                      //   //Quando a aplicação nega acesso ao recurso (falta de permissão) e
+                      //   //Quando a aplicação pede OTP para confirmação da operação
+                      //   //TODO: Tratar estes cenários para ignorar retentativas.
+                      //   errors.pipe(
+                      //     scan((acc, error) => ({count: acc.count + 1, error}),
+                      //     {
+                      //       count: 0,
+                      //       error: undefined as any
+                      //     }),
+                      //     tap((current) => {
+                      //       this.activityIndicatorService.report(`Tentativa #${current.count + 1}`);
 
-                            if (current.count > count) {
-                              throw current.error;
-                            }
-                          }),
-                          delayOperator(3 * Delay)
-                        )
-                      ),                      
+                      //       if (current.count > count) {
+                      //         throw current.error;
+                      //       }
+                      //     }),
+                      //     delayOperator(3 * Delay)
+                      //   )
+                      // ),                      
                       catchError((error) =>
                         handleRequestError(
                           error,
