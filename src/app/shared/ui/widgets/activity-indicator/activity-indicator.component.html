@@ -1,6 +1,14 @@
 <div class="spinner">
     <mat-progress-spinner mode="indeterminate" color="warn"></mat-progress-spinner>
 </div>
+<div class="percentage" *ngIf="showProgressPercentage$ | async">
+    <span>{{progressPercentage$ | async}}%</span>
+</div>
+
+<!--Use this styles whenever you fix the retry logic in http interceptor-->
+<!-- <div class="spinner">
+    <mat-progress-spinner mode="indeterminate" color="warn"></mat-progress-spinner>
+</div>
 <div class="report">
     <span>{{report$ | async}}</span>
-</div>
+</div> -->
