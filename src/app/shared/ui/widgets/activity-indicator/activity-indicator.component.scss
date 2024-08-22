@@ -1,10 +1,10 @@
-.spinner, .percentage {
+.spinner {
     position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba($color: gray, $alpha: 0.25);
+    background-color: rgba($color: gray, $alpha: 0.50);
     z-index: 0;
     
     * {
@@ -13,14 +13,15 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+}
 
-    span {
-        color: white;
-        font-weight: bold;
-        z-index: 1;
-        width: 3.5rem;
-        height: 3rem;
-        text-align: center;
-        margin: 1rem 0;
-    }
+.report {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: 500;
+    z-index: 1;
+    text-align: center;
 }

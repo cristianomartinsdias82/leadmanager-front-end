@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     private authenticationService: AuthenticationService) {}
 
   public get activityIndicator$() {
-    return this.activityIndicatorService.activityIndicatorSub$;
+    return this.activityIndicatorService.activityIndicator$;
   }
 
   public get userIsAuthenticated$() {

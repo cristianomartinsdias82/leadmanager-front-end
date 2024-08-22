@@ -1,6 +1,6 @@
 <div class="spinner">
     <mat-progress-spinner mode="indeterminate" color="warn"></mat-progress-spinner>
 </div>
-<div class="percentage" *ngIf="showProgressPercentage$ | async">
-    <span>{{progressPercentage$ | async}}%</span>
+<div class="report">
+    <span>{{report$ | async}}</span>
 </div>
