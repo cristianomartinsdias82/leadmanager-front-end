@@ -16,10 +16,6 @@ export class AppComponent implements OnInit {
     private authenticationService: AuthenticationService) {}
 
   public get activityIndicator$() {
-
-    //Use this styles whenever you fix the retry logic in http interceptor
-    //return this.activityIndicatorService.activityIndicator$;
-    
     return this.activityIndicatorService.activityIndicatorSub$;
   }
 
