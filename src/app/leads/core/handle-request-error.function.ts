@@ -2,15 +2,15 @@ import { HttpErrorResponse, HttpEvent, HttpRequest, HttpStatusCode } from "@angu
 import { EMPTY, Observable, TimeoutError, throwError } from "rxjs";
 import { NotificationPanelService } from "src/app/shared/ui/widgets/notification-panel/notification-panel.service";
 import { OperationCodes } from "src/app/shared/core/api-response/operation-codes";
-import { ConflictResolutionService } from "src/app/shared/conflict-resolution/conflict-resolution.service";
 import { environment } from "src/environments/environment";
 import { ErrorMessages } from "../shared/messages/error-messages";
+import { ConflictResolutionLeadDataService } from "../shared/services/conflict-resolution/conflict-resolution-lead-data.service";
 
 export function handleRequestError(
     data: any,
     request: HttpRequest<any>,
-    notificationPanelService: NotificationPanelService,
-    conflictResolutionService: ConflictResolutionService<any>): Observable<HttpEvent<any>> {
+    conflictResolutionService: ConflictResolutionLeadDataService,
+    notificationPanelService: NotificationPanelService): Observable<HttpEvent<any>> {
 
   let message = "";
   const isHttpErrorResponse = data instanceof HttpErrorResponse;
@@ -18,7 +18,6 @@ export function handleRequestError(
   if (data instanceof TimeoutError) {
     message = `${ErrorMessages.ErrorWhenProcessingRequest}: tempo limite da requisição excedido.`;
   } else if (data.error) {
-    
     if (data.error.operationCode === OperationCodes.ConcurrencyIssue) {
       return conflictResolutionService.resolve(data.error.data, request, data.error.message);
     } else if (data.error.inconsistencies) {

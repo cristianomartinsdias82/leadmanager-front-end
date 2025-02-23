@@ -24,18 +24,24 @@ export class ConflictResolutionLeadDataService extends ConflictResolutionService
     resolve(
         data: ConflictResolutionLeadData,
         request: HttpRequest<any>,
-        serverMessage?: string) : Observable<HttpEvent<any>> {
+        message?: string) : Observable<HttpEvent<any>> {
+
+        const DefaultTitle = 'Atenção';
+        const DefaultQuestion = 'Como deseja prosseguir?';
+        const DialogWidthInPercentage = 15;
 
         if (request.method === 'PUT') {
             if (data.recordState === RecordStates.Modified) {
 
                 this.promptService.openCustomDialog(
-                    'Atenção',
-                    serverMessage,
-                    80,
+                    DefaultTitle,
+                    message,
+                    DefaultQuestion,
+                    DialogWidthInPercentage,
+                     //The buttons
                     {
-                        caption: 'Visualizar os dados',
-                        matColor: 'primary',
+                        caption: 'Visualizar as alterações',
+                        matColor: 'accent',
                         action: () => {
 
                             this.notificationPanelService.show(
@@ -55,18 +61,24 @@ export class ConflictResolutionLeadDataService extends ConflictResolutionService
                         }
                     },
                     {
-                        caption: 'Recarregar a tela (seus dados serão perdidos)',
-                        matColor: 'warn',
+                        caption: 'Recarregar a tela',
+                        matColor: 'accent',
                         action: () => {
                             window.location.reload();
+                        },
+                        tooltip: {
+                            text: 'Com esta ação, seus dados serão perdidos'
                         }
                     },
                     {
                         caption: 'Ir para a tela de listagem',
-                        matColor: 'primary',
+                        matColor: 'accent',
                         action: () => {
                             this.promptService.closeDialog();
                             this.router.navigate(['/leads']);
+                        },
+                        tooltip: {
+                            text: 'Com esta ação, seus dados serão perdidos'
                         }
                     },
                     {
@@ -80,15 +92,20 @@ export class ConflictResolutionLeadDataService extends ConflictResolutionService
             } else if (data.recordState === RecordStates.Deleted) {
 
                 this.promptService.openCustomDialog(
-                    'Atenção',
-                    serverMessage,
-                    80,
+                    DefaultTitle,
+                    message,
+                    DefaultQuestion,
+                    DialogWidthInPercentage,
+                    //The buttons
                     {
                         caption: 'Ir para a tela de listagem',
                         matColor: 'primary',
                         action: () => {
                             this.promptService.closeDialog();
                             this.router.navigate(['/leads']);
+                        },
+                        tooltip: {
+                            text: 'Com esta ação, seus dados serão perdidos'
                         }
                     },
                     {
@@ -105,11 +122,13 @@ export class ConflictResolutionLeadDataService extends ConflictResolutionService
             if (data.recordState === RecordStates.Modified) {
 
                 this.promptService.openCustomDialog(
-                    'Atenção',
-                    serverMessage,
-                    80,
+                    DefaultTitle,
+                    message,
+                    DefaultQuestion,
+                    DialogWidthInPercentage,
+                    //The buttons
                     {
-                        caption: 'Ver os detalhes',
+                        caption: 'Visualizar as alterações',
                         matColor: 'accent',
                         action: () => {
 
@@ -122,6 +141,9 @@ export class ConflictResolutionLeadDataService extends ConflictResolutionService
                         matColor: 'accent',
                         action: () => {
                             window.location.reload();
+                        },
+                        tooltip: {
+                            text: 'Com esta ação, seus dados serão perdidos'
                         }
                     },
                     {
@@ -131,7 +153,6 @@ export class ConflictResolutionLeadDataService extends ConflictResolutionService
                             this.promptService.closeDialog();
                         }
                     });
-
             }
         }
      

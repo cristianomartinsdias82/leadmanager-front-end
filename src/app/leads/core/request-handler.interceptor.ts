@@ -20,13 +20,13 @@ import { environment } from "src/environments/environment";
 import { handleRequestError } from "./handle-request-error.function";
 import { NotificationPanelService } from "src/app/shared/ui/widgets/notification-panel/notification-panel.service";
 import { ActivityIndicatorService } from "src/app/shared/ui/widgets/activity-indicator/activity-indicator.service";
-import { ConflictResolutionService } from "src/app/shared/conflict-resolution/conflict-resolution.service";
 import { OidcSecurityService } from "angular-auth-oidc-client";
+import { ConflictResolutionLeadDataService } from "../shared/services/conflict-resolution/conflict-resolution-lead-data.service";
 
 @Injectable()
 export class RequestHandlerInterceptor implements HttpInterceptor {
   constructor(
-    private conflictResolutionService: ConflictResolutionService<any>,
+    private conflictResolutionService: ConflictResolutionLeadDataService,
     private notificationPanelService: NotificationPanelService,
     private activityIndicatorService: ActivityIndicatorService,
     private oidcSecurityService: OidcSecurityService
@@ -77,8 +77,8 @@ export class RequestHandlerInterceptor implements HttpInterceptor {
                         handleRequestError(
                           error,
                           request,
-                          this.notificationPanelService,
-                          this.conflictResolutionService
+                          this.conflictResolutionService,
+                          this.notificationPanelService                          
                         )
                       ),
                       finalize(() => this.activityIndicatorService.hide(req.reportProgress))

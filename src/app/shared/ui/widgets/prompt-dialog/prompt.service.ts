@@ -36,8 +36,9 @@ export class PromptService {
   }
 
   openCustomDialog(
-    headerMessage = 'Atenção',
+    title = 'Atenção',
     description?: string,
+    question?: string,
     widthInPercent: number = 50,
     ...actionButtons: PromptActionButton[]
   ) {
@@ -46,8 +47,9 @@ export class PromptService {
       {
         width: `${widthInPercent}%`,
         data: {
-          headerMessage,
+          title,
           description,
+          question,
           actionButtons
         }
       });
@@ -57,8 +59,10 @@ export class PromptService {
   openDialog<TComponent, TData>(
     component: ComponentType<TComponent>,
     data: TData,
-    widthInPercent: number = 50    
+    widthInPercent: number = 50
   ) : MatDialogRef<TComponent> {
+
+    console.log('openDialog<TComponent, TData>');
     return this.dialog.open(
       component,
       {

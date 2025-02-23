@@ -4,5 +4,6 @@ export interface CustomPromptParameters
 {
     title?: string;
     description?: string;
+    question?: string;
     actionButtons: PromptActionButton[];
 }

@@ -2,9 +2,17 @@
 <div mat-dialog-content *ngIf="data.description">
   <p>{{data.description}}</p>
 </div>
+<div mat-dialog-content>
+  <p *ngIf="data.question">{{data.question}}</p>
+</div>
 <div mat-dialog-actions>
-  <button mat-button
-          *ngFor="let actionButton of data.actionButtons"
-          [color]="actionButton.matColor"
-          (click)="actionButton.action()">{{actionButton.caption}}</button>
+  <button
+    mat-button
+    *ngFor="let actionButton of data.actionButtons"
+    mat-flat-button
+    [matTooltipDisabled]="actionButton.tooltip === null"
+    [matTooltip]="actionButton.tooltip?.text ?? ''"
+    [matTooltipPosition]="actionButton.tooltip?.position ?? 'right'"
+    [color]="actionButton.matColor"
+    (click)="actionButton.action()">{{actionButton.caption}}</button>
 </div>

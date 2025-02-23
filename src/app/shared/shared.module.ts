@@ -18,6 +18,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from "@angular/material/tabs";
 import { ActivityIndicatorComponent } from "./ui/widgets/activity-indicator/activity-indicator.component";
 import { NotificationPanelComponent } from "./ui/widgets/notification-panel/notification-panel.component";
@@ -37,7 +38,8 @@ import { YesNoPromptComponent } from "./ui/widgets/prompt-dialog/yes-no-prompt-d
     MatListModule,
     MatProgressSpinnerModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatTooltipModule
   ],
   exports: [
     FormsModule,
