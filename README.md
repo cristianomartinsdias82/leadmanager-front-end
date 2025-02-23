@@ -14,6 +14,55 @@ E outra tela para as operações de adicionar ou atualizar um lead previamente s
 - Em situações de conflito de atualização e remoção de dados, o usuário tem a possibilidade de tomar uma decisão sobre como proceder neste tipo de cenário (sobrescrever, carregar os novos dados, cancelar...)
 de maneira fácil e intuitiva
 
+Telas do projeto
+![image](https://github.com/user-attachments/assets/94b996f6-3aef-427a-bd8a-03db41b9939a)
+(Tela de autenticação no servidor de autorização par obtenção do token JWT)
+
+![image](https://github.com/user-attachments/assets/6c3def62-9a44-468e-87a3-368f2d243857)
+(Tela de listagem de Leads)
+
+![image](https://github.com/user-attachments/assets/4c6cd76c-111d-47b5-86a0-ca9aa90cea6f)
+(Tela de listagem de Leads após a confirmação de inclusão/atualização/exclusão de Lead)
+
+![image](https://github.com/user-attachments/assets/68703201-4234-4cd9-aad6-eb96a4f4308b)
+(Manipulação de operações não autorizadas conforme o perfil do usuário autenticado)
+
+![image](https://github.com/user-attachments/assets/36e83762-0921-4cb2-b91f-099175602a45)
+(Diálogo de confirmação de exclusão de Leads)
+
+![image](https://github.com/user-attachments/assets/6b75bb7f-0ef4-4866-abe1-8a8b0f78dcf2)
+(Diálogo de envio de token OTP para confirmação da operação de exclusão de Leads)
+
+![image](https://github.com/user-attachments/assets/47b24653-cca3-40de-ab55-be56420335ce)
+(Tela de inclusão de Leads em lote via arquivos excel pré-formatado)
+
+![image](https://github.com/user-attachments/assets/3e4aa73b-5122-4bfd-bc61-e6311cffe1d2)
+(Tela de mostragem de inconsistências detectadas na inclusão de Leads em lote)
+
+![image](https://github.com/user-attachments/assets/0cd87522-9221-4438-b243-64db2a16e229)
+(Tela de cadastro manual de Lead)
+
+![image](https://github.com/user-attachments/assets/b4726500-636f-423b-95e8-09ee867d0a23)
+(Diálogo de confirmação de inclusão de Lead)
+
+![image](https://github.com/user-attachments/assets/10966008-2d17-45dd-ad19-2c0881681fc3)
+(Mostragem de campos obrigatórios para inclusão/atualização de Lead)
+
+![image](https://github.com/user-attachments/assets/f189f4d6-0fc5-496c-8ec6-85d397d385b6)
+(Mostragem de erros específicos de validação para inclusão/atualização de Lead)
+
+![image](https://github.com/user-attachments/assets/4122ba9f-8fba-494f-9dac-3c68251d39c4)
+(Manipulação do formulário de registro/atualização manual de Lead ao tentar sair ou clicar em 'Cancelar' quando houve alguma alteração nos dados)
+
+![image](https://github.com/user-attachments/assets/fb08e902-d0d7-4d7d-b071-222d2835adbd)
+(Manipulação de operações concorrentes sobre um determinado Lead)
+
+![image](https://github.com/user-attachments/assets/7fdaed02-6942-461e-84d4-12d97f995dcb)
+(Mostragem dos dados atualizados por usuários concorrentes durante a tentativa de atualizar ou excluir o mesmo Lead)
+
+![image](https://github.com/user-attachments/assets/86157b69-d23a-4113-b9fa-d41ef3a34c42)
+(Tela de saída do sistema)
+
 O projeto utiliza as seguintes plataformas, linguagens, tecnologias, funcionalidades e ferramentas:
 - Práticas de Código limpo / Clean code
 - Plataforma Angular versão 16
@@ -26,6 +75,8 @@ O projeto utiliza as seguintes plataformas, linguagens, tecnologias, funcionalid
 - Flexbox com Angular FlexLayout
 - Pacotes NPM complementares
   - ngx-material-file-input (utilizado no formulário de upload de leads em lote)
+  - angular-auth-oidc-client (Fluxo de autorização oAuth2)
+  - iamserver/ngx-countdown
 
 Pré-requisitos para execução da aplicação
 É necessário possuir o(s) seguinte(s) componente(s) instalado(s) na máquina:<br/>
@@ -34,28 +85,7 @@ Caso a máquina seja Mac, siga os passos conforme a url: https://docs.docker.com
 Caso a máquina seja Linux, siga os passos conforme a url: https://docs.docker.com/desktop/install/linux-install/#generic-installation-steps<br/>
 Caso a máquina seja Windows, siga os passos conforme a url: https://docs.docker.com/desktop/install/windows-install/<br/>
 
-Como executar o projeto localmente?<br/>
-Após a configuração da máquina - conforme a seção "Pré-requisitos para execução do Front-End da aplicação" - faça o seguinte:<br/>
-- Inicialize o Docker<br/>
-- Navegue até a pasta raiz da aplicação aonde o projeto foi baixado e digite o seguinte comando:<br/>
-docker-compose up -d<br/>
-(Para interromper a execução do projeto, ainda na mesma pasta do mesmo, digite o seguinte comando:<br/>
-docker-compose down)
-- Abra o navegador e digite a seguinte URL na barra de endereço:<br/>
-http://localhost:8002<br/>
-
-Backlog:
-- (User Story) Adicionar tela de autenticação no sistema a fim de impedir acesso indevido
-  - A partir daí, a aplicação deverá receber e trafegar um Token de acesso aos recursos da API (JWT)
-    - O token deverá ter o tempo de vida útil de 30 minutos
-      - Permitir auto-renovação do token com refresh tokens
-    - Armazenar este token utilizando localStorage
-  - Possibilidade 1: a aplicação deverá ser capaz de encaminhar a solicitação de autenticação para um servidor de identidade a fim de obter o Token de autenticação
-  - Possibilidade 2: a aplicação deverá invocar o endpoint de autenticação da API de leads a fim de obter o Token de autenticação
-- (Technical debt) Implementar uma classe manipuladora global de erros
-  - Quando um erro não manipulado ocorrer, redirecionar o usuário para uma rota ~/erro, para a qual deverá ser apresentado o SVG informando sobre ocorrido.
-
-Em termos de implementação, o que tem de reaproveitável no código-fonte deste projeto e/ou que de repente pode servir como ponto de partida para outros projetos?
+Em termos de implementação, o que tem de reaproveitável no código-fonte deste projeto e/ou que de repente pode servir como ponto de partida para outros projetos? Muitas coisas!
 - Estruturação de pastas de maneira um pouco similar a projetos de back-end implementados com Clean Architecture, agrupando implementações por features (List leads, Maintain Lead)
 - No formulário de gerenciamento de Leads (app/leads/maintain/views/maintain-lead/components/lead-form.*):
   Formulário digirido a modelo (formulário reativo!)
