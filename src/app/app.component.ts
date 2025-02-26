@@ -1,7 +1,10 @@
+import { NotificationStickerService } from 'src/app/shared/ui/widgets/notification-sticker/notification-sticker.service';
 import { Component, OnInit } from "@angular/core";
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
 import { ActivityIndicatorService } from "./shared/ui/widgets/activity-indicator/activity-indicator.service";
 import { AuthenticationService } from "./core/security/authentication/authentication.service";
+import { MessageTypes } from './shared/ui/notification/message-types';
+import { filter } from 'rxjs';
 
 @Component({
   selector: "ldm-root",
@@ -13,12 +16,10 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private activityIndicatorService: ActivityIndicatorService,
-    private authenticationService: AuthenticationService) {}
+    private authenticationService: AuthenticationService,
+    private notificationStickerService: NotificationStickerService) {}
 
   public get activityIndicator$() {
-
-    //Use this styles whenever you fix the retry logic in http interceptor
-    //return this.activityIndicatorService.activityIndicator$;
     
     return this.activityIndicatorService.activityIndicatorSub$;
   }
@@ -52,6 +53,13 @@ export class AppComponent implements OnInit {
       });
 
       this.authenticationService.checkUserIsAuthenticated();
+
+      this.authenticationService
+            .sessionUserData$
+            .pipe(
+              filter(data => !!data)
+            )
+            .subscribe(userData => this.notificationStickerService.show(`Olá, ${userData!.email}`, MessageTypes.Success));
     }, 0);
   }
   
