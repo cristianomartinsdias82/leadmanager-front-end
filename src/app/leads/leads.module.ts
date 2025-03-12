@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { LeadsRoutingModule } from './leads-routing.module';
 import { ListLeadsComponent } from './list/list-leads/views/list-leads.component';
+import { LeadSearchComponent } from './list/list-leads/components/lead-search/lead-search.component';
 import { MaintainLeadComponent } from './maintain/maintain-lead/views/maintain-lead.component';
 import { LeadFormComponent } from './maintain/maintain-lead/views/components/lead-form/lead-form.component';
 import { LeadBulkInsertFormComponent } from './maintain/maintain-lead/views/components/lead-bulk-insert-form/lead-bulk-insert-form.component';
@@ -15,8 +16,9 @@ import { CnpjMaskDirective } from './shared/ui/input-masks/cnpj-mask.directive';
     MaintainLeadComponent,
     LeadFormComponent,
     LeadBulkInsertFormComponent,
+    LeadSearchComponent,
     CepMaskDirective,
-    CnpjMaskDirective
+    CnpjMaskDirective    
   ],
   imports: [
     CommonModule,

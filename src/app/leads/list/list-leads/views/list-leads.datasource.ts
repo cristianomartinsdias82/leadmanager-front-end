@@ -33,51 +33,82 @@ export class ListLeadsDataSource {
     setTimeout(() => {
       
       this.dataSource.paginator = this.paginator;
-      this.paginator.page.pipe(
+      this.paginator
+        .page
+        .pipe(
+          startWith({}),
+          switchMap(() =>
+              this.leadsService.fetch(
+              this.leadsService.leadSearchSubscription.getValue(),
+              {
+                pageNumber: this.paginator.pageIndex + 1,
+                pageSize: this.paginator.pageSize,
+                sortColumn: this.sortColumn,
+                sortDirection: this.sortDirection
+              })
+          ),
+          map((response: ApplicationResponse<PagedList<Lead>>) => {
+            this.paginator.length = response.data!.itemCount;
 
-        startWith({}),
-        switchMap(() =>
-            this.leadsService.fetch({
-              pageNumber: this.paginator.pageIndex + 1,
-              pageSize: this.paginator.pageSize,
-              sortColumn: this.sortColumn,
-              sortDirection: this.sortDirection })
-        ),
-        map((response: ApplicationResponse<PagedList<Lead>>) => {
-          this.paginator.length = response.data!.itemCount;
-
-          return response.data!.items;
-        })
-      ).subscribe((leads:Lead[]) => {
-        this.dataSource = new MatTableDataSource(leads);
-        this.table.dataSource = this.dataSource;        
-      });
+            return response.data!.items;
+          })
+        ).subscribe((leads:Lead[]) => {
+          this.dataSource = new MatTableDataSource(leads);
+          this.table.dataSource = this.dataSource;        
+        });
     
-      this.sort.sortChange.pipe(
+      this.sort
+        .sortChange
+        .pipe(
+          filter((sort:Sort) => ListLeadsDataSource.sortDirections.includes(sort.direction)),
+          switchMap((sort: Sort) => {
+                this.sortColumn = sort.active;
+                this.sortDirection = ListLeadsDataSource.getSortDirection(sort);
 
-        filter((sort:Sort) => ListLeadsDataSource.sortDirections.includes(sort.direction)),
-        switchMap((sort: Sort) => {
-            this.sortColumn = sort.active;
-            this.sortDirection = ListLeadsDataSource.getSortDirection(sort);
+                return this.leadsService.fetch(
+                  this.leadsService.leadSearchSubscription.getValue(),
+                  {
+                    pageNumber: this.paginator.pageIndex + 1,
+                    pageSize: this.paginator.pageSize,
+                    sortColumn: this.sortColumn,
+                    sortDirection: this.sortDirection
+                  }
+                )
+          }),
+          map((response: ApplicationResponse<PagedList<Lead>>) => {
+              this.paginator.length = response.data!.itemCount;
 
-            return this.leadsService.fetch({
-              pageNumber: this.paginator.pageIndex + 1,
+              return response.data!.items;
+          }))
+          .subscribe((leads:Lead[]) => {
+            this.dataSource = new MatTableDataSource(leads);
+            this.table.dataSource = this.dataSource;
+          }
+        );
+
+      this.leadsService.onLeadSearch$.subscribe({
+        next: (searchTerm) => {
+          this.leadsService.fetch(
+            searchTerm,
+            {
+              pageNumber: 1,
               pageSize: this.paginator.pageSize,
               sortColumn: this.sortColumn,
-              sortDirection: this.sortDirection
+              sortDirection: this.sortDirection,
             })
-        }),
-        map((response: ApplicationResponse<PagedList<Lead>>) => {
-          this.paginator.length = response.data!.itemCount;
-
-          return response.data!.items;
-        })
-      ).subscribe((leads:Lead[]) => {
-        this.dataSource = new MatTableDataSource(leads);
-        this.table.dataSource = this.dataSource;
+            .pipe(
+              map((response: ApplicationResponse<PagedList<Lead>>) => {
+                this.paginator.length = response.data!.itemCount;
+              
+                return response.data!.items;
+              }))
+            .subscribe((leads:Lead[]) => {
+              this.dataSource = new MatTableDataSource(leads);
+              this.table.dataSource = this.dataSource;
+            });
+        }
       });
-    },0);
-
+    }, 0);
   }
 
   private static getSortDirection(sort: Sort) : ListSortDirection {

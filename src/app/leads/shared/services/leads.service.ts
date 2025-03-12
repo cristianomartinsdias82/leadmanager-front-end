@@ -1,6 +1,6 @@
 import { HttpClient, HttpEvent, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, Subject, BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Lead } from "../models/lead";
 import { DataService } from "src/app/shared/data-access/data-service.service";
@@ -18,7 +18,7 @@ export class LeadsService extends DataService<Lead> {
     private oneTimePasswordService: OneTimePasswordService)
   {
     super(httpClient, LeadsService.LeadEndpoint);
-  }  
+  }
 
   private leadRevisionUpdateSubscription = new Subject<RevisionUpdate>();
   onLeadRevisionUpdate$ = this.leadRevisionUpdateSubscription.asObservable();
@@ -26,8 +26,15 @@ export class LeadsService extends DataService<Lead> {
   private leadRemoveSuccessSubscription = new Subject<{}>();
   onLeadRemoveSuccessful$ = this.leadRemoveSuccessSubscription.asObservable();
 
+  public leadSearchSubscription = new BehaviorSubject<string>('');
+  onLeadSearch$ = this.leadSearchSubscription.asObservable();
+
   setLeadNewRevision(revisionUpdate: RevisionUpdate) {
     this.leadRevisionUpdateSubscription.next(revisionUpdate);
+  }
+
+  setLeadSearch(searchTerm: string) {
+    this.leadSearchSubscription.next(searchTerm);
   }
 
   uploadLeadsFile(file: File): Observable<HttpEvent<any>> {
@@ -44,13 +51,9 @@ export class LeadsService extends DataService<Lead> {
     return this.httpClient.request(req);
   }
 
-  search(cnpjRazaoSocial: string, leadId: string | null): Observable<ApplicationResponse<boolean>> {
+  exists(cnpjRazaoSocial: string, leadId: string | null): Observable<ApplicationResponse<boolean>> {
     return this.httpClient.get<ApplicationResponse<boolean>>(
-      `${environment.apiUrl}/${
-        LeadsService.LeadEndpoint
-      }/search?searchTerm=${encodeURIComponent(
-        cnpjRazaoSocial
-      )}&leadId=${leadId}`
+      `${environment.apiUrl}/${LeadsService.LeadEndpoint}/exists?searchTerm=${encodeURIComponent(cnpjRazaoSocial)}&leadId=${leadId}`
     );
   }
 

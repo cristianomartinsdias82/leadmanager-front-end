@@ -28,7 +28,7 @@ export class ListLeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   onLeadRemoveSuccessfulSubsc!: Subscription;
 
   ngOnInit() {
-    
+
     this.onLeadRemoveSuccessfulSubsc = this.leadsService
           .onLeadRemoveSuccessful$
           .subscribe({ next: () => {
@@ -36,10 +36,6 @@ export class ListLeadsComponent implements OnInit, AfterViewInit, OnDestroy {
               setTimeout(() => this.reloadView(), 700);
             }
           });
-  }
-
-  ngOnDestroy(): void {
-    this.onLeadRemoveSuccessfulSubsc.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -66,5 +62,9 @@ export class ListLeadsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   get containsLeadData$() {
     return this.leadsService.onLeadDataRetrieve$;
+  }
+
+  ngOnDestroy(): void {
+    this.onLeadRemoveSuccessfulSubsc.unsubscribe();
   }
 }

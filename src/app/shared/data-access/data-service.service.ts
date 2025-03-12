@@ -8,19 +8,20 @@ import { PagedList } from '../core/pagination/paged-list';
 export abstract class DataService<T> {
 
   private leadDataRetrievalSubscription = new BehaviorSubject<boolean>(true);
-  public onLeadDataRetrieve$ = this.leadDataRetrievalSubscription.asObservable();
+  onLeadDataRetrieve$ = this.leadDataRetrievalSubscription.asObservable();
 
   constructor(
     protected httpClient: HttpClient,
     private endpoint: string) { }
 
-  fetch(pagingParameters?: PagingParameters): Observable<ApplicationResponse<PagedList<T>>> {
+  fetch(search?: string, pagingParameters?: PagingParameters): Observable<ApplicationResponse<PagedList<T>>> {
 
       return this.httpClient
                   .get<ApplicationResponse<PagedList<T>>>(
                       `${environment.apiUrl}/${this.endpoint}`,
                       {
                         params: {
+                          search: search ?? '',
                           page: pagingParameters!.pageNumber,
                           pageSize: pagingParameters!.pageSize,
                           sortColumn: pagingParameters!.sortColumn,
@@ -29,7 +30,7 @@ export abstract class DataService<T> {
                       })
                     .pipe(
                       tap((appResponse: ApplicationResponse<PagedList<T>>) => {
-                        this.leadDataRetrievalSubscription.next((appResponse!.data?.items?.length ?? 0) > 0);
+                        this.leadDataRetrievalSubscription.next(appResponse.data!.itemCount > 0);
                       })
                     );
   }

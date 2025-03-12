@@ -101,7 +101,7 @@ export class CustomValidators {
                     .pipe(
                         debounceTime(750),
                         filter(input => input.length >= 5),
-                        mergeMap(input => leadsService.search(input, leadId)),
+                        mergeMap(input => leadsService.exists(input, leadId)),
                         map((result: ApplicationResponse<boolean>) => result.data ? CustomValidators.ExistingLeadValidationError() : null),
                         tap(result => { control.setErrors(result); })
                     );
