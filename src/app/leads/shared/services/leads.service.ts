@@ -67,7 +67,7 @@ export class LeadsService extends DataService<Lead> {
         {
           headers: {
             resource : requiredPermission,
-              otp: this.oneTimePasswordService.getInformedCode()
+            otp: this.oneTimePasswordService.getInformedCode()
           }
         }
       ),

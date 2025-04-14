@@ -12,7 +12,8 @@ import {
   Validators,
   AbstractControl,
 } from "@angular/forms";
-import { debounceTime, filter, mergeMap, of } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
+import { debounceTime, filter, mergeMap } from "rxjs";
 import { Endereco } from "src/app/leads/shared/models/endereco";
 import { Lead } from "src/app/leads/shared/models/lead";
 import { AddressSearchService } from "src/app/leads/shared/services/address-search.service";
@@ -37,7 +38,8 @@ export class LeadFormComponent implements OnInit {
     private leadsService: LeadsService,
     private addressSearchService: AddressSearchService,
     private promptService: PromptService,
-    private notificationStickerService: NotificationStickerService
+    private notificationStickerService: NotificationStickerService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   @ViewChild("Numero") numeroFieldRef!: ElementRef;
@@ -47,9 +49,10 @@ export class LeadFormComponent implements OnInit {
 
   maintenanceMode = MaintenanceModes.NewData;
 
-  skipSearchingsOnInit = false;
+  skipSearchAutoTrigger = false;
 
   maintainLeadForm!: FormGroup;
+
   get formTitle() {
     return !!!this.leadId ? "Novo lead" : "Lead";
   }
@@ -104,7 +107,7 @@ export class LeadFormComponent implements OnInit {
   }
 
   private get leadId(): string | null {
-    return location.pathname.split("/")[3] || null;
+    return this.activatedRoute.snapshot.params['id'];
   }
 
   private get leadForm(): AbstractControl<any, any> | null {
@@ -112,11 +115,12 @@ export class LeadFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.skipSearchingsOnInit = !!this.leadId;
 
     this.configForm();
 
     if (this.leadId) {
+      CustomValidators.setExistingLeadValidatorLock(true);
+      this.skipSearchAutoTrigger = true;
       this.loadLeadData();
     }
 
@@ -126,6 +130,7 @@ export class LeadFormComponent implements OnInit {
   }
 
   configForm() {
+
     this.maintainLeadForm = this.formBuilder.group({
       leadData: this.formBuilder.group({
         cnpj: [
@@ -134,21 +139,20 @@ export class LeadFormComponent implements OnInit {
           [
             CustomValidators.checkExistingLeadValidator(
               this.leadsService,
-              this.leadId
+              this.leadId,
+              18
             ),
           ],
         ],
         razaoSocial: [
           "",
-          Validators.compose([
-            Validators.required,
-            Validators.minLength(5),
-            Validators.maxLength(100),
-          ]),
+          Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
           [
             CustomValidators.checkExistingLeadValidator(
               this.leadsService,
-              this.leadId
+              this.leadId,
+              5,
+              1.5
             ),
           ],
         ],
@@ -196,16 +200,9 @@ export class LeadFormComponent implements OnInit {
 
     this.cepField.valueChanges
       .pipe(
-        debounceTime(500),
-        filter((input) => CustomValidators.isCepMatch(input)),
-        mergeMap((input) => {
-          if (this.skipSearchingsOnInit) {
-            this.skipSearchingsOnInit = false;
-            return of();
-          }
-
-          return this.addressSearchService.search(input);
-        })
+        filter((input) => !this.skipSearchAutoTrigger && CustomValidators.isCepMatch(input)),
+        debounceTime(0), //Prevents the form from sending two requests
+        mergeMap((input) => this.addressSearchService.search(input)),
       )
       .subscribe((response: ApplicationResponse<Endereco>) => {
         if (!response.data) {
@@ -249,6 +246,8 @@ export class LeadFormComponent implements OnInit {
           this.leadForm!.setValue(lead);
           this.leadForm!.markAsTouched();
           this.leadSelected.emit();
+          this.skipSearchAutoTrigger = false;
+          CustomValidators.setExistingLeadValidatorLock(false);
         });
     }, 0);
   }
@@ -275,30 +274,3 @@ export class LeadFormComponent implements OnInit {
     this.getField("revision")?.setValue(revisionUpdate.revision);
   }
 }
-
-//If time permits
-// class LeadFormControlsConfiguration {
-//   static Endereco = 'endereco';
-//   static RazaoSocial = 'razaosocial';
-//   static Numero = 'numero';
-//   static Complemento = 'complemento';
-//   static Cidade = 'cidade';
-//   static Bairro = 'bairro';
-//   static Estado = 'estado';
-//   static Cnpj = 'cnpj';
-//   static Cep = 'cep';
-
-//   static Endereco2: FormControlMetadata = {
-//     name: 'endereco',
-//     minlength: 5,
-//     maxlength: 100,
-//     required: true
-//   };
-// }
-
-// interface FormControlMetadata {
-//   name: string,
-//   minlength?: number,
-//   maxlength?: number,
-//   required: boolean
-// }

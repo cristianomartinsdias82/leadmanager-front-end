@@ -94,13 +94,30 @@ export class CustomValidators {
         return { existingLead : true };
     }
 
-    public static checkExistingLeadValidator(leadsService: LeadsService, leadId: string | null): AsyncValidatorFn {
+    //This implementation is not something I'm not proud of
+    //but at least it prevents the lead maintenance form from
+    //sending multiple unnecessary search requests by CNPJ
+    //and Razão Social fields when a lead is loaded
+    private static existingLeadValidationCheckLocked = false;
+    public static setExistingLeadValidatorLock(lock: boolean) {
+        this.existingLeadValidationCheckLocked = lock;
+    }
+
+    public static checkExistingLeadValidator(
+        leadsService: LeadsService,
+        leadId: string | null,
+        minLengthToTriggerValidation: number,
+        delayInSecs: number = 0): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> => {
             
-            return control.valueChanges
+            if (CustomValidators.existingLeadValidationCheckLocked || control.value.trim().length < minLengthToTriggerValidation)
+                return of(null);
+
+            return control
+                    .valueChanges
                     .pipe(
-                        debounceTime(750),
-                        filter(input => input.length >= 5),
+                        debounceTime(delayInSecs * 1000),
+                        filter(input => input.length >= minLengthToTriggerValidation),
                         mergeMap(input => leadsService.exists(input, leadId)),
                         map((result: ApplicationResponse<boolean>) => result.data ? CustomValidators.ExistingLeadValidationError() : null),
                         tap(result => { control.setErrors(result); })
@@ -108,6 +125,23 @@ export class CustomValidators {
 
         };
     }
+
+    // public static checkExistingLeadValidator(leadsService: LeadsService, leadId: string | null, minLengthToTriggerValidation: number = 5): AsyncValidatorFn {
+    //     return (control: AbstractControl): Observable<ValidationErrors | null> => {
+     
+    //         const input = control.value;
+    //         if (input < minLengthToTriggerValidation)
+    //             return of(null);
+
+    //         return leadsService
+    //                 .exists(input, leadId)
+    //                 .pipe(
+    //                     map((result: ApplicationResponse<boolean>) => result.data ? CustomValidators.ExistingLeadValidationError() : null),
+    //                     tap(result => { control.setErrors(result); })
+    //                 );
+
+    //     };
+    // }
 
     public static checkInformedFileValidator(fileMaxSize: number, acceptedContentTypes: string[]): AsyncValidatorFn {
         return (control: AbstractControl): Observable<ValidationErrors | null> => {

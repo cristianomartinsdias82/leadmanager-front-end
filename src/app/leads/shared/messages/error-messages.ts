@@ -6,4 +6,5 @@ export const ErrorMessages = {
     SendingTimeLimitExceeded: 'Tempo limite para envio excedido.',
     CodeExpired: 'Código expirado.',
     CodeInvalid: 'Código inválido.',
+    RecordNotFound: 'Registro não encontrado.'
 }

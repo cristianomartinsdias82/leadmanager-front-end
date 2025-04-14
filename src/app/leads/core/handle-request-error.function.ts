@@ -37,19 +37,25 @@ export function handleRequestError(
     }
   } else if (isHttpErrorResponse) {
 
+    const statusCode = +data.status;
     if ([environment.oneTimePassword.otpChallengeStatusCode,
          environment.oneTimePassword.otpInvalidStatusCode,
-         environment.oneTimePassword.otpExpiredStatusCode].indexOf(Number(data.status)) > -1) {
+         environment.oneTimePassword.otpExpiredStatusCode].indexOf(statusCode) > -1) {
 
       return throwError(() => {
         return { statusCode: data.status }
       });
 
     }
-    else if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(Number(data.status)) > -1) {
+    else if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].indexOf(statusCode) > -1) {
 
       message = ErrorMessages.AccessDenied;
       
+    }
+    else if (statusCode === HttpStatusCode.NotFound) {
+
+      message = ErrorMessages.RecordNotFound;
+
     }
 
   }
