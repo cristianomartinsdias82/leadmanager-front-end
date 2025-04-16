@@ -2,16 +2,9 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { OidcSecurityService } from "angular-auth-oidc-client";
 import { AuditService } from "../auditing/audit.service";
-import { jwtDecode, JwtPayload } from "jwt-decode";
-
-interface ExtendedJwtPayload extends JwtPayload {
-    email: string
-}
-
-export interface SessionUserData {
-    id: string
-    email: string
-}
+import { jwtDecode } from "jwt-decode";
+import { SessionUserData } from "../jwt/session-user-data";
+import { ExtendedJwtPayload } from "../jwt/extended-jwt-payload";
 
 @Injectable({ providedIn:'root' })
 export class AuthenticationService {
@@ -33,11 +26,11 @@ export class AuthenticationService {
         .checkAuth()
         .subscribe(loginResponse => {
 
-            const { email, sub } = jwtDecode(loginResponse.accessToken) as ExtendedJwtPayload;
+            const { email, sub, role } = jwtDecode(loginResponse.accessToken) as ExtendedJwtPayload;
             
             this.onUserOnline.next(true);
             this.auditService.logUserLoggedInEntry();
-            this.sessionUserData.next({id: sub!, email});
+            this.sessionUserData.next({id: sub!, email, role, ldm:[]});
             
         });
     }

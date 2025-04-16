@@ -37,12 +37,15 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this.router.events.subscribe({
         next: (event) => {
+
           if (event instanceof NavigationStart) {
             this.activityIndicatorService.show();
-          } else if (
+          }
+          else if (
             event instanceof NavigationEnd ||
             event instanceof NavigationError ||
-            event instanceof NavigationCancel
+            event instanceof NavigationCancel ||
+            ((event as any).routerEvent /*Handles access-denied routing event*/)
           ) {
             this.activityIndicatorService.hide();
           }
@@ -50,6 +53,10 @@ export class AppComponent implements OnInit {
         error: (_) => {
           this.activityIndicatorService.hide();
         },
+        complete: () => {
+          this.activityIndicatorService.hide();
+        }
+        
       });
 
       this.authenticationService.checkUserIsAuthenticated();
@@ -60,7 +67,7 @@ export class AppComponent implements OnInit {
               filter(data => !!data)
             )
             .subscribe(userData => this.notificationStickerService.show(`Olá, ${userData!.email}`, MessageTypes.Success));
-    }, 0);
+    });
   }
-  
+
 }

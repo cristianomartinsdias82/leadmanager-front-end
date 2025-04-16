@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID, ErrorHandler } from "@angular/core";
+import { NgModule, LOCALE_ID } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -17,6 +17,7 @@ import { AuthCallbackComponent } from './core/security/authentication/components
 import { UserLoggedOutComponent } from './views/components/user-logged-out/user-logged-out.component';
 import { OneTimePasswordComponent } from './core/security/authorization/components/one-time-password/one-time-password.component';
 import { NotFoundComponent } from "./views/components/not-found/not-found.component";
+import { AccessDeniedComponent } from './views/components/access-denied/access-denied.component';
 
 registerLocaleData(localePt);
 
@@ -27,7 +28,8 @@ registerLocaleData(localePt);
     LogoutComponent,
     AuthCallbackComponent,
     UserLoggedOutComponent,
-    OneTimePasswordComponent
+    OneTimePasswordComponent,
+    AccessDeniedComponent
   ],
   imports: [
     AppRoutingModule,
