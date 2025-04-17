@@ -1,0 +1,10 @@
+<mat-toolbar>
+    <div>
+        <span>Lead Manager</span>
+        <span>
+            <a mat-button routerLink="/leads">Leads</a>
+            <a mat-button color="primary" routerLink="/admin" *ngIf="(renderAdminLink$ | async) || userIsInAdminRole">Admin</a>
+        </span>
+    </div>
+    <div>{{(userEmail$ | async) || userEmail}}</div>
+</mat-toolbar>

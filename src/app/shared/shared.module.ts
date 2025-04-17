@@ -20,26 +20,32 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from "@angular/material/tabs";
+import { MatToolbarModule } from "@angular/material/toolbar";
 import { ActivityIndicatorComponent } from "./ui/widgets/activity-indicator/activity-indicator.component";
 import { NotificationPanelComponent } from "./ui/widgets/notification-panel/notification-panel.component";
 import { CustomPromptComponent } from "./ui/widgets/prompt-dialog/custom-prompt-dialog/custom-prompt.component";
 import { YesNoPromptComponent } from "./ui/widgets/prompt-dialog/yes-no-prompt-dialog/yes-no-prompt.component";
+import { NavigationBarComponent } from "./ui/widgets/navigation-bar/navigation-bar.component";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [
     ActivityIndicatorComponent,
     CustomPromptComponent,
     NotificationPanelComponent,
-    YesNoPromptComponent
+    YesNoPromptComponent,
+    NavigationBarComponent
   ],
   imports: [
     CommonModule,
+    RouterModule,
     MatDialogModule,
     MatListModule,
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatToolbarModule
   ],
   exports: [
     FormsModule,
@@ -60,7 +66,8 @@ import { YesNoPromptComponent } from "./ui/widgets/prompt-dialog/yes-no-prompt-d
     MatProgressSpinnerModule,
     MatTabsModule,
     MaterialFileInputModule,
-    ActivityIndicatorComponent
+    ActivityIndicatorComponent,
+    NavigationBarComponent
   ],
 })
 export class SharedModule {}

@@ -1,0 +1,12 @@
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+
+span + span {
+  margin-left: 1rem;
+}
+
+span + span > a + a {
+  margin-left: .3rem;
+}
