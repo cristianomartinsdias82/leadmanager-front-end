@@ -5,3 +5,30 @@
 .mat-mdc-dialog-actions button {
     margin-top: 0.3rem;
 }
+
+//https://stackoverflow.com/questions/75227386/how-do-we-align-text-within-a-mat-button-to-the-left
+.full-width {
+    width: 100% !important;
+    min-width: unset !important;
+}
+
+.right {
+    justify-content: flex-end;
+}
+
+.left {
+    justify-content: flex-start;
+}
+
+.center {
+    justify-content: center;
+}
+
+.action-button-container {
+    width: 100%;
+    display: flex;
+}
+
+.message-prompt {
+    padding: 4px 24px;
+}

@@ -4,5 +4,7 @@ export interface PromptActionButton {
     caption: string,
     action: () => void,
     matColor?: string
-    tooltip?: Tooltip
+    tooltip?: Tooltip,
+    fullWidth?: boolean
+    horizontalPosition?: null | 'right' | 'left' | 'center'
 }

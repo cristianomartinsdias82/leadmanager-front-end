@@ -50,7 +50,8 @@ export class ConflictResolutionLeadDataService extends ConflictResolutionService
                                 null!,
                                 true,
                                 'Fechar');
-                        }
+                        },
+                        fullWidth: true
                     },
                     {
                         caption: 'Revisar e sobrescrever',
@@ -58,7 +59,8 @@ export class ConflictResolutionLeadDataService extends ConflictResolutionService
                         action: () => {
                             this.leadsService.setLeadNewRevision(data.revisionUpdate!);
                             this.promptService.closeDialog();
-                        }
+                        },
+                        fullWidth: true
                     },
                     {
                         caption: 'Recarregar a tela',
@@ -67,8 +69,9 @@ export class ConflictResolutionLeadDataService extends ConflictResolutionService
                             window.location.reload();
                         },
                         tooltip: {
-                            text: 'Com esta ação, seus dados serão perdidos'
-                        }
+                            text: 'Com esta ação, seus dados serão perdidos!'
+                        },
+                        fullWidth: true
                     },
                     {
                         caption: 'Ir para a tela de listagem',
@@ -78,15 +81,17 @@ export class ConflictResolutionLeadDataService extends ConflictResolutionService
                             this.router.navigate(['/leads']);
                         },
                         tooltip: {
-                            text: 'Com esta ação, seus dados serão perdidos'
-                        }
+                            text: 'Com esta ação, seus dados serão perdidos!'
+                        },
+                        fullWidth: true
                     },
                     {
                         caption: 'Fechar',
                         matColor: 'primary',
                         action: () => {
                             this.promptService.closeDialog();
-                        }
+                        },
+                        horizontalPosition: 'right'
                     });
 
             } else if (data.recordState === RecordStates.Deleted) {

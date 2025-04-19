@@ -10,7 +10,8 @@
               add_circle_outline
             </span>
         </button>
-        <div class="no-data-message" *ngIf="!(containsLeadData$ | async)">No lead data. Click Plus button to start registering.</div>
+        <div class="no-data-message" *ngIf="!(containsLeadData$ | async)">
+          Nenhum Lead encontrado. Clique em + para registrar.</div>
         <div>
           <ldm-lead-search />
         </div>
