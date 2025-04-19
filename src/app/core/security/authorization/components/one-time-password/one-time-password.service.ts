@@ -19,10 +19,7 @@ export class OneTimePasswordService {
   constructor(
     private promptService: PromptService,
     private notificationPanelService: NotificationPanelService,
-    private httpClient: HttpClient)
-  {
-
-  }
+    private httpClient: HttpClient) {}
 
   private oneTimePasswordDialogRef: MatDialogRef<OneTimePasswordComponent> = null!;
   private dialogParameters?: OneTimePasswordDialogParameters;

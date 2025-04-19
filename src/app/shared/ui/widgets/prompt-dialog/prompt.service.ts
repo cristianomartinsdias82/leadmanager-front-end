@@ -62,7 +62,6 @@ export class PromptService {
     widthInPercent: number = 50
   ) : MatDialogRef<TComponent> {
 
-    console.log('openDialog<TComponent, TData>');
     return this.dialog.open(
       component,
       {
