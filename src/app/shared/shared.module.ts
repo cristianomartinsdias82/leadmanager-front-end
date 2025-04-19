@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { HttpClientModule } from "@angular/common/http";
@@ -21,12 +22,13 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatSidenavModule } from "@angular/material/sidenav";
+
 import { ActivityIndicatorComponent } from "./ui/widgets/activity-indicator/activity-indicator.component";
 import { NotificationPanelComponent } from "./ui/widgets/notification-panel/notification-panel.component";
 import { CustomPromptComponent } from "./ui/widgets/prompt-dialog/custom-prompt-dialog/custom-prompt.component";
 import { YesNoPromptComponent } from "./ui/widgets/prompt-dialog/yes-no-prompt-dialog/yes-no-prompt.component";
 import { NavigationBarComponent } from "./ui/widgets/navigation-bar/navigation-bar.component";
-import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { RouterModule } from "@angular/router";
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSidenavModule
   ],
   exports: [
     FormsModule,
@@ -66,6 +69,7 @@ import { RouterModule } from "@angular/router";
     MatProgressSpinnerModule,
     MatTabsModule,
     MaterialFileInputModule,
+    MatSidenavModule,
     ActivityIndicatorComponent,
     NavigationBarComponent
   ],

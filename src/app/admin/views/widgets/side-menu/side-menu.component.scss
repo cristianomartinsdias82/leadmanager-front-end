@@ -1,0 +1,16 @@
+menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+mat-divider:first-child {
+    margin-top: .5rem;
+}
+
+//https://stackoverflow.com/questions/75227386/how-do-we-align-text-within-a-mat-button-to-the-left
+.menu-item-link {
+    width: 100% !important;
+    min-width: unset !important;
+    justify-content: flex-start;
+}
