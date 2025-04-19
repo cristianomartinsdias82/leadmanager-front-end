@@ -7,15 +7,17 @@ import { FileUploadsListComponent } from '../views/components/file-uploads-list/
 //https://blog.devgenius.io/the-art-of-nested-router-outlets-in-angular-dafb38245a30
 const routes: Routes = [
   {
-    path: '', component: AdminComponent
-  },
-  {
-    path: 'audit-report',
-    component: AuditReportComponent
-  },
-  {
-    path: 'uploaded-files',
-    component: FileUploadsListComponent,
+    path: '', component: AdminComponent,
+    children: [
+      {
+        path: 'audit-report',
+        component: AuditReportComponent
+      },
+      {
+        path: 'uploaded-files',
+        component: FileUploadsListComponent,
+      }
+    ]
   }
 ];
 
