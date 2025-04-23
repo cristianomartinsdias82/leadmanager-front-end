@@ -23,7 +23,7 @@ const routes: Routes = [
     path: "admin",
     canLoad: [AutoLoginPartialRoutesGuard, AdminRoleMembersOnlyGuard],
     canActivate: [AutoLoginPartialRoutesGuard],
-    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+    loadChildren: () => import('./admin/core/module/admin.module').then(m => m.AdminModule)
   },
   { path: 'auth-callback', component: AuthCallbackComponent },
   { path: 'not-found', component: NotFoundComponent },
