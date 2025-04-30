@@ -10,7 +10,7 @@ import { Roles } from 'src/app/core/security/roles';
 })
 export class NavigationBarComponent implements OnInit {
 
-  constructor(private authService: AuthenticationService) {}
+  constructor(private authenticationService: AuthenticationService) {}
 
   userEmail = '';
   userIsInAdminRole = false;
@@ -18,8 +18,8 @@ export class NavigationBarComponent implements OnInit {
    ngOnInit() {
 
     Promise.all([
-      this.authService.getUserData(),
-      this.authService.checkUserMembership(Roles.Administrators)
+      this.authenticationService.getUserData(),
+      this.authenticationService.checkUserMembership(Roles.Administrators)
     ]).then(results => {
       this.userEmail = results[0]?.email ?? '';
       this.userIsInAdminRole = results[1];
@@ -27,12 +27,20 @@ export class NavigationBarComponent implements OnInit {
     
   }
 
+  get userIsAuthenticated$() {
+    return this.authenticationService.userIsAuthenticated$;
+  }
+
+  get userIsOnline$() {
+    return this.authenticationService.userIsOnline$;
+  }
+
   get renderAdminLink$() {
-    return this.authService.userIsInAdminRole$;
+    return this.authenticationService.userIsInAdminRole$;
   }
 
   get userEmail$() {
-    return this.authService
+    return this.authenticationService
                 .sessionUserData$
                 .pipe(
                   map(userData => !userData || !userData!.email ? null : userData.email)

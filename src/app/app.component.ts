@@ -4,7 +4,7 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 import { ActivityIndicatorService } from "./shared/ui/widgets/activity-indicator/activity-indicator.service";
 import { AuthenticationService } from "./core/security/authentication/authentication.service";
 import { MessageTypes } from './shared/ui/notification/message-types';
-import { filter } from 'rxjs';
+import { delay, filter } from 'rxjs';
 
 @Component({
   selector: "ldm-root",
@@ -19,16 +19,15 @@ export class AppComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private notificationStickerService: NotificationStickerService) {}
 
-  public get activityIndicator$() {
-    
+  get activityIndicator$() {
     return this.activityIndicatorService.activityIndicatorSub$;
   }
 
-  public get userIsAuthenticated$() {
+  get userIsAuthenticated$() {
     return this.authenticationService.userIsAuthenticated$;
   }
 
-  public get userIsOnline$() {
+  get userIsOnline$() {
     return this.authenticationService.userIsOnline$;
   }
 
