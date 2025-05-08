@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminLayoutComponent } from '../../layout/admin-layout.component';
-import { UsersActionsListComponent } from '../../features/list-users-actions/view/users-actions-list.component';
 import { FileUploadsListComponent } from '../../features/list-uploaded-files/view/file-uploads-list.component';
+import { UsersActionsListComponent } from '../../features/list-users-actions/view/users-actions-list.component';
 
 //https://blog.devgenius.io/the-art-of-nested-router-outlets-in-angular-dafb38245a30
 const routes: Routes = [
@@ -12,6 +12,7 @@ const routes: Routes = [
       {
         path: 'users-actions',
         component: UsersActionsListComponent
+        
       },
       {
         path: 'uploaded-files',

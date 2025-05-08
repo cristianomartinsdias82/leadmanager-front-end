@@ -23,12 +23,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { ActivityIndicatorComponent } from "./ui/widgets/activity-indicator/activity-indicator.component";
 import { NotificationPanelComponent } from "./ui/widgets/notification-panel/notification-panel.component";
 import { CustomPromptComponent } from "./ui/widgets/prompt-dialog/custom-prompt-dialog/custom-prompt.component";
 import { YesNoPromptComponent } from "./ui/widgets/prompt-dialog/yes-no-prompt-dialog/yes-no-prompt.component";
 import { NavigationBarComponent } from "./ui/widgets/navigation-bar/navigation-bar.component";
+import { MatSelectModule } from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -64,12 +67,15 @@ import { NavigationBarComponent } from "./ui/widgets/navigation-bar/navigation-b
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
     MatSnackBarModule,
     MatDialogModule,
     MatProgressSpinnerModule,
     MatTabsModule,
     MaterialFileInputModule,
     MatSidenavModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     ActivityIndicatorComponent,
     NavigationBarComponent
   ],
