@@ -12,10 +12,9 @@
                     <div fxFlex="20%">
                         <mat-label>Usuário</mat-label>
                         <mat-form-field>
-                            <mat-select formControlName="user">
-                                <mat-option value="123412-1234124-1234-234234">Cristiano</mat-option>
-                                <mat-option value="123412-1234124-1234-234235">Beltrano</mat-option>
-                                <mat-option value="123412-1234124-1234-234236">Administrador</mat-option>
+                            <mat-select formControlName="userId">
+                                <mat-option>Selecione</mat-option>
+                                <mat-option *ngFor="let item of usersList | async" value={{item.email}}>{{item.name}}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -26,7 +25,7 @@
                             <input matInput [matDatepicker]="startDatePicker" formControlName="startDate">
                             <mat-datepicker-toggle matIconSuffix [for]="startDatePicker"></mat-datepicker-toggle>
                             <mat-datepicker #startDatePicker></mat-datepicker>
-                          </mat-form-field>
+                        </mat-form-field>
                     </div>
                     <div fxFlex="20%">
                         <label>Data de término</label>

@@ -1,0 +1,8 @@
+<h3 *ngIf="title" class="text-center">{{title}}</h3>
+
+<dl *ngIf="dataItems?.length">
+  <ng-container *ngFor="let item of dataItems">
+    <dt>{{ item.caption }}</dt>
+    <dd [class.changed]="item.hasChanges">{{ item.data }}</dd>
+  </ng-container>
+</dl>

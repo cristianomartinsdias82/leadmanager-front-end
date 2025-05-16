@@ -1,0 +1,13 @@
+ <div style="padding: 1rem">
+    <div fxLayout='row' fxLayoutAlign="center" style="padding: 0.3rem">
+        <h2>Atualizações realizadas</h2>
+    </div>
+    <div fxLayout='row' style="padding: 0.3rem 0; height: 500px; overflow-y:auto;" >
+        <div fxFlex="50%">
+            <ldm-stacked-data-panel-container [title]="'Estado anterior'" [dataItems]="previousData" />
+        </div>
+        <div fxFlex="50%">
+            <ldm-stacked-data-panel-container [title]="'Pós alteração'" [dataItems]="currentData" />
+        </div>
+    </div>
+</div>

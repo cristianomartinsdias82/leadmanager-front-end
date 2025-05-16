@@ -1,11 +1,6 @@
 <mat-card class="home mat-elevation-z3">
   <mat-card-content>
       <div class="no-data-message" *ngIf="!(containsData$ | async)">Nenhuma informação até o momento.</div>
-      <!--
-      <div>
-        <ldm-lead-search />
-      </div>
-      -->
       <div class="mat-elevation-z4" [class]="{'invisible': !(containsData$ | async)}">
           <table mat-table class="full-width-table" matSort aria-label="Elements"
             [dataSource]="dataSource"
@@ -64,7 +59,7 @@
                         aria-label="Selecionar página">
                   </mat-paginator>
                 </div>
-              <div class="refresh-list-button-container" style="padding: 0 0.5rem 0.5rem 0">
+              <div class="refresh-list-button-container">
                   <button mat-flat-button (click)="onRefreshListClick()">
                       <mat-icon>refresh</mat-icon>
                       Atualizar

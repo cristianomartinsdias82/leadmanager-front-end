@@ -1,11 +1,10 @@
-import { UsersActionsService } from './../../services/users-actions.service';
+import { UsersListingService } from './../../services/users-listing.service';
 import {
   Component,
   ElementRef,
   EventEmitter,
   OnInit,
   Output,
-  Query,
   ViewChild
 } from "@angular/core";
 import {
@@ -13,6 +12,7 @@ import {
   FormBuilder,
   Validators
 } from "@angular/forms";
+import { UsersActionsSearchParams } from './users-actions-search-params';
 
 @Component({
   selector: 'ldm-users-actions-search',
@@ -23,12 +23,17 @@ export class UsersActionsSearchComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private usersActionsService: UsersActionsService) {}
+    private usersListingService: UsersListingService
+  ) {}
 
   @ViewChild("term", {static: true}) termFieldRef!: ElementRef;
-  @Output() search = new EventEmitter<Query>();
+  @Output() search = new EventEmitter<UsersActionsSearchParams>();
 
   usersActionsForm!: FormGroup;
+
+  get usersList() {
+    return this.usersListingService.usersList$;
+  }
 
   ngOnInit() {
     this.configForm();
@@ -37,17 +42,15 @@ export class UsersActionsSearchComponent implements OnInit {
   }
 
   configForm() {
-    this.usersActionsForm = this.formBuilder.group({      
+    this.usersActionsForm = this.formBuilder.group({
       term: ["", [Validators.maxLength(50)]],
-      user: [""],
+      userId: [""],
       startDate: [""],
       endDate: [""]
-    });    
+    });
   }
 
   onSubmit() {
     this.search.emit(this.usersActionsForm.value);
-
-    this.usersActionsService.onSearch(this.usersActionsForm.value);
   }
 }

@@ -1,3 +1,19 @@
 .invisible {
     display: none;
 }
+
+.text-center {
+    text-align: center;
+}
+
+.refresh-list-button-container {
+    padding: 0 0.5rem 0.5rem 0;
+}
+
+.mat-mdc-button > .mat-icon {
+    margin-right: 0 !important;
+}
+
+.search-container {
+    margin-bottom: 1rem;
+}

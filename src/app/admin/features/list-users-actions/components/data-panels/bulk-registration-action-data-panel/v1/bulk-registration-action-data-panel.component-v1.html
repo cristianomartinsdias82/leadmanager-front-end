@@ -1,0 +1,7 @@
+<div style="height: 600px; overflow-y: auto; padding: 0.5rem">
+    <h1>Lead(s) incluído(s)</h1>
+    <ldm-form-style-data-panel-container
+    *ngFor="let leadData of bulkInsertedData"
+    [leadData]="leadData"
+    [displayBottomDivider]="true" />
+</div>

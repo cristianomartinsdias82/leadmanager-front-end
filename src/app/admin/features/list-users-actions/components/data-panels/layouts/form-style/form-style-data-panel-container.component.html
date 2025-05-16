@@ -1,0 +1,67 @@
+<div fxLayout="column" style="padding: 1rem" [ngClass]="{ 'bottom-divider' : displayBottomDivider}">
+  <h1 *ngIf="title">{{title}}</h1>
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <div fxFlex="13%">
+      <mat-form-field>
+        <label>CNPJ</label>
+        <input matInput [value]="leadData.Cnpj" readonly />
+      </mat-form-field>
+    </div>
+    <div fxFlex="87%">
+      <mat-form-field>
+        <label>Razão social</label>
+        <input matInput [value]="leadData.RazaoSocial" readonly />
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <div fxFlex="13%">
+      <mat-form-field>
+        <label>Cep</label>
+        <input matInput [value]="leadData.Cep" readonly />
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <div fxFlex="87%">
+      <mat-form-field>
+        <label>Endereço</label>
+        <input matInput [value]="leadData.Logradouro" readonly />
+      </mat-form-field>
+    </div>
+    <div fxFlex="13%">
+      <mat-form-field>
+        <label>Número</label>
+        <input matInput [value]="leadData.Numero" readonly />
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <div fxFlex="45%">
+      <mat-form-field>
+        <label>Complemento</label>
+        <input matInput [value]="leadData.Complemento" readonly />
+      </mat-form-field>
+    </div>
+    <div fxFlex="55%">
+      <mat-form-field>
+        <label>Bairro</label>
+        <input matInput [value]="leadData.Bairro" readonly />
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutGap="1rem">
+    <div fxFlex="45%">
+      <mat-form-field>
+        <label>Cidade</label>
+        <input matInput [value]="leadData.Cidade" readonly />
+      </mat-form-field>
+    </div>
+    <div fxFlex="55%">
+      <mat-form-field>
+        <label>Estado</label>
+        <input matInput [value]="leadData.Estado" readonly />
+      </mat-form-field>
+    </div>
+  </div>
+</div>

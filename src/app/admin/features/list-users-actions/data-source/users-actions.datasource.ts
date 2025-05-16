@@ -11,44 +11,58 @@ import { Query } from "src/app/shared/data-access/query";
 //https://stackblitz.com/edit/angular-ivy-pys73v?file=src%2Fapp%2Fmodels%2Fcollection-datasource.model.ts,src%2Fapp%2Fcomponents%2Freference-table%2Freference-table.component.ts
 export class UsersActionsDataSource extends DataSource<AuditEntry> {
 
+  page$: Observable<PagedList<AuditEntry>>;
+  query: BehaviorSubject<Query>;
+
   pageNumber: BehaviorSubject<number>;
   pageSize: BehaviorSubject<number>;
   sortColumn: BehaviorSubject<string>;
   sortDirection: BehaviorSubject<ListSortDirection>;
-  page$: Observable<PagedList<AuditEntry>>;
-  query: BehaviorSubject<Query>;
 
   constructor(
     private usersActionsService: UsersActionsService,
-    sortColumn: string,
-    sortDirection: ListSortDirection,
-    pageNumber: number,
-    pageSize: number) {
+    queryOptions: Query
+   ) {
 
     super();
 
-    this.sortColumn = new BehaviorSubject<string>(sortColumn);
-    this.sortDirection = new BehaviorSubject<ListSortDirection>(sortDirection);
-    this.pageNumber = new BehaviorSubject<number>(pageNumber);
-    this.pageSize = new BehaviorSubject<number>(pageSize);
-    this.query = this.usersActionsService.usersActionsQuerySubscription;
+    this.sortColumn = new BehaviorSubject<string>(queryOptions.pagingParameters!.sortColumn);
+    this.sortDirection = new BehaviorSubject<ListSortDirection>(queryOptions.pagingParameters!.sortDirection);
+    this.pageNumber = new BehaviorSubject<number>(queryOptions.pagingParameters!.pageNumber);
+    this.pageSize = new BehaviorSubject<number>(queryOptions.pagingParameters!.pageSize);
 
-    const param$ = combineLatest([this.sortColumn, this.sortDirection, this.pageSize, this.pageNumber, this.query]);
+    this.query = this.usersActionsService.querySubscription;
+
+    const param$ = combineLatest([this.sortColumn, this.sortDirection, this.pageSize, this.pageNumber]);
+
+    this.query.next(queryOptions);
 
     this.page$ = param$.pipe(
-        switchMap(([sortColumn, sortDirection, pageSize, pageNumber, query]) =>
+      switchMap(([sortColumn, sortDirection, pageSize, pageNumber]) =>
           this.usersActionsService
-            .fetch(query,
-                   {
-                     sortColumn,
-                     pageNumber,
-                     sortDirection,
-                     pageSize
-                   })
-            .pipe(map(res => res.data!))
+                .fetch({
+                  ...this.usersActionsService.querySubscription.getValue(),
+                  pagingParameters: {
+                    sortColumn,
+                    sortDirection,
+                    pageSize,
+                    pageNumber
+                  }
+                } as Query)
+                .pipe(
+                  map(res => res.data!)
+                )
       ),
       share()
     );
+  }
+
+  render(isInFirstPage: () => boolean, toInitialPage: () => void) {
+    if (isInFirstPage())
+      this.pageNumber.next(1);
+    else {
+      toInitialPage();
+    }    
   }
 
   paginationTrigger(pageNumberEvent: number, pageSizeEvent: number): void {
@@ -60,10 +74,10 @@ export class UsersActionsDataSource extends DataSource<AuditEntry> {
     if (this.pageSize.getValue() !== pageSizeEvent) {
       this.pageSize.next(pageSizeEvent);
     }
-
   }
 
   sortingTrigger(sortEvent: Sort) {
+
 
     if (sortEvent.active !== this.sortColumn.getValue()) {
       this.sortColumn.next(sortEvent.active);
@@ -73,7 +87,6 @@ export class UsersActionsDataSource extends DataSource<AuditEntry> {
     if (sortEvent.direction !== currentDirection) {
       this.sortDirection.next(sortEvent.direction === 'asc' ? ListSortDirection.Ascending : ListSortDirection.Descending);
     }
-
   }
 
   connect(): Observable<AuditEntry[]> {
