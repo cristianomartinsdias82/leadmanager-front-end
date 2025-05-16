@@ -16,7 +16,7 @@ export const environment = {
       redirectUrl: 'http://localhost:8002/auth-callback',
       postLogoutRedirectUri: 'http://localhost:8002/user-logged-out',
       clientId: 'leadmanager_spa',
-      scope: 'openid profile roles offline_access',
+      scope: 'openid profile roles offline_access identityserver-api',
       responseType: 'code',
       silentRenew: true,
       useRefreshToken: true,
