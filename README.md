@@ -16,7 +16,7 @@ No módulo de gerenciamento de leads, existe uma tela principal que se abre list
   - Via cadastro manual (formulário de preenchimento)
   - Por lote, através de arquivos no formato CSV
 NOTA: A tela de cadastro é a mesma para atualização de dados de Leads.
-Vale compartilhar também que, em situações de conflito/concorrência de atualização de dados por dois ou mais usuários, a aplicação dá aos mesmos a possibilidade de tomar uma decisão sobre como proceder neste cenário (sobrescrever, visualizar os novos dadis, carregar os novos dados e cancelar a edição)
+Vale compartilhar também que, em situações de conflito/concorrência de atualização de dados por dois ou mais usuários, a aplicação dá aos mesmos a possibilidade de tomar uma decisão sobre como proceder neste cenário (sobrescrever, visualizar os novos dados, carregar os novos dados e cancelar a edição)
 
 No módulo de adminsitração do sistema, usuários com o perfil de Administrador são capazes de:
 - Listar, baixar e excluir os arquivos utilizados para a realização de carga de Leads em lote
