@@ -8,7 +8,7 @@ A parte de front-end do projeto consiste em dois módulos:
 
 No módulo de gerenciamento de leads, existe uma tela principal que se abre listando os leads cadastrados. Nela, os usuários são capazes de:
 - Navegar de forma paginada
-- Ordenar os itens por colunas como Cnpj e Razão, tanto de maneira ascendente como descendente
+- Ordenar os itens por colunas como Cnpj e Razão social, tanto de maneira ascendente como descendente
 - Filtrar/Pesquisar por Razão Social ou Cnpj
 - Selecionar um lead para visualizar mais detalhes e realizar atualizações do mesmo
 - Remover um lead selecionado
