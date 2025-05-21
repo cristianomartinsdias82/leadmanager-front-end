@@ -2,17 +2,25 @@
 
 O que é o Lead Manager?
 É um projeto que tem como objetivo permitir gerenciar de maneira simples e intuitiva - através de operações de listagem, adiçāo, atualizaçāo e remoção - dados de leads.
-A parte de front-end do projeto consiste atualmente em duas telas.
-Uma para listagem de leads a partir da qual os usuários são capazes de:
-- Visualizar uma lista contendo os dados principais de leads existentes de forma paginada
-- Ir para a tela de adicionar novos leads
-  - Via cadastro manual
-  - Via arquivos em lote no formato CSV
-- Selecionar um lead a fim de removê-lo ou
-- Selecionar um lead e acionar o botão para atualizar os respectivos dados<br/>
-E outra tela para as operações de adicionar ou atualizar um lead previamente selecionado<br/>
-- Em situações de conflito de atualização e remoção de dados, o usuário tem a possibilidade de tomar uma decisão sobre como proceder neste tipo de cenário (sobrescrever, carregar os novos dados, cancelar...)
-de maneira fácil e intuitiva
+A parte de front-end do projeto consiste em dois módulos:
+- Gerenciamento de Lead (principal)
+- Administração
+
+No módulo de gerenciamento de leads, existe uma tela principal que se abre listando os leads cadastrados. Nela, os usuários são capazes de:
+- Navegar de forma paginada
+- Ordenar os itens por colunas como Cnpj e Razão, tanto de maneira ascendente como descendente
+- Filtrar/Pesquisar por Razão Social ou Cnpj
+- Selecionar um lead para visualizar mais detalhes e realizar atualizações do mesmo
+- Remover um lead selecionado
+- Ir para a tela de cadastro de novos leads, que pode ser realizado de duas maneiras
+  - Via cadastro manual (formulário de preenchimento)
+  - Por lote, através de arquivos no formato CSV
+NOTA: A tela de cadastro é a mesma para atualização de dados de Leads.
+Vale compartilhar também que, em situações de conflito/concorrência de atualização de dados por dois ou mais usuários, a aplicação dá aos mesmos a possibilidade de tomar uma decisão sobre como proceder neste cenário (sobrescrever, visualizar os novos dadis, carregar os novos dados e cancelar a edição)
+
+No módulo de adminsitração do sistema, usuários com o perfil de Administrador são capazes de:
+- Listar, baixar e excluir os arquivos utilizados para a realização de carga de Leads em lote
+- Visualizar e filtrar todas as ações realizadas pelos usuários no sistema
 
 Telas do projeto
 ![image](https://github.com/user-attachments/assets/94b996f6-3aef-427a-bd8a-03db41b9939a)
