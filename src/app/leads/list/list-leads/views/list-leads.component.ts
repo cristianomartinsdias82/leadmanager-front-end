@@ -7,6 +7,7 @@ import { LeadsService } from "src/app/leads/shared/services/leads.service";
 import { NotificationStickerService } from "src/app/shared/ui/widgets/notification-sticker/notification-sticker.service";
 import { Lead } from "src/app/leads/shared/models/lead";
 import { Subscription } from "rxjs";
+import { DownloadFormat } from "src/app/shared/data-access/download-format";
 
 @Component({
   selector: "ldm-list-leads",
@@ -54,6 +55,14 @@ export class ListLeadsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onDeleteItemClick(lead: Lead) {
     this.leadsService.removeLead(lead);
+  }
+
+  onRequestLeadsListReportClick(format: DownloadFormat) {
+    this.leadsService.downloadLeadsList(
+      format,
+      {
+        term: this.leadsService.leadSearchSubscription.getValue()
+      });
   }
 
   reloadView() {

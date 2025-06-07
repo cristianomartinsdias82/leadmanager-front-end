@@ -25,6 +25,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { ActivityIndicatorComponent } from "./ui/widgets/activity-indicator/activity-indicator.component";
 import { NotificationPanelComponent } from "./ui/widgets/notification-panel/notification-panel.component";
@@ -76,6 +77,7 @@ import { MatSelectModule } from "@angular/material/select";
     MatSidenavModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMenuModule,
     ActivityIndicatorComponent,
     NavigationBarComponent
   ],
