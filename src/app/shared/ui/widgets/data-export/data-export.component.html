@@ -1,0 +1,13 @@
+<button mat-flat-button [matMenuTriggerFor]="menu" aria-label="Download">
+  <mat-icon>list</mat-icon>
+  Generate list
+</button>
+<mat-menu #menu="matMenu">
+
+  <button mat-menu-item *ngFor="let option of availableFormats" (click)="onClick(option.value)">
+    <mat-icon [ngClass]="{ 'material-symbols-outlined': option.hasOutlinedClass}">
+      {{option.icon}}
+    </mat-icon>
+    <span>{{option.text}}</span>
+  </button>
+</mat-menu>

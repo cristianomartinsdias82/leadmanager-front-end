@@ -81,42 +81,7 @@
             <mat-icon>refresh</mat-icon>
             Refresh
           </button>
-          <button
-            mat-flat-button
-            [matMenuTriggerFor]="menu"
-            aria-label="Download"
-          >
-            <mat-icon>list</mat-icon>
-            Generate list
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="onRequestLeadsListReportClick('pdf')">
-              <mat-icon>picture_as_pdf</mat-icon>
-              <span>Pdf</span>
-            </button>
-            <!--
-            <button mat-menu-item  (click)="onRequestLeadsListReportClick('csv')">
-              <mat-icon class="material-symbols-outlined">
-                csv
-              </mat-icon>
-              <span>Csv</span>
-            </button>
-            -->
-            <!--
-            <button mat-menu-item (click)="onRequestLeadsListReportClick('parquet')">
-              <mat-icon class="material-symbols-outlined">
-                azm
-              </mat-icon>
-              <span>Parquet</span>
-            </button>
-            -->
-            <!--
-            <button mat-menu-item  (click)="onRequestLeadsListReportClick('all')">
-              <mat-icon>check_box</mat-icon>
-              <span>All</span>
-            </button>
-            -->
-          </mat-menu>
+          <ldm-data-export [exportFormats]="availableExportFormats" (dataExportRequest)="onRequestDataExportClick($event)" />
         </div>
       </div>
     </div>

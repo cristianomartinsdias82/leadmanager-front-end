@@ -26,13 +26,14 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from "@angular/material/select";
 
 import { ActivityIndicatorComponent } from "./ui/widgets/activity-indicator/activity-indicator.component";
 import { NotificationPanelComponent } from "./ui/widgets/notification-panel/notification-panel.component";
 import { CustomPromptComponent } from "./ui/widgets/prompt-dialog/custom-prompt-dialog/custom-prompt.component";
 import { YesNoPromptComponent } from "./ui/widgets/prompt-dialog/yes-no-prompt-dialog/yes-no-prompt.component";
 import { NavigationBarComponent } from "./ui/widgets/navigation-bar/navigation-bar.component";
-import { MatSelectModule } from "@angular/material/select";
+import { DataExportComponent } from "./ui/widgets/data-export/data-export.component";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { MatSelectModule } from "@angular/material/select";
     CustomPromptComponent,
     NotificationPanelComponent,
     YesNoPromptComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
+    DataExportComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ import { MatSelectModule } from "@angular/material/select";
     MatIconModule,
     MatTooltipModule,
     MatToolbarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatMenuModule,
   ],
   exports: [
     FormsModule,
@@ -79,7 +82,8 @@ import { MatSelectModule } from "@angular/material/select";
     MatNativeDateModule,
     MatMenuModule,
     ActivityIndicatorComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
+    DataExportComponent
   ],
 })
 export class SharedModule {}

@@ -28,6 +28,8 @@ export class ListLeadsComponent implements OnInit, AfterViewInit, OnDestroy {
   listLeadsDataSource: ListLeadsDataSource = null!;
   onLeadRemoveSuccessfulSubsc!: Subscription;
 
+  availableExportFormats: DownloadFormat[] = ['pdf' as DownloadFormat];
+
   ngOnInit() {
 
     this.onLeadRemoveSuccessfulSubsc = this.leadsService
@@ -57,7 +59,7 @@ export class ListLeadsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.leadsService.removeLead(lead);
   }
 
-  onRequestLeadsListReportClick(format: DownloadFormat) {
+  onRequestDataExportClick(format: DownloadFormat) {
     this.leadsService.downloadLeadsList(
       format,
       {
