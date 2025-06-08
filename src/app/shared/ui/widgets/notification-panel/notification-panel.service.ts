@@ -14,8 +14,8 @@ export class NotificationPanelService {
 
   show(
     headerMessage: string = 'Atenção',
-    inconsistencies: Inconsistency[] = null!,
-    onCloseClick: () => void,
+    inconsistencies?: Inconsistency[] | undefined,
+    onCloseClick?: () => void | undefined,
     showHeader: boolean = true,
     closeButtonCaption: string = 'Fechar') {
     this.dialog.open(

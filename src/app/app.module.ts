@@ -29,7 +29,7 @@ registerLocaleData(localePt);
     AuthCallbackComponent,
     UserLoggedOutComponent,
     OneTimePasswordComponent,
-    AccessDeniedComponent
+    AccessDeniedComponent,
   ],
   imports: [
     AppRoutingModule,
