@@ -1,12 +1,13 @@
-<mat-toolbar>
+<mat-toolbar *ngIf="(userIsAuthenticated$ | async) && (userIsOnline$ | async)">
     <div>
         <span><a mat-stroked-button routerLink="/">Lead Manager</a></span>
         <span>
             <a mat-button routerLink="/leads">Gerenciamento de Leads</a>
             <a mat-button color="primary" routerLink="/admin" *ngIf="(renderAdminLink$ | async) || userIsInAdminRole">Administração</a>
+            <a mat-button [matBadge]="userInboxMessagesCount$ | async" [matBadgeHidden]="((userInboxMessagesCount$ | async) ?? 0) === 0" matBadgeSize="small" color="warn" routerLink="/inbox" >Caixa de mensagens</a>
         </span>
     </div>
     <div>
-    <h4 *ngIf="(userIsAuthenticated$ | async) && (userIsOnline$ | async)" class="my-1">Acessando: {{(userEmail$ | async) || userEmail}}</h4>
+    <h4 class="my-1">Acessando: {{(userEmail$ | async) || userEmail}}</h4>
     </div>
 </mat-toolbar>

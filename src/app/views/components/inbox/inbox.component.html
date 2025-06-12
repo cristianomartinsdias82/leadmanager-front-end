@@ -1,0 +1,33 @@
+<h2 class="view-title">Caixa de mensagens</h2>
+
+<mat-divider />
+
+<div class="inbox">
+  <p *ngIf="((reportGenerationMessages | async)?.length ?? 0) === 0">Nenhuma informação disponível no momento.</p>
+  <ng-container *ngIf="((reportGenerationMessages | async)?.length) ?? 0 > 0">
+    <div>
+        <div class="inbox-message"
+          *ngFor="let message of (reportGenerationMessages | async) || []"
+          [ngClass]="{
+            information: ['Successful', 'SuccessfulWithRetries'].indexOf(message.requestData.status) > -1,
+            pending: ['Pending','ReadyForProcessing','Processing'].indexOf(message.requestData.status) > -1,
+            error: message.requestData.status === 'Failed'
+          }"
+        >
+          <div class="inbox-message--text">{{ message.text }}</div>
+          <div class="inbox-message-operations" *ngIf="['Successful','SuccessfulWithRetries'].indexOf(message.requestData.status) > -1">
+              <button mat-button color="warn" (click)="downloadRequestedReport(message.requestData.id)">
+                Baixar
+              </button>
+              <button mat-button color="accent" (click)="dismissRequestReadinessNotification(message.requestData.id)">
+                Dispensar
+              </button>
+              <button mat-button (click)="removeRequestedReport(message.requestData.id)">
+                Excluir
+              </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  <mat-divider />
+</div>

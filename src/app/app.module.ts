@@ -18,6 +18,7 @@ import { UserLoggedOutComponent } from './views/components/user-logged-out/user-
 import { OneTimePasswordComponent } from './core/security/authorization/components/one-time-password/one-time-password.component';
 import { NotFoundComponent } from "./views/components/not-found/not-found.component";
 import { AccessDeniedComponent } from './views/components/access-denied/access-denied.component';
+import { InboxComponent } from './views/components/inbox/inbox.component';
 
 registerLocaleData(localePt);
 
@@ -30,6 +31,7 @@ registerLocaleData(localePt);
     UserLoggedOutComponent,
     OneTimePasswordComponent,
     AccessDeniedComponent,
+    InboxComponent,
   ],
   imports: [
     AppRoutingModule,

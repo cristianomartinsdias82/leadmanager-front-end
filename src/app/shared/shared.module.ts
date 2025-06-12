@@ -27,6 +27,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from "@angular/material/select";
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { ActivityIndicatorComponent } from "./ui/widgets/activity-indicator/activity-indicator.component";
 import { NotificationPanelComponent } from "./ui/widgets/notification-panel/notification-panel.component";
@@ -56,6 +57,7 @@ import { DataExportComponent } from "./ui/widgets/data-export/data-export.compon
     MatToolbarModule,
     MatSidenavModule,
     MatMenuModule,
+    MatBadgeModule
   ],
   exports: [
     FormsModule,

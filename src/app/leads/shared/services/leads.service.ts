@@ -4,7 +4,7 @@ import {
   HttpRequest
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, Subject, tap } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Lead } from "../models/lead";
 import { DataService } from "src/app/shared/data-access/data-service.service";
@@ -97,7 +97,7 @@ export class LeadsService extends DataService<Lead> {
   downloadLeadsList(format: DownloadFormat, query?: Query) {
     this.httpClient
         .post<ApplicationResponse<number>>(
-            `${environment.apiUrl}/${LeadsService.LeadEndpoint}/reporting/leads-list?format=${format}`,
+            `${environment.apiUrl}/reporting/leads-list?format=${format}`,
             query
           )
         .subscribe({

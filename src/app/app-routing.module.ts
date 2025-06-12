@@ -6,6 +6,7 @@ import { AuthCallbackComponent } from "./core/security/authentication/components
 import { UserLoggedOutComponent } from "./views/components/user-logged-out/user-logged-out.component";
 import { AdminRoleMembersOnlyGuard } from "./admin/core/security/admin-role-members-only.guard";
 import { AccessDeniedComponent } from "./views/components/access-denied/access-denied.component";
+import { InboxComponent } from "./views/components/inbox/inbox.component";
 
 //https://angular.io/guide/lazy-loading-ngmodules
 //Regarding CanLoad, please refer to one of your threads inside ChatGPT ("Condition Lazy Load") for further details
@@ -24,6 +25,12 @@ const routes: Routes = [
     canLoad: [AutoLoginPartialRoutesGuard, AdminRoleMembersOnlyGuard],
     canActivate: [AutoLoginPartialRoutesGuard],
     loadChildren: () => import('./admin/core/module/admin.module').then(m => m.AdminModule)
+  },
+  {
+    path: "inbox",
+    canLoad: [AutoLoginPartialRoutesGuard],
+    canActivate: [AutoLoginPartialRoutesGuard],
+    component: InboxComponent
   },
   { path: 'auth-callback', component: AuthCallbackComponent },
   { path: 'not-found', component: NotFoundComponent },

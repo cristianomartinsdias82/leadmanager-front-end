@@ -1,3 +1,4 @@
+import { InboxService } from './../../../../views/components/inbox/services/inbox.service';
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs';
 import { AuthenticationService } from 'src/app/core/security/authentication/authentication.service';
@@ -10,7 +11,10 @@ import { Roles } from 'src/app/core/security/roles';
 })
 export class NavigationBarComponent implements OnInit {
 
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(
+    private authenticationService: AuthenticationService,
+    private inboxService: InboxService
+  ) {}
 
   userEmail = '';
   userIsInAdminRole = false;
@@ -24,7 +28,12 @@ export class NavigationBarComponent implements OnInit {
       this.userEmail = results[0]?.email ?? '';
       this.userIsInAdminRole = results[1];
     });
-    
+
+    this.userIsAuthenticated$.subscribe((authResult) => {
+      if (authResult.isAuthenticated) {
+        this.inboxService.loadInboxMessages();
+      }
+    })
   }
 
   get userIsAuthenticated$() {
@@ -44,6 +53,13 @@ export class NavigationBarComponent implements OnInit {
                 .sessionUserData$
                 .pipe(
                   map(userData => !userData || !userData!.email ? null : userData.email)
+                );
+  }
+  get userInboxMessagesCount$() {
+    return this.inboxService
+                .reportGenerationMessages$
+                .pipe(
+                  map(messages => messages.length)
                 );
   }
 }
